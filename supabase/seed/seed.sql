@@ -6,7 +6,7 @@
 
 begin;
 
-truncate table public.episodes, public.show_genres, public.shows, public.genres restart identity cascade;
+truncate table public.airing_slots, public.episodes, public.show_genres, public.shows, public.genres restart identity cascade;
 
 -- genres -------------------------------------------------------------------
 insert into public.genres (id, name, slug) values
@@ -20,7 +20,8 @@ insert into public.genres (id, name, slug) values
   ('gen-008', 'Sci-Fi', 'sci-fi'),
   ('gen-009', 'Suspense', 'suspense'),
   ('gen-010', 'Comedy', 'comedy'),
-  ('gen-011', 'Romance', 'romance');
+  ('gen-011', 'Romance', 'romance'),
+('gen-012', 'Slice of Life', 'slice-of-life');
 
 -- shows --------------------------------------------------------------------
 insert into public.shows
@@ -167,7 +168,60 @@ However, with the arrival of a merchant caravan comes a new wave of intrigue. A 
 
 Nonetheless, the life of a professional is not easy. Between tournaments, championships, and title matches, the pressure mounts as Rei advances through the ranks and encounters incredibly skilled opponents. As he manages his relationships with those who have grown close to him, the shogi player continues to search for the reason he plays the game that defines his career.
 
-[Written by MAL Rewrite]', 22, 22, 'finished', 2017, 440204, '2026-06-02T12:00:00.000Z');
+[Written by MAL Rewrite]', 22, 22, 'finished', 2017, 440204, '2026-06-02T12:00:00.000Z'),
+('show-025', 'witch-hat-atelier', 'Witch Hat Atelier', 'https://cdn.myanimelist.net/images/anime/1726/155542l.jpg', NULL, 'In a world where witches wield breathtaking magic, Coco, coming from a humble background, often wishes she were born one herself. After all, the secret behind casting magic is strictly guarded from non-witches. But when Coco manages to catch a glimpse of the witch Qifrey casting a spell, her revelation on the truth behind magic drastically alters the course of her life.
+
+However, Coco''s curiosity pays a steep price when a disastrous spell cast in ignorance brings a tragic fate upon her beloved mother. Qifrey takes the shaken girl in, recognizing both her resolve to save her mother and her link to a group of forbidden magic heretics. Secrets are a heavy burden, and between navigating a society that views her as an uninvited guest and mastering the art of magic, Coco must give her all to prove her worth as a witch.
+
+[Written by MAL Rewrite]', 11, 0, 'airing', 2026, 334452, '2026-06-01T12:00:00.000Z'),
+  ('show-026', 'classroom-of-the-elite-4th-season-second-year-first-semester', 'Classroom of the Elite 4th Season: Second Year, First Semester', 'https://cdn.myanimelist.net/images/anime/1176/153626l.jpg', NULL, 'As soon as Kiyotaka Ayanokouji and the rest of Class D officially enter their second year at Tokyo Metropolitan Advanced Nurturing High School, they face their next special test: each second-year student will have to team up with a first-year student to take a written exam. Although the test seems simple enough, every pair must achieve a specific number of points to avoid a harsh penalty, raising the demand for academically proficient individuals.
+
+Without a break, Class D scouts for potential partners. However, Ayanokouji also faces a serious threat since the secret first-rate institution called White Room has enrolled another prodigy at the school to get him expelled. As Ayanokouji begins his masterful schemes once more, he must stay vigilant for new and old enemies alike.
+
+[Written by MAL Rewrite]', 11, 0, 'airing', 2026, 212418, '2026-06-14T12:00:00.000Z'),
+  ('show-027', 'that-time-i-got-reincarnated-as-a-slime-season-4', 'That Time I Got Reincarnated as a Slime Season 4', 'https://cdn.myanimelist.net/images/anime/1695/156389l.jpg', NULL, 'Demon Lord Rimuru''s dream of creating an alliance between humans and monsters takes a step closer to being realized. As Tempest continues to prosper, Granville Rozzo and his granddaughter, Maribel Rozzo, clash with Demon Lord Rimuru over their plan to protect mankind by ruling over them. Meanwhile, in El Dorado, Demon Lord Leon works toward goals of his own. The awakening of a new Hero draws near!
+
+(Source: Crunchyroll)', 11, 0, 'airing', 2026, 207193, '2026-06-12T12:00:00.000Z'),
+  ('show-028', 'daemons-of-the-shadow-realm', 'Daemons of the Shadow Realm', 'https://cdn.myanimelist.net/images/anime/1171/156397l.jpg', NULL, 'In an isolated village, two twins were born, separated by day and night. It is years later, and while the older brother Yuru has become a hunter of animals, his sister Asa has been locked away in a cage, ordered to perform a special duty that prohibits her from meeting more than a few select individuals.
+
+On an otherwise inconspicuous day, a group of armed men riding in helicopters, referred to as "dragons" by the citizens, assaults the village in search of Yuru, killing every adult on sight. When Yuru attempts to meet up with Asa and flee, he finds a dead body instead—on top of that, the person who killed her claims to be Yuru''s true twin sister.
+
+Before the woman can capture him, Yuru is rescued by a man named Ryuu "Dera" Tadera, an outsider who frequently visits the village. However, it is not long before the two are cornered. In a last-ditch effort, Dera makes Yuru give a gift to the deity of the village, summoning a pair of daemons whose existence is bound to reveal the truth behind these chaotic events.
+
+[Written by MAL Rewrite]', 11, 0, 'airing', 2026, 193117, '2026-06-10T12:00:00.000Z'),
+  ('show-029', 'wistoria-wand-and-sword-season-2', 'Wistoria: Wand and Sword Season 2', 'https://cdn.myanimelist.net/images/anime/1190/155788l.jpg', NULL, 'As the year nears its end, the time for final exams arrives at Rigarden Magical Academy. Despite being the only student without any magic aptitude, Will Serfort aims to score perfect grades in every subject, which would allow him to ascend to the Wizard''s Tower and reunite with his childhood friend, Elfaria Albis Serfort. However, Will''s hard work comes tumbling down when he fails the very last, biased exam, disqualifying him from entering the Wizard''s Tower.
+
+Meanwhile, Elfaria and the other Magia Vander—the five most powerful mages—perform the annual ritual that protects their world from the dangerous Celestial Hosts. As the ritual temporarily leaves the Magia Vander drained of magic, a large army of monsters suddenly appears and begins attacking mages and civilians alike. To make matters worse, the mages are unable to hold off the invasion due to the monsters'' special weaponry that nullifies their magic. Refusing to let the world end in despair, Will and his masterful swordsmanship quickly become a cornerstone in stopping the attack.
+
+[Written by MAL Rewrite]', 10, 0, 'airing', 2026, 162450, '2026-06-08T12:00:00.000Z'),
+  ('show-030', 'dr-stone-science-future-part-3', 'Dr. Stone: Science Future Part 3', 'https://cdn.myanimelist.net/images/anime/1773/155779l.jpg', NULL, 'After reconciling with Dr. Xeno, Senkuu Ishigami is close to realizing his long-held dream: the space mission to the Moon is finally underway. While Dr. Xeno begins the development of their rocket''s engine, Senkuu''s team continues navigating through continents and seas in search of essential resources and people to assemble the necessary infrastructure for the mission as well as revive the entire human population.
+
+Meanwhile, the enigmatic Whyman continues to cast its shadow over Earth from the Moon. But with the combined might of humanity finally coming together, it is only a matter of time before Senkuu and the others confront Whyman and get the answers that have eluded humanity for centuries.
+
+[Written by MAL Rewrite]', 11, 0, 'airing', 2026, 151633, '2026-06-06T12:00:00.000Z'),
+  ('show-031', 'the-angel-next-door-spoils-me-rotten-2', 'The Angel Next Door Spoils Me Rotten 2', 'https://cdn.myanimelist.net/images/anime/1989/154843l.jpg', NULL, 'Second season of Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken.', 11, 0, 'airing', 2026, 144235, '2026-06-04T12:00:00.000Z'),
+  ('show-032', 'i-made-friends-with-the-second-prettiest-girl-in-my-class', 'I Made Friends with the Second Prettiest Girl in My Class', 'https://cdn.myanimelist.net/images/anime/1423/155713l.jpg', NULL, 'I, Maehara Maki, struggled to connect with anyone during my high school years, finding it hard to make friends. Then, a turning point arrived. A girl named Asanagi entered my life. Despite being clandestinely referred to as the "second cutest girl in class" by the boys, she chose to spend her Fridays with me instead of her best friend Amami, who held the "cutest girl in class" title. In the comfort of my home, we delved into the realm of games, watched movies, immersed ourselves in manga, indulged in junk food—pizza, hamburgers—and guzzled cola, carefree and content. To the outside world, we might have seemed a bit messy, but to both Asanagi and me, it was a cherished, hidden time together.
+
+(Source: MAL News)', 10, 0, 'airing', 2026, 121520, '2026-06-02T12:00:00.000Z'),
+  ('show-033', 'gals-can-t-be-kind-to-otaku', 'Gals Can''t Be Kind to Otaku!?', 'https://cdn.myanimelist.net/images/anime/1956/155456l.jpg', NULL, 'Meet Takuya Seo, an otaku who sits behind the popular gals in class, Ijichi and Amane. Since they''re people from different "castes," you wouldn''t expect them to have much in common. But when their worlds collide over a borrowed eraser, Takuya slips up about his favorite anime, and Amane...is rather quick to correct him. She says she''s not a fan, but her familiarity with the series suggests otherwise. Could she be...a fellow geek?!
+
+(Source: Yen Press)', 10, 0, 'airing', 2026, 94439, '2026-06-15T12:00:00.000Z'),
+  ('show-034', 'the-warrior-princess-and-the-barbaric-king', 'The Warrior Princess and the Barbaric King', 'https://cdn.myanimelist.net/images/anime/1229/155022l.jpg', NULL, '"Just kill me!" These are the words of Serafina de Lavillant, the strongest female knight in the West. After being defeated in a war with the East, she has become a prisoner of the barbarians! What awaits the captive Serafina is a life of revenge, torture, and humiliation... or so she thought! What she is offered instead is a marriage to the barbarian king?! An intriguing tale of otherworldly marriage is about to begin!
+
+(Source: Kodansha)', 10, 0, 'airing', 2026, 83569, '2026-06-13T12:00:00.000Z'),
+  ('show-035', 'welcome-to-demon-school-iruma-kun-season-4', 'Welcome to Demon School! Iruma-kun Season 4', 'https://cdn.myanimelist.net/images/anime/1434/154048l.jpg', NULL, 'Fourth season of Mairimashita! Iruma-kun.', 11, 0, 'airing', 2026, 78489, '2026-06-11T12:00:00.000Z'),
+  ('show-036', 'farming-life-in-another-world-season-2', 'Farming Life in Another World Season 2', 'https://cdn.myanimelist.net/images/anime/1656/156369l.jpg', NULL, 'Second season of Isekai Nonbiri Nouka.', 11, 0, 'airing', 2026, 75483, '2026-06-09T12:00:00.000Z'),
+  ('show-037', 'the-beginning-after-the-end-season-2', 'The Beginning After the End Season 2', 'https://cdn.myanimelist.net/images/anime/1738/156028l.jpg', NULL, 'After being granted a second life, now-teenage Arthur Leywin—an unparalleled, ruthless king in his previous life—has finally become an adventurer with the help of his mentor, Jasmine Flamesworth. Although he is still far from his ultimate goal of becoming more powerful than in his past life, Arthur demonstrates remarkable skill in adventuring, exceeding everyone''s expectations.
+
+Meanwhile, Arthur''s elven friend and Elenoir Kingdom''s princess, Tessia Eralith, has also started adventuring. Due to the prolonged hostility between humans and elves, her duty is to spread goodwill and create friendly relations with human kingdoms. However, as a mysterious group threatens to harm the races'' fragile relationship, both Arthur and Tessia soon find themselves becoming pivotal parts of a larger change for the better.
+
+[Written by MAL Rewrite]', 11, 0, 'airing', 2026, 66738, '2026-06-07T12:00:00.000Z'),
+  ('show-038', 'akane-banashi', 'Akane-banashi', 'https://cdn.myanimelist.net/images/anime/1162/155669l.jpg', NULL, 'From a young age, Akane Ousaki has always loved to watch her father, Tooru, practice and perform rakugo, a form of traditional Japanese comedic storytelling. Rakugo performers are split into three ranks, with the highest, shinuchi, only granted to the very best performers after they pass a difficult promotion test. When Tooru takes the exam, Akane experiences her father putting on a stellar performance in front of a big crowd and judges, but the strict main judge, Isshou Arakawa, still fails him, forcing him to quit rakugo.
+
+Ever since, Akane has been diligently practicing rakugo herself. Now a senior in high school, she coincidentally lands a spot to perform in front of a crowd with the help of Shiguma Arakawa, Tooru''s former teacher. Her splendid performance surprises everyone and is just the beginning: Shiguma appoints her as his new apprentice, and with his help, Akane sets out to become a shinuchi in her father''s place.
+
+[Written by MAL Rewrite]', 11, 0, 'airing', 2026, 61775, '2026-06-05T12:00:00.000Z'),
+  ('show-039', 'ascendance-of-a-bookworm-adopted-daughter-of-an-archduke', 'Ascendance of a Bookworm: Adopted Daughter of an Archduke', 'https://cdn.myanimelist.net/images/anime/1371/155054l.jpg', NULL, 'Anime adaptation of part three of the Honzuki no Gekokujou light novel.', 11, 0, 'airing', 2026, 79008, '2026-06-03T12:00:00.000Z');
 
 -- show_genres (join) -------------------------------------------------------
 insert into public.show_genres (show_id, genre_id) values
@@ -238,7 +292,34 @@ insert into public.show_genres (show_id, genre_id) values
   ('show-022', 'gen-008'),
   ('show-023', 'gen-003'),
   ('show-023', 'gen-006'),
-  ('show-024', 'gen-003');
+  ('show-024', 'gen-003'),
+('show-025', 'gen-004'),
+  ('show-026', 'gen-003'),
+  ('show-026', 'gen-009'),
+  ('show-027', 'gen-005'),
+  ('show-027', 'gen-010'),
+  ('show-027', 'gen-004'),
+  ('show-028', 'gen-005'),
+  ('show-028', 'gen-001'),
+  ('show-028', 'gen-007'),
+  ('show-029', 'gen-005'),
+  ('show-029', 'gen-004'),
+  ('show-030', 'gen-001'),
+  ('show-030', 'gen-010'),
+  ('show-031', 'gen-011'),
+  ('show-032', 'gen-011'),
+  ('show-033', 'gen-010'),
+  ('show-033', 'gen-011'),
+  ('show-034', 'gen-010'),
+  ('show-034', 'gen-004'),
+  ('show-034', 'gen-011'),
+  ('show-035', 'gen-010'),
+  ('show-035', 'gen-004'),
+  ('show-036', 'gen-004'),
+  ('show-036', 'gen-012'),
+  ('show-037', 'gen-004'),
+  ('show-038', 'gen-003'),
+  ('show-039', 'gen-004');
 
 -- episodes -----------------------------------------------------------------
 insert into public.episodes (id, show_id, number, title, is_subbed, is_dubbed, air_date) values
@@ -651,6 +732,190 @@ insert into public.episodes (id, show_id, number, title, is_subbed, is_dubbed, a
   ('show-024-ep-019', 'show-024', 19, 'Episode 19', TRUE, TRUE, '2026-05-12'),
   ('show-024-ep-020', 'show-024', 20, 'Episode 20', TRUE, TRUE, '2026-05-19'),
   ('show-024-ep-021', 'show-024', 21, 'Episode 21', TRUE, TRUE, '2026-05-26'),
-  ('show-024-ep-022', 'show-024', 22, 'Episode 22', TRUE, TRUE, '2026-06-02');
+  ('show-024-ep-022', 'show-024', 22, 'Episode 22', TRUE, TRUE, '2026-06-02'),
+('show-025-ep-001', 'show-025', 1, 'Episode 1', TRUE, FALSE, '2026-04-06'),
+  ('show-025-ep-002', 'show-025', 2, 'Episode 2', TRUE, FALSE, '2026-04-13'),
+  ('show-025-ep-003', 'show-025', 3, 'Episode 3', TRUE, FALSE, '2026-04-20'),
+  ('show-025-ep-004', 'show-025', 4, 'Episode 4', TRUE, FALSE, '2026-04-27'),
+  ('show-025-ep-005', 'show-025', 5, 'Episode 5', TRUE, FALSE, '2026-05-04'),
+  ('show-025-ep-006', 'show-025', 6, 'Episode 6', TRUE, FALSE, '2026-05-11'),
+  ('show-025-ep-007', 'show-025', 7, 'Episode 7', TRUE, FALSE, '2026-05-18'),
+  ('show-025-ep-008', 'show-025', 8, 'Episode 8', TRUE, FALSE, '2026-05-25'),
+  ('show-025-ep-009', 'show-025', 9, 'Episode 9', TRUE, FALSE, '2026-06-01'),
+  ('show-025-ep-010', 'show-025', 10, 'Episode 10', TRUE, FALSE, '2026-06-08'),
+  ('show-025-ep-011', 'show-025', 11, 'Episode 11', TRUE, FALSE, '2026-06-15'),
+  ('show-026-ep-001', 'show-026', 1, 'Episode 1', TRUE, FALSE, '2026-04-01'),
+  ('show-026-ep-002', 'show-026', 2, 'Episode 2', TRUE, FALSE, '2026-04-08'),
+  ('show-026-ep-003', 'show-026', 3, 'Episode 3', TRUE, FALSE, '2026-04-15'),
+  ('show-026-ep-004', 'show-026', 4, 'Episode 4', TRUE, FALSE, '2026-04-22'),
+  ('show-026-ep-005', 'show-026', 5, 'Episode 5', TRUE, FALSE, '2026-04-29'),
+  ('show-026-ep-006', 'show-026', 6, 'Episode 6', TRUE, FALSE, '2026-05-06'),
+  ('show-026-ep-007', 'show-026', 7, 'Episode 7', TRUE, FALSE, '2026-05-13'),
+  ('show-026-ep-008', 'show-026', 8, 'Episode 8', TRUE, FALSE, '2026-05-20'),
+  ('show-026-ep-009', 'show-026', 9, 'Episode 9', TRUE, FALSE, '2026-05-27'),
+  ('show-026-ep-010', 'show-026', 10, 'Episode 10', TRUE, FALSE, '2026-06-03'),
+  ('show-026-ep-011', 'show-026', 11, 'Episode 11', TRUE, FALSE, '2026-06-10'),
+  ('show-027-ep-001', 'show-027', 1, 'Episode 1', TRUE, FALSE, '2026-04-03'),
+  ('show-027-ep-002', 'show-027', 2, 'Episode 2', TRUE, FALSE, '2026-04-10'),
+  ('show-027-ep-003', 'show-027', 3, 'Episode 3', TRUE, FALSE, '2026-04-17'),
+  ('show-027-ep-004', 'show-027', 4, 'Episode 4', TRUE, FALSE, '2026-04-24'),
+  ('show-027-ep-005', 'show-027', 5, 'Episode 5', TRUE, FALSE, '2026-05-01'),
+  ('show-027-ep-006', 'show-027', 6, 'Episode 6', TRUE, FALSE, '2026-05-08'),
+  ('show-027-ep-007', 'show-027', 7, 'Episode 7', TRUE, FALSE, '2026-05-15'),
+  ('show-027-ep-008', 'show-027', 8, 'Episode 8', TRUE, FALSE, '2026-05-22'),
+  ('show-027-ep-009', 'show-027', 9, 'Episode 9', TRUE, FALSE, '2026-05-29'),
+  ('show-027-ep-010', 'show-027', 10, 'Episode 10', TRUE, FALSE, '2026-06-05'),
+  ('show-027-ep-011', 'show-027', 11, 'Episode 11', TRUE, FALSE, '2026-06-12'),
+  ('show-028-ep-001', 'show-028', 1, 'Episode 1', TRUE, FALSE, '2026-04-04'),
+  ('show-028-ep-002', 'show-028', 2, 'Episode 2', TRUE, FALSE, '2026-04-11'),
+  ('show-028-ep-003', 'show-028', 3, 'Episode 3', TRUE, FALSE, '2026-04-18'),
+  ('show-028-ep-004', 'show-028', 4, 'Episode 4', TRUE, FALSE, '2026-04-25'),
+  ('show-028-ep-005', 'show-028', 5, 'Episode 5', TRUE, FALSE, '2026-05-02'),
+  ('show-028-ep-006', 'show-028', 6, 'Episode 6', TRUE, FALSE, '2026-05-09'),
+  ('show-028-ep-007', 'show-028', 7, 'Episode 7', TRUE, FALSE, '2026-05-16'),
+  ('show-028-ep-008', 'show-028', 8, 'Episode 8', TRUE, FALSE, '2026-05-23'),
+  ('show-028-ep-009', 'show-028', 9, 'Episode 9', TRUE, FALSE, '2026-05-30'),
+  ('show-028-ep-010', 'show-028', 10, 'Episode 10', TRUE, FALSE, '2026-06-06'),
+  ('show-028-ep-011', 'show-028', 11, 'Episode 11', TRUE, FALSE, '2026-06-13'),
+  ('show-029-ep-001', 'show-029', 1, 'Episode 1', TRUE, FALSE, '2026-04-12'),
+  ('show-029-ep-002', 'show-029', 2, 'Episode 2', TRUE, FALSE, '2026-04-19'),
+  ('show-029-ep-003', 'show-029', 3, 'Episode 3', TRUE, FALSE, '2026-04-26'),
+  ('show-029-ep-004', 'show-029', 4, 'Episode 4', TRUE, FALSE, '2026-05-03'),
+  ('show-029-ep-005', 'show-029', 5, 'Episode 5', TRUE, FALSE, '2026-05-10'),
+  ('show-029-ep-006', 'show-029', 6, 'Episode 6', TRUE, FALSE, '2026-05-17'),
+  ('show-029-ep-007', 'show-029', 7, 'Episode 7', TRUE, FALSE, '2026-05-24'),
+  ('show-029-ep-008', 'show-029', 8, 'Episode 8', TRUE, FALSE, '2026-05-31'),
+  ('show-029-ep-009', 'show-029', 9, 'Episode 9', TRUE, FALSE, '2026-06-07'),
+  ('show-029-ep-010', 'show-029', 10, 'Episode 10', TRUE, FALSE, '2026-06-14'),
+  ('show-030-ep-001', 'show-030', 1, 'Episode 1', TRUE, FALSE, '2026-04-02'),
+  ('show-030-ep-002', 'show-030', 2, 'Episode 2', TRUE, FALSE, '2026-04-09'),
+  ('show-030-ep-003', 'show-030', 3, 'Episode 3', TRUE, FALSE, '2026-04-16'),
+  ('show-030-ep-004', 'show-030', 4, 'Episode 4', TRUE, FALSE, '2026-04-23'),
+  ('show-030-ep-005', 'show-030', 5, 'Episode 5', TRUE, FALSE, '2026-04-30'),
+  ('show-030-ep-006', 'show-030', 6, 'Episode 6', TRUE, FALSE, '2026-05-07'),
+  ('show-030-ep-007', 'show-030', 7, 'Episode 7', TRUE, FALSE, '2026-05-14'),
+  ('show-030-ep-008', 'show-030', 8, 'Episode 8', TRUE, FALSE, '2026-05-21'),
+  ('show-030-ep-009', 'show-030', 9, 'Episode 9', TRUE, FALSE, '2026-05-28'),
+  ('show-030-ep-010', 'show-030', 10, 'Episode 10', TRUE, FALSE, '2026-06-04'),
+  ('show-030-ep-011', 'show-030', 11, 'Episode 11', TRUE, FALSE, '2026-06-11'),
+  ('show-031-ep-001', 'show-031', 1, 'Episode 1', TRUE, FALSE, '2026-04-03'),
+  ('show-031-ep-002', 'show-031', 2, 'Episode 2', TRUE, FALSE, '2026-04-10'),
+  ('show-031-ep-003', 'show-031', 3, 'Episode 3', TRUE, FALSE, '2026-04-17'),
+  ('show-031-ep-004', 'show-031', 4, 'Episode 4', TRUE, FALSE, '2026-04-24'),
+  ('show-031-ep-005', 'show-031', 5, 'Episode 5', TRUE, FALSE, '2026-05-01'),
+  ('show-031-ep-006', 'show-031', 6, 'Episode 6', TRUE, FALSE, '2026-05-08'),
+  ('show-031-ep-007', 'show-031', 7, 'Episode 7', TRUE, FALSE, '2026-05-15'),
+  ('show-031-ep-008', 'show-031', 8, 'Episode 8', TRUE, FALSE, '2026-05-22'),
+  ('show-031-ep-009', 'show-031', 9, 'Episode 9', TRUE, FALSE, '2026-05-29'),
+  ('show-031-ep-010', 'show-031', 10, 'Episode 10', TRUE, FALSE, '2026-06-05'),
+  ('show-031-ep-011', 'show-031', 11, 'Episode 11', TRUE, FALSE, '2026-06-12'),
+  ('show-032-ep-001', 'show-032', 1, 'Episode 1', TRUE, FALSE, '2026-04-07'),
+  ('show-032-ep-002', 'show-032', 2, 'Episode 2', TRUE, FALSE, '2026-04-14'),
+  ('show-032-ep-003', 'show-032', 3, 'Episode 3', TRUE, FALSE, '2026-04-21'),
+  ('show-032-ep-004', 'show-032', 4, 'Episode 4', TRUE, FALSE, '2026-04-28'),
+  ('show-032-ep-005', 'show-032', 5, 'Episode 5', TRUE, FALSE, '2026-05-05'),
+  ('show-032-ep-006', 'show-032', 6, 'Episode 6', TRUE, FALSE, '2026-05-12'),
+  ('show-032-ep-007', 'show-032', 7, 'Episode 7', TRUE, FALSE, '2026-05-19'),
+  ('show-032-ep-008', 'show-032', 8, 'Episode 8', TRUE, FALSE, '2026-05-26'),
+  ('show-032-ep-009', 'show-032', 9, 'Episode 9', TRUE, FALSE, '2026-06-02'),
+  ('show-032-ep-010', 'show-032', 10, 'Episode 10', TRUE, FALSE, '2026-06-09'),
+  ('show-033-ep-001', 'show-033', 1, 'Episode 1', TRUE, FALSE, '2026-04-08'),
+  ('show-033-ep-002', 'show-033', 2, 'Episode 2', TRUE, FALSE, '2026-04-15'),
+  ('show-033-ep-003', 'show-033', 3, 'Episode 3', TRUE, FALSE, '2026-04-22'),
+  ('show-033-ep-004', 'show-033', 4, 'Episode 4', TRUE, FALSE, '2026-04-29'),
+  ('show-033-ep-005', 'show-033', 5, 'Episode 5', TRUE, FALSE, '2026-05-06'),
+  ('show-033-ep-006', 'show-033', 6, 'Episode 6', TRUE, FALSE, '2026-05-13'),
+  ('show-033-ep-007', 'show-033', 7, 'Episode 7', TRUE, FALSE, '2026-05-20'),
+  ('show-033-ep-008', 'show-033', 8, 'Episode 8', TRUE, FALSE, '2026-05-27'),
+  ('show-033-ep-009', 'show-033', 9, 'Episode 9', TRUE, FALSE, '2026-06-03'),
+  ('show-033-ep-010', 'show-033', 10, 'Episode 10', TRUE, FALSE, '2026-06-10'),
+  ('show-034-ep-001', 'show-034', 1, 'Episode 1', TRUE, FALSE, '2026-04-09'),
+  ('show-034-ep-002', 'show-034', 2, 'Episode 2', TRUE, FALSE, '2026-04-16'),
+  ('show-034-ep-003', 'show-034', 3, 'Episode 3', TRUE, FALSE, '2026-04-23'),
+  ('show-034-ep-004', 'show-034', 4, 'Episode 4', TRUE, FALSE, '2026-04-30'),
+  ('show-034-ep-005', 'show-034', 5, 'Episode 5', TRUE, FALSE, '2026-05-07'),
+  ('show-034-ep-006', 'show-034', 6, 'Episode 6', TRUE, FALSE, '2026-05-14'),
+  ('show-034-ep-007', 'show-034', 7, 'Episode 7', TRUE, FALSE, '2026-05-21'),
+  ('show-034-ep-008', 'show-034', 8, 'Episode 8', TRUE, FALSE, '2026-05-28'),
+  ('show-034-ep-009', 'show-034', 9, 'Episode 9', TRUE, FALSE, '2026-06-04'),
+  ('show-034-ep-010', 'show-034', 10, 'Episode 10', TRUE, FALSE, '2026-06-11'),
+  ('show-035-ep-001', 'show-035', 1, 'Episode 1', TRUE, FALSE, '2026-04-04'),
+  ('show-035-ep-002', 'show-035', 2, 'Episode 2', TRUE, FALSE, '2026-04-11'),
+  ('show-035-ep-003', 'show-035', 3, 'Episode 3', TRUE, FALSE, '2026-04-18'),
+  ('show-035-ep-004', 'show-035', 4, 'Episode 4', TRUE, FALSE, '2026-04-25'),
+  ('show-035-ep-005', 'show-035', 5, 'Episode 5', TRUE, FALSE, '2026-05-02'),
+  ('show-035-ep-006', 'show-035', 6, 'Episode 6', TRUE, FALSE, '2026-05-09'),
+  ('show-035-ep-007', 'show-035', 7, 'Episode 7', TRUE, FALSE, '2026-05-16'),
+  ('show-035-ep-008', 'show-035', 8, 'Episode 8', TRUE, FALSE, '2026-05-23'),
+  ('show-035-ep-009', 'show-035', 9, 'Episode 9', TRUE, FALSE, '2026-05-30'),
+  ('show-035-ep-010', 'show-035', 10, 'Episode 10', TRUE, FALSE, '2026-06-06'),
+  ('show-035-ep-011', 'show-035', 11, 'Episode 11', TRUE, FALSE, '2026-06-13'),
+  ('show-036-ep-001', 'show-036', 1, 'Episode 1', TRUE, FALSE, '2026-04-06'),
+  ('show-036-ep-002', 'show-036', 2, 'Episode 2', TRUE, FALSE, '2026-04-13'),
+  ('show-036-ep-003', 'show-036', 3, 'Episode 3', TRUE, FALSE, '2026-04-20'),
+  ('show-036-ep-004', 'show-036', 4, 'Episode 4', TRUE, FALSE, '2026-04-27'),
+  ('show-036-ep-005', 'show-036', 5, 'Episode 5', TRUE, FALSE, '2026-05-04'),
+  ('show-036-ep-006', 'show-036', 6, 'Episode 6', TRUE, FALSE, '2026-05-11'),
+  ('show-036-ep-007', 'show-036', 7, 'Episode 7', TRUE, FALSE, '2026-05-18'),
+  ('show-036-ep-008', 'show-036', 8, 'Episode 8', TRUE, FALSE, '2026-05-25'),
+  ('show-036-ep-009', 'show-036', 9, 'Episode 9', TRUE, FALSE, '2026-06-01'),
+  ('show-036-ep-010', 'show-036', 10, 'Episode 10', TRUE, FALSE, '2026-06-08'),
+  ('show-036-ep-011', 'show-036', 11, 'Episode 11', TRUE, FALSE, '2026-06-15'),
+  ('show-037-ep-001', 'show-037', 1, 'Episode 1', TRUE, FALSE, '2026-04-01'),
+  ('show-037-ep-002', 'show-037', 2, 'Episode 2', TRUE, FALSE, '2026-04-08'),
+  ('show-037-ep-003', 'show-037', 3, 'Episode 3', TRUE, FALSE, '2026-04-15'),
+  ('show-037-ep-004', 'show-037', 4, 'Episode 4', TRUE, FALSE, '2026-04-22'),
+  ('show-037-ep-005', 'show-037', 5, 'Episode 5', TRUE, FALSE, '2026-04-29'),
+  ('show-037-ep-006', 'show-037', 6, 'Episode 6', TRUE, FALSE, '2026-05-06'),
+  ('show-037-ep-007', 'show-037', 7, 'Episode 7', TRUE, FALSE, '2026-05-13'),
+  ('show-037-ep-008', 'show-037', 8, 'Episode 8', TRUE, FALSE, '2026-05-20'),
+  ('show-037-ep-009', 'show-037', 9, 'Episode 9', TRUE, FALSE, '2026-05-27'),
+  ('show-037-ep-010', 'show-037', 10, 'Episode 10', TRUE, FALSE, '2026-06-03'),
+  ('show-037-ep-011', 'show-037', 11, 'Episode 11', TRUE, FALSE, '2026-06-10'),
+  ('show-038-ep-001', 'show-038', 1, 'Episode 1', TRUE, FALSE, '2026-04-04'),
+  ('show-038-ep-002', 'show-038', 2, 'Episode 2', TRUE, FALSE, '2026-04-11'),
+  ('show-038-ep-003', 'show-038', 3, 'Episode 3', TRUE, FALSE, '2026-04-18'),
+  ('show-038-ep-004', 'show-038', 4, 'Episode 4', TRUE, FALSE, '2026-04-25'),
+  ('show-038-ep-005', 'show-038', 5, 'Episode 5', TRUE, FALSE, '2026-05-02'),
+  ('show-038-ep-006', 'show-038', 6, 'Episode 6', TRUE, FALSE, '2026-05-09'),
+  ('show-038-ep-007', 'show-038', 7, 'Episode 7', TRUE, FALSE, '2026-05-16'),
+  ('show-038-ep-008', 'show-038', 8, 'Episode 8', TRUE, FALSE, '2026-05-23'),
+  ('show-038-ep-009', 'show-038', 9, 'Episode 9', TRUE, FALSE, '2026-05-30'),
+  ('show-038-ep-010', 'show-038', 10, 'Episode 10', TRUE, FALSE, '2026-06-06'),
+  ('show-038-ep-011', 'show-038', 11, 'Episode 11', TRUE, FALSE, '2026-06-13'),
+  ('show-039-ep-001', 'show-039', 1, 'Episode 1', TRUE, FALSE, '2026-04-04'),
+  ('show-039-ep-002', 'show-039', 2, 'Episode 2', TRUE, FALSE, '2026-04-11'),
+  ('show-039-ep-003', 'show-039', 3, 'Episode 3', TRUE, FALSE, '2026-04-18'),
+  ('show-039-ep-004', 'show-039', 4, 'Episode 4', TRUE, FALSE, '2026-04-25'),
+  ('show-039-ep-005', 'show-039', 5, 'Episode 5', TRUE, FALSE, '2026-05-02'),
+  ('show-039-ep-006', 'show-039', 6, 'Episode 6', TRUE, FALSE, '2026-05-09'),
+  ('show-039-ep-007', 'show-039', 7, 'Episode 7', TRUE, FALSE, '2026-05-16'),
+  ('show-039-ep-008', 'show-039', 8, 'Episode 8', TRUE, FALSE, '2026-05-23'),
+  ('show-039-ep-009', 'show-039', 9, 'Episode 9', TRUE, FALSE, '2026-05-30'),
+  ('show-039-ep-010', 'show-039', 10, 'Episode 10', TRUE, FALSE, '2026-06-06'),
+  ('show-039-ep-011', 'show-039', 11, 'Episode 11', TRUE, FALSE, '2026-06-13');
+
+-- airing_slots ------------------------------------------------------------
+-- Milestone 2: one weekly air slot per currently-airing show (JST source).
+-- day_of_week: 0=Monday … 6=Sunday. air_time: 'HH:MM' 24h.
+-- FK-safe: shows rows already inserted above.
+insert into public.airing_slots (id, show_id, day_of_week, air_time, timezone, season) values
+  ('slot-001', 'show-002', 5, '17:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-002', 'show-009', 2, '23:00', 'Asia/Tokyo', 'Spring 2026'),
+('slot-003', 'show-025', 0, '23:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-004', 'show-026', 0, '00:30', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-005', 'show-027', 1, '22:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-006', 'show-028', 1, '12:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-007', 'show-029', 2, '23:30', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-008', 'show-030', 2, '08:30', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-009', 'show-031', 3, '21:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-010', 'show-032', 3, '01:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-011', 'show-033', 4, '22:30', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-012', 'show-034', 4, '10:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-013', 'show-035', 5, '17:30', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-014', 'show-036', 5, '00:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-015', 'show-037', 6, '23:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-016', 'show-038', 6, '16:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-017', 'show-039', 6, '09:30', 'Asia/Tokyo', 'Spring 2026');
 
 commit;

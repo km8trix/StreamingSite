@@ -38,3 +38,31 @@ export type ShowDetail = ShowSummary & {
   popularityScore: number
   updatedAt: string // ISO timestamp
 }
+
+// ---------------------------------------------------------------------------
+// Milestone 2 — schedule + search/filter types
+// ---------------------------------------------------------------------------
+
+export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6 // 0=Monday … 6=Sunday
+
+export type ScheduleEntry = {
+  show: ShowSummary
+  dayOfWeek: DayOfWeek
+  airTime: string   // 'HH:MM' 24h, in `timezone` (do NOT convert here — UI's job)
+  timezone: string  // IANA, e.g. 'Asia/Tokyo'
+}
+
+export type ShowSort = 'title' | 'popularity' | 'recent' | 'year'
+
+export type AudioFilter = 'any' | 'sub' | 'dub'
+
+export type ShowFilter = {
+  query?: string
+  genres?: string[]     // genre slugs; OR semantics (match any selected)
+  audio?: AudioFilter   // 'sub' => subEpisodes>0, 'dub' => dubEpisodes>0
+  status?: ShowStatus
+  year?: number
+  sort?: ShowSort       // default 'popularity'
+}
+
+export type ShowFilterResult = { shows: ShowSummary[]; total: number }

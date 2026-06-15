@@ -2,9 +2,15 @@
 // UI imports from '@/lib/data' — never from Supabase directly.
 
 export type {
+  AudioFilter,
+  DayOfWeek,
   Episode,
   Genre,
+  ScheduleEntry,
   ShowDetail,
+  ShowFilter,
+  ShowFilterResult,
+  ShowSort,
   ShowStatus,
   ShowSummary,
 } from './types'
@@ -18,3 +24,7 @@ export {
   getShowBySlug,
   listGenres,
 } from './shows'
+
+export { getWeeklySchedule } from './schedule'
+
+export { listFilterYears, searchAndFilterShows } from './search'

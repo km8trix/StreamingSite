@@ -1,7 +1,13 @@
 // Synthetic fixtures matching the data contract (COORDINATION.md / src/lib/data/types.ts).
 // Component tests build their data from these so they never depend on the live seed.
 
-import type { Episode, Genre, ShowDetail, ShowSummary } from '@/lib/data'
+import type {
+  Episode,
+  Genre,
+  ScheduleEntry,
+  ShowDetail,
+  ShowSummary,
+} from '@/lib/data'
 
 export const genreFixture: Genre = {
   id: 'genre-action',
@@ -52,6 +58,22 @@ export function makeShowDetail(
     ],
     popularityScore: 95,
     updatedAt: '2026-06-01T00:00:00.000Z',
+    ...overrides,
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Milestone 2 — schedule fixtures
+// ---------------------------------------------------------------------------
+
+export function makeScheduleEntry(
+  overrides: Partial<ScheduleEntry> = {},
+): ScheduleEntry {
+  return {
+    show: makeShowSummary({ status: 'airing' }),
+    dayOfWeek: 5, // Saturday (ISO: 0=Mon … 6=Sun)
+    airTime: '17:00',
+    timezone: 'Asia/Tokyo',
     ...overrides,
   }
 }

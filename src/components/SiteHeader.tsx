@@ -1,12 +1,12 @@
 import { Logo } from './Logo'
 import { NavLink } from './NavLink'
 import { RandomizeButton } from './RandomizeButton'
-import { SearchPlaceholder } from './SearchPlaceholder'
+import { HeaderSearch } from './HeaderSearch'
 
 /**
- * SiteHeader — sticky site chrome: logo, primary nav, a (non-functional)
- * search field, and the prominent Randomize action. Mostly a Server Component;
- * only NavLink and RandomizeButton are client islands.
+ * SiteHeader — sticky site chrome: logo, primary nav, functional search input,
+ * and the prominent Randomize action. Mostly a Server Component; NavLink,
+ * RandomizeButton, and HeaderSearch are client islands.
  */
 export function SiteHeader() {
   return (
@@ -19,9 +19,10 @@ export function SiteHeader() {
             Home
           </NavLink>
           <NavLink href="/shows">Browse</NavLink>
+          <NavLink href="/schedule">Schedule</NavLink>
         </nav>
 
-        <SearchPlaceholder className="ml-auto hidden w-full max-w-xs lg:block" />
+        <HeaderSearch className="ml-auto hidden w-full max-w-xs lg:block" />
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
           <RandomizeButton />
@@ -30,7 +31,7 @@ export function SiteHeader() {
 
       {/* mobile: search sits below the bar on small screens */}
       <div className="border-t border-border px-4 py-2 lg:hidden">
-        <SearchPlaceholder className="w-full" />
+        <HeaderSearch className="w-full" />
       </div>
     </header>
   )

@@ -136,6 +136,40 @@ export type Database = {
           },
         ]
       }
+      airing_slots: {
+        Row: {
+          id: string
+          show_id: string
+          day_of_week: number
+          air_time: string
+          timezone: string
+          season: string
+        }
+        Insert: {
+          id: string
+          show_id: string
+          day_of_week: number
+          air_time: string
+          timezone?: string
+          season?: string
+        }
+        Update: {
+          id?: string
+          show_id?: string
+          day_of_week?: number
+          air_time?: string
+          timezone?: string
+          season?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'airing_slots_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: Record<never, never>
