@@ -66,3 +66,26 @@ export type ShowFilter = {
 }
 
 export type ShowFilterResult = { shows: ShowSummary[]; total: number }
+
+// ---------------------------------------------------------------------------
+// Milestone 3 — accounts / profiles
+// ---------------------------------------------------------------------------
+
+export type UserRole = 'user' | 'moderator' | 'admin'
+
+export type Profile = {
+  id: string // matches auth.users.id (uuid)
+  username: string | null
+  displayName: string | null
+  avatarUrl: string | null
+  role: UserRole
+  createdAt: string // ISO timestamp
+  updatedAt: string // ISO timestamp
+}
+
+// getCurrentUser() returns this shape, or null when there is no session.
+export type CurrentUser = {
+  userId: string
+  email: string | null
+  profile: Profile | null // null only if the profile row hasn't materialized yet
+}

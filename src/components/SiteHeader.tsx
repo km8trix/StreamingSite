@@ -2,11 +2,14 @@ import { Logo } from './Logo'
 import { NavLink } from './NavLink'
 import { RandomizeButton } from './RandomizeButton'
 import { HeaderSearch } from './HeaderSearch'
+import { AuthControls } from './AuthControls'
 
 /**
  * SiteHeader — sticky site chrome: logo, primary nav, functional search input,
- * and the prominent Randomize action. Mostly a Server Component; NavLink,
- * RandomizeButton, and HeaderSearch are client islands.
+ * the Randomize action, and auth controls (Sign in / user menu). Server
+ * Component; NavLink, RandomizeButton, HeaderSearch, and UserMenu are the only
+ * client islands. AuthControls is an async server component that reads the
+ * session cookie (getCurrentUser).
  */
 export function SiteHeader() {
   return (
@@ -26,6 +29,7 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
           <RandomizeButton />
+          <AuthControls />
         </div>
       </div>
 

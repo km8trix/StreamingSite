@@ -3,9 +3,11 @@
 
 export type {
   AudioFilter,
+  CurrentUser,
   DayOfWeek,
   Episode,
   Genre,
+  Profile,
   ScheduleEntry,
   ShowDetail,
   ShowFilter,
@@ -13,6 +15,7 @@ export type {
   ShowSort,
   ShowStatus,
   ShowSummary,
+  UserRole,
 } from './types'
 
 export {
@@ -28,3 +31,5 @@ export {
 export { getWeeklySchedule } from './schedule'
 
 export { listFilterYears, searchAndFilterShows } from './search'
+
+export { getCurrentUser, getProfile, getProfileByUsername } from './profiles'

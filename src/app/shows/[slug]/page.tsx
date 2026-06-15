@@ -11,10 +11,16 @@ import { SubDubBadges } from '@/components/SubDubBadges'
 
 type Params = { slug: string }
 
-// The catalog is fully known at build time, so prerender every show and let
-// any unknown slug fall through to Next's real 404 handler (true 404 status)
-// rather than being rendered on demand. notFound() below still guards the
-// live-Supabase path where a slug could 404 at request time.
+// The catalog is fully known at build time, so prerender every show and let any
+// unknown slug fall through to Next's real 404 handler (true 404 status) rather
+// than being rendered on demand. notFound() below still guards the live-Supabase
+// path where a slug could 404 at request time.
+//
+// NOTE (M3): this only keeps producing a hard 404 because the auth/session read
+// in the header is isolated behind a <Suspense> boundary (see SiteHeader). That
+// keeps this route statically prerenderable; without it, the cookie read would
+// taint the tree dynamic and an unknown slug would render the not-found UI with
+// a 200 status instead of 404.
 export const dynamicParams = false
 
 // Prerender every seed show at build time.

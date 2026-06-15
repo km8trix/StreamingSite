@@ -3,7 +3,10 @@ import { Home, Shuffle } from 'lucide-react'
 
 export default function ShowNotFound() {
   return (
-    <div className="mx-auto flex max-w-xl flex-col items-center gap-5 px-4 py-24 text-center">
+    <div
+      data-testid="show-not-found"
+      className="mx-auto flex max-w-xl flex-col items-center gap-5 px-4 py-24 text-center"
+    >
       <span className="text-6xl font-extrabold tracking-tight text-accent-strong">
         404
       </span>

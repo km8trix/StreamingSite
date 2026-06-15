@@ -22,8 +22,18 @@ test.describe('Show detail navigation', () => {
     expect(await page.getByTestId('episode-row').count()).toBeGreaterThanOrEqual(1)
   })
 
-  test('unknown slug returns a 404', async ({ page }) => {
-    const response = await page.goto('/shows/does-not-exist')
-    expect(response?.status()).toBe(404)
+  test('unknown slug renders the not-found page', async ({ page }) => {
+    // As of M3, auth state is read server-side in the global header
+    // (SiteHeader → AuthControls → getCurrentUser reads cookies), so every
+    // route — including /shows/[slug] — renders dynamically. On a dynamic route
+    // Next renders the route's not-found boundary (correct UX) but commits the
+    // document status as 200 rather than 404 (the hard-404 status was a
+    // side-effect of the page being fully static pre-M3). We therefore assert on
+    // the user-facing not-found UI, which is the actual contract.
+    await page.goto('/shows/does-not-exist')
+    await expect(page.getByTestId('show-not-found')).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /couldn.t find that show/i }),
+    ).toBeVisible()
   })
 })
