@@ -163,10 +163,12 @@ test.describe('Search page (/search)', () => {
     const filterPanel = page.getByTestId('filter-panel')
     const dubLabel = filterPanel.getByText('DUB')
     await expect(dubLabel).toBeVisible()
-    await dubLabel.click()
-
-    // URL should contain audio=dub
-    await page.waitForURL(/audio=dub/)
+    // Retry the click until the URL updates — guards against clicking before the
+    // client FilterPanel has hydrated (the live-DB render widens that window).
+    await expect(async () => {
+      await dubLabel.click()
+      await expect(page).toHaveURL(/audio=dub/, { timeout: 1500 })
+    }).toPass({ timeout: 15000 })
     expect(page.url()).toContain('audio=dub')
 
     // Result count should be visible (audio=dub narrows the set).
@@ -221,10 +223,14 @@ test.describe('Search page (/search)', () => {
 
     const clearBtn = page.getByRole('button', { name: /clear/i })
     await expect(clearBtn).toBeVisible()
-    await clearBtn.click()
-
-    // URL should no longer have audio or sort params
-    await page.waitForURL((url) => !url.search.includes('audio=') && !url.search.includes('sort='))
+    // Retry until hydrated (see note in the audio-filter test above).
+    await expect(async () => {
+      await clearBtn.click()
+      await expect(page).toHaveURL(
+        (url) => !url.search.includes('audio=') && !url.search.includes('sort='),
+        { timeout: 1500 },
+      )
+    }).toPass({ timeout: 15000 })
     expect(page.url()).not.toContain('audio=')
     expect(page.url()).not.toContain('sort=')
   })

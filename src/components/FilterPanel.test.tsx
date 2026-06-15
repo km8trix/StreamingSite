@@ -1,8 +1,10 @@
 // FilterPanel.test.tsx — Milestone 2, Phase 5 component tests.
 //
-// FilterPanel is a 'use client' component that reads/writes URL search params
-// via next/navigation. We mock the three hooks (useRouter, useSearchParams,
-// usePathname) and assert that:
+// FilterPanel is a 'use client' component that writes URL search params via
+// next/navigation. Its *current* selections are parsed on the server and passed
+// in as a `values` prop (it no longer reads useSearchParams itself — that left
+// it non-interactive on a hard load with query params). We mock the router
+// hooks and assert that:
 //   - All control groups render from props
 //   - Selecting a control triggers router.push with the correct query string
 //   - Clear-filters removes non-query params and resets state
@@ -11,35 +13,41 @@
 
 import { render, screen, fireEvent } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Genre } from '@/lib/data'
+import type { Genre, AudioFilter, ShowStatus, ShowSort } from '@/lib/data'
+import type { FilterValues } from './FilterPanel'
 
 // ---------------------------------------------------------------------------
 // Mock next/navigation before importing the component.
 // We use module-level mutable refs so individual tests can customise the
-// searchParams while sharing a single mock module.
+// router behaviour while sharing a single mock module.
 // ---------------------------------------------------------------------------
 
 const mockPush = vi.fn()
 const mockReplace = vi.fn()
 
-// Mutable bag that tests may override to simulate URL state.
-let mockParamBag: Record<string, string> = {}
-
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
   usePathname: () => '/search',
-  useSearchParams: () => ({
-    get: (key: string) => mockParamBag[key] ?? null,
-    getAll: (key: string) => (mockParamBag[key] ? [mockParamBag[key]] : []),
-    toString: () => {
-      const p = new URLSearchParams(mockParamBag)
-      return p.toString()
-    },
-  }),
 }))
 
 // Import AFTER mock is registered.
 import { FilterPanel } from './FilterPanel'
+
+// Build the `values` prop from a simple URL-param bag, mirroring how the server
+// page derives it. This keeps each test expressing intent as URL state.
+function valuesFromBag(bag: Record<string, string>): FilterValues {
+  const genres = bag['genres']
+    ? bag['genres'].split(',').map((g) => g.trim()).filter(Boolean)
+    : []
+  return {
+    q: bag['q'] ?? '',
+    genres,
+    audio: (bag['audio'] ?? 'any') as AudioFilter,
+    status: (bag['status'] ?? '') as ShowStatus | '',
+    year: bag['year'] ?? '',
+    sort: (bag['sort'] ?? 'popularity') as ShowSort,
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -58,14 +66,18 @@ function renderPanel(
   genres = GENRES,
   years = YEARS,
 ) {
-  mockParamBag = paramBag
-  return render(<FilterPanel genres={genres} years={years} />)
+  return render(
+    <FilterPanel
+      genres={genres}
+      years={years}
+      values={valuesFromBag(paramBag)}
+    />,
+  )
 }
 
 beforeEach(() => {
   mockPush.mockClear()
   mockReplace.mockClear()
-  mockParamBag = {}
 })
 
 afterEach(() => {
@@ -364,10 +376,18 @@ describe('FilterPanel — clear filters', () => {
     expect(url).not.toContain('sort=')
   })
 
-  it('clicking Clear with no q param navigates to bare /search', () => {
+  it('clicking Clear with no q param navigates to the bare /search route', () => {
     renderPanel({ audio: 'dub' })
     fireEvent.click(screen.getByRole('button', { name: /clear/i }))
     const url: string = mockPush.mock.calls[0][0]
-    expect(url).toBe('/search')
+    // Pushed as `/search?` (the empty `?` keeps the App Router from deduping the
+    // bare-route push against the prefetched static entry, which otherwise made
+    // Clear a no-op on a deep-linked URL). Next normalizes the `?` out of the
+    // visible address bar, so the user still lands on `/search`.
+    expect(url).toBe('/search?')
+    // No filter params remain on the destination.
+    expect(url).not.toContain('audio=')
+    expect(url).not.toContain('sort=')
+    expect(url).not.toContain('genres=')
   })
 })

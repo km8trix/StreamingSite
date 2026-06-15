@@ -8,7 +8,7 @@
 // Raw DB rows never leak out of this file: all mapping lives in mapShowRow /
 // mapEpisodeRow / mapGenreRow below.
 
-import { getServerClient } from '@/lib/supabase/server'
+import { getPublicClient } from '@/lib/supabase/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import seed from './seed.json'
 import type {
@@ -135,7 +135,7 @@ export async function getRecentlyUpdatedShows(
       .map(toSummary)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('shows')
     .select(SHOW_SUMMARY_COLUMNS)
@@ -156,7 +156,7 @@ export async function getPopularShows(
       .map(toSummary)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('shows')
     .select(SHOW_SUMMARY_COLUMNS)
@@ -188,7 +188,7 @@ export async function getRecommendedShows(
       .map(toSummary)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('shows')
     .select(`${SHOW_SUMMARY_COLUMNS}, popularity_score`)
@@ -207,7 +207,7 @@ export async function getAllShows(): Promise<ShowSummary[]> {
       .map(toSummary)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('shows')
     .select(SHOW_SUMMARY_COLUMNS)
@@ -233,7 +233,7 @@ export async function getShowBySlug(slug: string): Promise<ShowDetail | null> {
     }
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('shows')
     .select(
@@ -282,7 +282,7 @@ export async function listGenres(): Promise<Genre[]> {
       .map(mapGenreRow)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('genres')
     .select('id, name, slug')

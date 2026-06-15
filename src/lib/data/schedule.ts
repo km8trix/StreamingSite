@@ -7,7 +7,7 @@
 // IMPORTANT: airTime is always 'HH:MM' JST (Asia/Tokyo). TZ conversion to the
 // viewer's local timezone is the UI's responsibility (use Intl.DateTimeFormat).
 
-import { getServerClient } from '@/lib/supabase/server'
+import { getPublicClient } from '@/lib/supabase/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import seed from './seed.json'
 import type { DayOfWeek, ScheduleEntry, ShowSummary } from './types'
@@ -96,7 +96,7 @@ export async function getWeeklySchedule(): Promise<ScheduleEntry[]> {
     }).filter((e): e is ScheduleEntry => e !== null)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('airing_slots')
     .select(

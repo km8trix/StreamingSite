@@ -8,7 +8,7 @@
 //
 // Both honor the seed-fallback contract (in-memory when !isSupabaseConfigured()).
 
-import { getServerClient } from '@/lib/supabase/server'
+import { getPublicClient } from '@/lib/supabase/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import seed from './seed.json'
 import type {
@@ -142,7 +142,7 @@ export async function searchAndFilterShows(
   // -------------------------------------------------------------------------
   // Supabase path
   // -------------------------------------------------------------------------
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
 
   // Genre filter via a robust two-step using base-table .in() calls (avoids
   // embedded-resource filter syntax). 1) resolve the selected slugs to genre
@@ -226,7 +226,7 @@ export async function listFilterYears(): Promise<number[]> {
     return years.sort((a, b) => b - a)
   }
 
-  const supabase = await getServerClient()
+  const supabase = await getPublicClient()
   const { data, error } = await supabase
     .from('shows')
     .select('year')

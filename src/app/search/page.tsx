@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import {
   searchAndFilterShows,
   listGenres,
@@ -10,8 +9,7 @@ import {
   type ShowStatus,
 } from '@/lib/data'
 import { ShowGrid } from '@/components/ShowGrid'
-import { FilterPanel } from '@/components/FilterPanel'
-import { Skeleton } from '@/components/Skeleton'
+import { FilterPanel, type FilterValues } from '@/components/FilterPanel'
 
 export const metadata: Metadata = {
   title: 'Search',
@@ -22,22 +20,52 @@ interface SearchPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-function parseSearchParams(raw: Record<string, string | string[] | undefined>): ShowFilter {
-  const get = (key: string): string | undefined => {
-    const v = raw[key]
-    return Array.isArray(v) ? v[0] : v
+function getParam(
+  raw: Record<string, string | string[] | undefined>,
+  key: string,
+): string | undefined {
+  const v = raw[key]
+  return Array.isArray(v) ? v[0] : v
+}
+
+function parseGenres(
+  raw: Record<string, string | string[] | undefined>,
+): string[] {
+  const genresRaw = raw['genres']
+  if (!genresRaw) return []
+  return (Array.isArray(genresRaw) ? genresRaw : [genresRaw])
+    .flatMap((g) => g.split(','))
+    .map((g) => g.trim())
+    .filter(Boolean)
+}
+
+/**
+ * Derive the current filter values from the URL on the server, so the client
+ * FilterPanel receives them as props rather than reading useSearchParams().
+ * Reading them on the server keeps FilterPanel fully interactive on a hard load
+ * with query params (a client useSearchParams() inside a Suspense boundary on a
+ * dynamic page leaves its router instance unable to navigate after hydration).
+ */
+function parseFilterValues(
+  raw: Record<string, string | string[] | undefined>,
+): FilterValues {
+  return {
+    q: getParam(raw, 'q') ?? '',
+    genres: parseGenres(raw),
+    audio: (getParam(raw, 'audio') ?? 'any') as AudioFilter,
+    status: (getParam(raw, 'status') ?? '') as ShowStatus | '',
+    year: getParam(raw, 'year') ?? '',
+    sort: (getParam(raw, 'sort') ?? 'popularity') as ShowSort,
   }
+}
+
+function parseSearchParams(raw: Record<string, string | string[] | undefined>): ShowFilter {
+  const get = (key: string): string | undefined => getParam(raw, key)
 
   const q = get('q')?.trim()
 
   // genres may be a comma-separated string or multiple values
-  const genresRaw = raw['genres']
-  const genres = genresRaw
-    ? (Array.isArray(genresRaw) ? genresRaw : [genresRaw])
-        .flatMap((g) => g.split(','))
-        .map((g) => g.trim())
-        .filter(Boolean)
-    : undefined
+  const genres = parseGenres(raw)
 
   const audio = get('audio') as AudioFilter | undefined
   const status = get('status') as ShowStatus | undefined
@@ -47,7 +75,7 @@ function parseSearchParams(raw: Record<string, string | string[] | undefined>): 
 
   return {
     ...(q ? { query: q } : {}),
-    ...(genres && genres.length > 0 ? { genres } : {}),
+    ...(genres.length > 0 ? { genres } : {}),
     ...(audio && audio !== 'any' ? { audio } : {}),
     ...(status ? { status } : {}),
     ...(year && !isNaN(year) ? { year } : {}),
@@ -58,6 +86,7 @@ function parseSearchParams(raw: Record<string, string | string[] | undefined>): 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const rawParams = await searchParams
   const filter = parseSearchParams(rawParams)
+  const filterValues = parseFilterValues(rawParams)
 
   const [{ shows, total }, genres, years] = await Promise.all([
     searchAndFilterShows(filter),
@@ -100,11 +129,12 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       </div>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        {/* Filter panel — Suspense boundary so useSearchParams doesn't block */}
+        {/* Filter panel — current filter values are parsed on the server and
+            passed as props, so the client component never depends on
+            useSearchParams() (which left it non-interactive on a hard load with
+            query params). It uses the router only for navigation. */}
         <div className="w-full shrink-0 lg:w-60 xl:w-64">
-          <Suspense fallback={<Skeleton className="h-96 w-full" />}>
-            <FilterPanel genres={genres} years={years} />
-          </Suspense>
+          <FilterPanel genres={genres} years={years} values={filterValues} />
         </div>
 
         {/* Results grid */}

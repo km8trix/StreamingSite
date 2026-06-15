@@ -8,6 +8,7 @@
 
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
 import { SUPABASE_ANON_KEY, SUPABASE_URL, isSupabaseConfigured } from './config'
 
@@ -38,5 +39,20 @@ export async function getServerClient() {
         }
       },
     },
+  })
+}
+
+// Cookie-free anon client for PUBLIC catalog reads (shows / genres / episodes /
+// schedule / search). Unlike getServerClient it never touches cookies() /
+// next/headers, so it is SAFE in build-time contexts such as
+// generateStaticParams (which run without an HTTP request). Public data only —
+// use getServerClient for auth / user-scoped operations.
+export async function getPublicClient() {
+  if (!isSupabaseConfigured()) {
+    throw new Error('Supabase is not configured (public client).')
+  }
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false },
   })
 }

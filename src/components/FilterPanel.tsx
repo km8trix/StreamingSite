@@ -1,42 +1,93 @@
 'use client'
 
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 import type { Genre, AudioFilter, ShowStatus, ShowSort } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
 
 /**
+ * Current filter selections, parsed from the URL on the server and passed in
+ * as a prop. Keeping these out of a client useSearchParams() call is what makes
+ * the panel interactive on a hard load with query params: a useSearchParams()
+ * read inside a Suspense boundary on a dynamic page leaves the component's
+ * router instance unable to navigate after hydration.
+ */
+export interface FilterValues {
+  q: string
+  genres: string[]
+  audio: AudioFilter
+  status: ShowStatus | ''
+  year: string
+  sort: ShowSort
+}
+
+/**
  * FilterPanel — URL-synced filter controls for the /search page.
  * All state lives in the URL query string; changing any control calls
  * router.push() with the updated params, which re-renders the server page.
  *
- * Props are passed from the server (genres list + available years) so this
- * component stays client-only for interactivity, not for data fetching.
+ * The current selections come in as `values` (parsed on the server) and the
+ * router is used purely for navigation — the component never reads
+ * useSearchParams() itself.
  */
 export function FilterPanel({
   genres,
   years,
+  values,
 }: {
   genres: Genre[]
   years: number[]
+  values: FilterValues
 }) {
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
-  // Read current filter values from URL
-  const currentQ = searchParams.get('q') ?? ''
-  const currentGenres = searchParams.getAll('genres').flatMap((g) => g.split(',').filter(Boolean))
-  const currentAudio = (searchParams.get('audio') ?? 'any') as AudioFilter
-  const currentStatus = (searchParams.get('status') ?? '') as ShowStatus | ''
-  const currentYear = searchParams.get('year') ?? ''
-  const currentSort = (searchParams.get('sort') ?? 'popularity') as ShowSort
+  // Current filter values, derived on the server from the URL.
+  const currentQ = values.q
+  const currentGenres = values.genres
+  const currentAudio = values.audio
+  const currentStatus = values.status
+  const currentYear = values.year
+  const currentSort = values.sort
 
-  /** Build a new URLSearchParams with one key changed and push to router. */
+  /**
+   * Navigate to a filtered URL on the same /search route.
+   *
+   * Why the empty `?` suffix: this page is a dynamic route that is also
+   * prefetched as a bare static entry (`/search`). Under the App Router, a
+   * `router.push('/search')` from a deep-linked URL (e.g. `/search?audio=dub`)
+   * is deduped against that prefetched bare entry and silently no-ops — the
+   * Clear button and "reset to defaults" cases would do nothing. Pushing
+   * `/search?` instead makes the destination href distinct from the cached
+   * entry, so the navigation commits and the server re-renders with the new
+   * (empty) search params. Next normalizes the trailing `?` out of the visible
+   * URL, so the address bar still reads `/search`. URLs that already carry a
+   * query string navigate normally and are pushed unchanged.
+   */
+  const navigate = useCallback(
+    (target: string) => {
+      router.push(target.includes('?') ? target : `${target}?`)
+    },
+    [router],
+  )
+
+  /**
+   * Build the next query string from the current values plus the requested
+   * updates, then push to the router. Rebuilding from props (not from
+   * useSearchParams) keeps navigation working on a hard-loaded, param'd URL.
+   */
   const push = useCallback(
     (updates: Record<string, string | string[] | null>) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams()
+      // Seed with the current selections so unchanged filters are preserved.
+      if (currentQ) params.set('q', currentQ)
+      if (currentGenres.length > 0) params.set('genres', currentGenres.join(','))
+      if (currentAudio !== 'any') params.set('audio', currentAudio)
+      if (currentStatus !== '') params.set('status', currentStatus)
+      if (currentYear !== '') params.set('year', currentYear)
+      if (currentSort !== 'popularity') params.set('sort', currentSort)
+
       for (const [key, val] of Object.entries(updates)) {
         params.delete(key)
         if (val === null) continue
@@ -47,9 +98,18 @@ export function FilterPanel({
         }
       }
       const qs = params.toString()
-      router.push(`${pathname}${qs ? `?${qs}` : ''}`)
+      navigate(`${pathname}${qs ? `?${qs}` : ''}`)
     },
-    [router, pathname, searchParams],
+    [
+      navigate,
+      pathname,
+      currentQ,
+      currentGenres,
+      currentAudio,
+      currentStatus,
+      currentYear,
+      currentSort,
+    ],
   )
 
   function toggleGenre(slug: string) {
@@ -62,7 +122,7 @@ export function FilterPanel({
   function clearAll() {
     const params = new URLSearchParams()
     if (currentQ) params.set('q', currentQ)
-    router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`)
+    navigate(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`)
   }
 
   const hasFilters =

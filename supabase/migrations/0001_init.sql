@@ -115,3 +115,11 @@ create policy "Public read episodes"
   on public.episodes for select
   to anon, authenticated
   using (true);
+
+-- Table privileges ---------------------------------------------------------
+-- RLS (above) controls WHICH ROWS are visible; GRANT controls whether the role
+-- may touch the table at all. PostgREST (anon/authenticated) needs BOTH —
+-- without these grants, reads fail with "permission denied for table ...".
+grant usage on schema public to anon, authenticated;
+grant select on public.genres, public.shows, public.show_genres, public.episodes
+  to anon, authenticated;

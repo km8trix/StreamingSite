@@ -26,3 +26,6 @@ create policy "Public read airing_slots"
   on public.airing_slots for select
   to anon, authenticated
   using (true);
+
+-- Table privileges (RLS governs rows; GRANT governs table access — need both).
+grant select on public.airing_slots to anon, authenticated;
