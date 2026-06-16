@@ -28,9 +28,13 @@ export type AuthAction = (
 export function AuthForm({
   mode,
   action,
+  next,
 }: {
   mode: Mode
   action: AuthAction
+  /** Optional post-auth redirect target; forwarded as a hidden field so the
+   *  email signIn/signUp actions honor it (mirrors GoogleSignInButton). */
+  next?: string
 }) {
   const isSignup = mode === 'signup'
   const [state, formAction] = useActionState<AuthResult, FormData>(action, {})
@@ -42,6 +46,7 @@ export function AuthForm({
       className="flex flex-col gap-5"
       noValidate
     >
+      {next ? <input type="hidden" name="next" value={next} /> : null}
       <Field
         id="email"
         name="email"

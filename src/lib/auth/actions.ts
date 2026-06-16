@@ -21,6 +21,8 @@ import { redirect } from 'next/navigation'
 import { getServerClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/database.types'
 import { getCurrentUser } from '@/lib/data/profiles'
+import { getSiteOrigin } from '@/lib/site-url'
+import { safeRedirectPath } from './safe-redirect'
 
 type ProfileUpdate = Database['public']['Tables']['profiles']['Update']
 
@@ -77,6 +79,16 @@ function coerceSignIn(input: FormData | SignInInput): SignInInput {
   return { email: input.email.trim(), password: input.password }
 }
 
+// Optional post-auth redirect target carried by a hidden `next` form field, so
+// "sign in to continue" flows return the user where they started. Only present
+// on FormData submissions; programmatic calls default to '/'. Always passed
+// through safeRedirectPath() so it can't become an off-site open redirect.
+function readNext(input: FormData | unknown): string {
+  return input instanceof FormData
+    ? safeRedirectPath(readString(input.get('next')))
+    : '/'
+}
+
 // ---------------------------------------------------------------------------
 // Actions
 // ---------------------------------------------------------------------------
@@ -110,7 +122,7 @@ export async function signUp(input: FormData | SignUpInput): Promise<AuthResult>
   if (error) return { error: error.message }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect(readNext(input))
 }
 
 /**
@@ -129,7 +141,53 @@ export async function signIn(input: FormData | SignInInput): Promise<AuthResult>
   if (error) return { error: error.message }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect(readNext(input))
+}
+
+/**
+ * Begin "Sign in with Google" (OAuth Authorization Code + PKCE).
+ *
+ * signInWithOAuth() does NOT sign the user in here — on the server it generates
+ * the PKCE code verifier (stored in a cookie via the @supabase/ssr adapter) and
+ * returns the Google consent URL. We then redirect() the browser to Google;
+ * after consent Google redirects to `<origin>/auth/callback?code=…`, where the
+ * route handler exchanges the code for a session.
+ *
+ * Works the same for first-time and returning users (OAuth has no separate
+ * "sign up" step). Because Google asserts a verified email, these users get a
+ * session immediately even though email/password signup keeps confirmations on.
+ *
+ * `next` (optional, from a hidden form field) is the same-origin path to land on
+ * afterwards; it is open-redirect-sanitized here AND again in the callback.
+ *
+ * Returns `{ error }` only if Supabase can't start the flow; on success it
+ * redirect()s (which throws Next's control-flow signal and never returns).
+ */
+export async function signInWithGoogle(
+  input?: FormData,
+): Promise<AuthResult> {
+  const next =
+    input instanceof FormData
+      ? safeRedirectPath(readString(input.get('next')))
+      : '/'
+
+  const origin = await getSiteOrigin()
+  const callbackUrl = new URL('/auth/callback', origin)
+  if (next && next !== '/') callbackUrl.searchParams.set('next', next)
+
+  const supabase = await getServerClient()
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: callbackUrl.toString() },
+  })
+
+  if (error) return { error: error.message }
+  if (!data?.url) {
+    return { error: 'Could not start Google sign-in. Please try again.' }
+  }
+
+  // External redirect to Google's consent screen (throws — never returns).
+  redirect(data.url)
 }
 
 /**
@@ -207,7 +265,18 @@ export async function updateProfile(
   // Build a sparse update from only the provided keys.
   const update: ProfileUpdate = {}
   if ('displayName' in fields) update.display_name = fields.displayName ?? null
-  if ('avatarUrl' in fields) update.avatar_url = fields.avatarUrl ?? null
+  if ('avatarUrl' in fields) {
+    // avatar_url is rendered as a plain <img src> to other users, so reject
+    // non-http(s) schemes (data:/javascript:/relative) and cap the length —
+    // an unvalidated value is a tracking-pixel / SSRF-via-browser vector.
+    const avatar = fields.avatarUrl?.trim() ?? ''
+    if (avatar && (!/^https?:\/\//i.test(avatar) || avatar.length > 2048)) {
+      return {
+        error: 'Avatar URL must be an http(s) link under 2048 characters.',
+      }
+    }
+    update.avatar_url = avatar || null
+  }
   if ('username' in fields) {
     const username = fields.username?.trim() ?? ''
     if (username && !/^[a-zA-Z0-9_]{3,30}$/.test(username)) {
