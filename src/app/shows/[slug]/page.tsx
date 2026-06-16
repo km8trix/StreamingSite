@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
 import { getAllShows, getShowBySlug } from '@/lib/data'
+import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
 import { PlayerPlaceholder } from '@/components/PlayerPlaceholder'
 import { StatusBadge } from '@/components/StatusBadge'
@@ -178,6 +179,13 @@ export default async function ShowDetailPage({
           </div>
           <EpisodeList episodes={show.episodes} />
         </section>
+      </div>
+
+      {/* ---- COMMENTS ---------------------------------------------------- */}
+      <div className="mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">
+        <div className="border-t border-border pt-8 lg:max-w-3xl">
+          <CommentsSection showId={show.id} />
+        </div>
       </div>
     </article>
   )

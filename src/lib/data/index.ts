@@ -3,6 +3,9 @@
 
 export type {
   AudioFilter,
+  Comment,
+  CommentAuthor,
+  CommentThread,
   CurrentUser,
   DayOfWeek,
   Episode,
@@ -33,3 +36,10 @@ export { getWeeklySchedule } from './schedule'
 export { listFilterYears, searchAndFilterShows } from './search'
 
 export { getCurrentUser, getProfile, getProfileByUsername } from './profiles'
+
+export {
+  addComment,
+  deleteComment,
+  editComment,
+  getComments,
+} from './comments'

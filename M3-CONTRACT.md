@@ -318,3 +318,175 @@ auth-gated), `/forum/thread/[id]` (posts + reply composer auth-gated, lock state
     test suite.
   - **No M1/M2 regressions** (catalog/schedule/search read paths still green on live Supabase). E2e
     users persist (unique emails per run); `npx supabase db reset` wipes them.
+- 2026-06-15 — db-comments-engineer-m3 — **Feature 2 (COMMENTS) data layer complete (NO UI).** Built:
+  - **`supabase/migrations/0004_comments.sql`**: `comments` table (`id uuid pk default
+    gen_random_uuid()`, `show_id text references shows(id) on delete cascade`, `user_id uuid
+    references profiles(id) on delete cascade`, `parent_id uuid references comments(id) on delete
+    cascade` (null=top-level; one level of threading), `body text not null check (char_length(body)
+    between 1 and 4000)`, `is_edited bool default false`, `is_deleted bool default false`,
+    `created_at`, `updated_at`). Indexes on `show_id`, `parent_id`, `created_at desc`. `updated_at`
+    trigger reuses `public.set_updated_at()` from 0001. **RLS enabled** — public SELECT (anon +
+    authenticated); INSERT only `auth.uid() = user_id` (WITH CHECK — you cannot post AS someone
+    else); UPDATE own row (USING + WITH CHECK `auth.uid() = user_id`, used for edits AND soft-delete);
+    DELETE own row. **GRANTs (column-restricted, the auth lesson applied):** `select` to anon,
+    authenticated; `insert (show_id, user_id, parent_id, body)` to authenticated; `update (body,
+    is_edited, is_deleted)` to authenticated; `delete` to authenticated. **user_id / show_id /
+    parent_id / created_at are NOT in the update grant**, so a comment can never be re-owned,
+    re-parented, or moved to another show after creation.
+  - **`src/lib/data/types.ts`** (additive): `CommentAuthor` ({username, displayName, avatarUrl}),
+    `Comment` (id, showId, userId, parentId, body, isEdited, isDeleted, createdAt, updatedAt,
+    author), and the threaded `CommentThread = Comment & { replies: Comment[] }`.
+  - **`src/lib/data/comments.ts`**: `getComments(showId): Promise<CommentThread[]>` — cookie-based
+    `getServerClient()`, joins `profiles` for author display, builds threads (top-level NEWEST-first,
+    replies OLDEST-first), **blanks `body` to '' + sets `isDeleted` for soft-deleted rows** so the UI
+    renders "[deleted]"; raw rows never leak (mapCommentRow centralizes mapping); returns `[]` when
+    Supabase unconfigured. Server actions ('use server' inline): `addComment(showId, body,
+    parentId?)`, `editComment(id, body)` (sets is_edited), `deleteComment(id)` (SOFT — sets
+    is_deleted + blanks stored body). Each calls `getCurrentUser()` → `{ error }` if signed out;
+    **sets user_id SERVER-SIDE from auth.uid() (never from client)**; validates body length 1..4000;
+    revalidates the show's detail page (looks up slug from show_id). Re-exported from
+    `src/lib/data/index.ts` (+ the 3 new types).
+  - **`src/lib/database.types.ts`**: `comments` table added (Row/Insert/Update + Relationships to
+    shows, profiles, and self via parent_id).
+  - **LIVE RLS validation (vs local Supabase via @supabase/ssr / supabase-js — the exact lib path
+    the server actions use):** legit INSERT (own user_id) → OK; **SPOOF INSERT (user_id = a DIFFERENT
+    user) → REJECTED, code 42501 "new row violates row-level security policy"** (the contract's
+    critical requirement); legit EDIT (body+is_edited) → OK; **TAMPER user_id via UPDATE → REJECTED
+    42501 "permission denied for table" (column-restricted grant blocks it)**; soft-delete
+    (is_deleted=true) → OK; reply (parent_id) → OK; anon public SELECT → returns the thread. Also
+    confirmed at the SQL level that tampering show_id/parent_id is blocked. `npx supabase db reset`
+    clean (0004 applies; seed truncate cascades to the empty comments table).
+  - **Validation:** `npm run typecheck` clean · `npm run build` OK (47 pages) · `npm run test`
+    **186/186** (no M1/M2/auth regression). [Note: raw `curl` PATCH against PostgREST v14.13 returns
+    "permission denied for table" for column-only-UPDATE-grant tables — this also affects the
+    approved 0003 `profiles` table identically and is a curl/PostgREST artifact, NOT a grant bug; the
+    supabase-js path the app actually uses works correctly, as the live test above shows.]
+  - **UI HANDOFF — comments API to consume (import from `@/lib/data` only):**
+    - `getComments(showId: string): Promise<CommentThread[]>` — top-level comments newest-first,
+      each with `replies: Comment[]` (oldest-first). For soft-deleted comments `body === ''` and
+      `isDeleted === true` → render "[deleted]". `author` = `{ username, displayName, avatarUrl }`.
+      Pass the show's **id** (e.g. `show-001`), not the slug.
+    - Server actions (all `=> Promise<{ error?: string }>`, drop into `<form action>` or call
+      directly): `addComment(showId, body, parentId?)`, `editComment(id, body)`,
+      `deleteComment(id)`. Each returns `{ error }` when signed out / on empty-or-too-long body
+      (1..4000) / on not-your-row; otherwise `{}` and revalidates the show page. The UI must NOT
+      send a user_id — it is always taken from the session server-side.
+    - Types from `@/lib/data`: `Comment`, `CommentThread`, `CommentAuthor`.
+- 2026-06-15 — ui-comments-engineer-m3 — **Feature 2 (COMMENTS) UI complete.** Consumed the comments
+  API exactly as handed off (read via `@/lib/data`; the 3 mutations re-exported through a thin
+  client-safe actions module — see the build note below). No data-layer / migration / schema changes.
+  Built:
+  - **`src/components/CommentsSection.tsx`** (async **Server Component**) — fetches `getComments(show.id)`
+    + `getCurrentUser()` in parallel; renders the thread (top-level NEWEST-first, replies nested ONE
+    level OLDEST-first, exactly as the data layer returns); auth-gates the composer; shows an empty-state
+    when there are no comments; a header with a live (non-deleted) comment count. Rendered on
+    `src/app/shows/[slug]/page.tsx` below the player/episodes body, in its own full-width bordered block
+    (passes `show.id`, NOT the slug).
+  - **`src/components/CommentComposer.tsx`** (**client**) — top-level AND reply composer (one component,
+    optional `parentId`). `useActionState` + `useFormStatus` for inline error + pending spinner; clears
+    on success; `onPosted` collapses a reply composer. Auth-gating: when signed out, CommentsSection
+    renders a **`comments-signin-prompt`** ("Sign in to comment" → `/signin`) instead of the form.
+  - **`src/components/CommentItem.tsx`** (**client**) — one comment + metadata (UserAvatar reused, author
+    name/@handle, relative timestamp, "(edited)" marker, "[deleted]" for soft-deleted). Owns the local
+    editing/replying toggles. **Owner-only affordances** (edit/delete/reply) shown only when
+    `comment.userId === current user id` (computed server-side in CommentsSection, passed as `isOwner`).
+  - **`src/components/CommentEditForm.tsx`** (**client**, inline editor → `editComment`) and
+    **`src/components/CommentDeleteButton.tsx`** (**client**, two-step confirm → `deleteComment`, soft).
+    Both use `useActionState`/`useFormStatus`; the action revalidates the show page so changes render.
+  - **`src/lib/relativeTime.ts`** — `formatRelativeTime(iso, now?)` ("just now"/"5m ago"/… → absolute
+    date >30d), deterministic + future-timestamp-safe.
+  - **BUILD NOTE (important for the forum engineer):** the client mutation components do NOT import the
+    actions from `@/lib/data` / `@/lib/data/comments`. That module is a *regular* module (inline
+    `'use server'` per fn, but it imports `next/cache` + the server Supabase client at module scope), so
+    importing it into a Client Component pulls server-only code into the client bundle and **fails the
+    build** (`You're importing a component that needs "next/cache"…`). Fix mirrors the auth pattern: a
+    TOP-LEVEL `'use server'` file **`src/lib/comments/actions.ts`** that defines thin async wrappers
+    delegating to the data layer (`addComment`/`editComment`/`deleteComment`). NOTE: a bare
+    `export { x } from '…'` re-export in a `'use server'` file does NOT register as actions (build:
+    "module has no exports at all") — each must be a real `async function` declaration. Forum's client
+    composers should do the same (don't import `forum.ts` into a client component).
+  - **Testids delivered (all per contract):** `comments-section`, `comment-item`, `comment-body`,
+    `comment-author`, `comment-composer`, `comment-submit`, `comment-reply`, `comment-edit`,
+    `comment-delete`, `comments-signin-prompt` + extras `comment-edit-input`, `comment-edit-save`,
+    `comment-delete-confirm`, `comment-error`.
+  - **Validation:** `npm run typecheck` clean · `npm run lint` 0 errors (the 1 pre-existing
+    `ScheduleGrid.test.tsx` warning is unrelated/not mine) · `npm run test` **186/186** (no M1/M2/auth
+    regression) · `npm run build` OK (47 pages). `/shows/[slug]` is now `ƒ (Dynamic)` because
+    CommentsSection reads cookies (`getCurrentUser`) — consistent with the documented M3 state (the
+    header already opted the route dynamic); `dynamicParams=false`+`generateStaticParams` still gate
+    valid slugs (unknown slug → not-found UI). · `npm run test:e2e` **43/43** (41 prior + 2 new).
+  - **New e2e:** `e2e/comments.spec.ts` (2 tests, vs LIVE Supabase, unique email/run): signed-out show
+    page renders `comments-section` + `comments-signin-prompt` and NO composer; signed-in lifecycle —
+    sign up → composer shown → post a top-level comment (visible) → reply (nested, visible) → edit
+    (shows "(edited)") → soft-delete (renders "[deleted]", original text gone). All owner affordances
+    asserted present on the user's own comment.
+  - **QA — how to reach a signed-in state to post:** identical to auth (`enable_confirmations=false`).
+    Go to `/signup`, enter any email + password ≥6 chars (+ optional username) → submit → instantly
+    signed in → go to any `/shows/[slug]` → the `comment-composer` replaces the sign-in prompt. Post via
+    the textarea + `comment-submit`; reply via `comment-reply` (opens a nested composer with the parent
+    bound); edit/delete via `comment-edit`/`comment-delete` on YOUR OWN comments only. Sign-ups +
+    comments PERSIST in live Supabase — use a unique email per run (the e2e does) or
+    `npx supabase db reset` to wipe accounts + comments.
+- 2026-06-15 — qa-comments-engineer-m3 — **Feature 2 (COMMENTS) QA complete.** Added a unit suite for the
+  comments data layer + actions and an ADVERSARIAL cross-user security e2e; only TEST code changed (no
+  product/migration changes). Confirmed the contract's critical cross-user guarantees hold AND confirmed
+  the reviewer's two own-row Medium findings are REAL product bugs (reported, NOT patched). Final on live
+  Supabase: `npm run test` **224/224** (186 prior + **38 new**) · `npm run typecheck` clean ·
+  `npm run test:e2e` **50/50** (43 prior + **7 new**), both green.
+  - **New unit file (Vitest, Supabase server client + `isSupabaseConfigured` + `next/cache` +
+    `getCurrentUser` all mocked — no live DB):** `src/lib/data/comments.test.ts` (38 tests).
+    - **getComments mapper/threading (14):** `[]` when unconfigured (never builds a client); query scoped
+      to `show_id` + ordered `created_at` ascending; row→camelCase domain map with author join;
+      raw snake_case keys never leak (incl. on the nested author); array-shaped + null author embeds
+      normalized; **soft-deleted body BLANKED to ''** (original text never returned); top-level
+      NEWEST-first (reverses the asc fetch); replies nested OLDEST-first under their parent and NOT
+      promoted to top level; orphan reply (missing parent) dropped; soft-deleted parent kept so its
+      replies stay visible; empty set → `[]`; query error rethrown.
+    - **addComment (12):** auth required (no DB touch when signed out); empty/whitespace/>4000 body
+      rejected pre-DB; 4000-char boundary accepted; **user_id set SERVER-SIDE from the session, never
+      the client** (asserted the insert payload's user_id == the session id, not any client value);
+      body trimmed; parentId passed through / defaults null; revalidates the show detail page on
+      success; Supabase insert error (e.g. RLS spoof rejection) surfaced onto `{ error }`.
+    - **editComment (8):** auth + body validation; sets `is_edited=true`, scopes by id AND owner;
+      payload writes ONLY body/is_edited (never user_id/show_id/parent_id/is_deleted); zero-row update
+      (wrong owner) → "not yours to edit"; DB error surfaced; revalidates from the returned show_id.
+    - **deleteComment (4):** auth; SOFT delete (`is_deleted=true`, no row DELETE) scoped to owner;
+      no ownership columns written; zero-row → "not yours to delete"; DB error surfaced; revalidates.
+  - **New ADVERSARIAL e2e:** `e2e/comments-adversarial.spec.ts` (7 tests, LIVE Supabase, hits PostgREST
+    DIRECTLY with real per-run JWTs minted via `/auth/v1/signup`). Mirrors the auth role-escalation check
+    — proves the DB itself rejects abuse, not just the app code. Loads keys from `.env.local` itself
+    (Playwright runs in plain Node and does not auto-load it; zero new deps). Asserts:
+    - baseline — a user CAN insert their OWN comment (201);
+    - **(a) spoof author → REJECTED 403 / code 42501** "row-level security" (cannot post AS another user);
+    - (a2) anonymous (no-JWT) insert → 4xx;
+    - **(b1) edit another user's comment → 0 rows** (RLS USING filters the row out); target verifiably
+      unchanged (body/is_edited/is_deleted intact);
+    - (b2) soft-delete another's → 0 rows (still not deleted); (b3) hard-delete another's → 0 rows
+      (row still exists); (b4) re-own via `user_id` PATCH → rejected/0-rows, B still owns the comment.
+  - **Existing e2e (ui-comments-engineer's `e2e/comments.spec.ts`) re-verified green:** signed-out show
+    page shows `comments-section` + `comments-signin-prompt` and NO composer; signed-in lifecycle sign up
+    → post → reply (nested) → edit ("(edited)") → soft-delete ("[deleted]", original gone). Deliverable 2
+    fully covered; no changes needed.
+  - **PRODUCT BUG #3 (MEDIUM — soft-deleted comment can be UN-DELETED + repopulated via raw REST). NOT
+    patched.** Confirms the reviewer's Findings #1 + #2 against the LIVE backend. A user, on their OWN
+    soft-deleted comment, sent `PATCH /rest/v1/comments?id=eq.<own-id>` `{"is_deleted":false}` → **HTTP
+    200**, row flips `is_deleted=false` (own-row RLS passes; `is_deleted` is in the UPDATE column grant).
+    Then `PATCH {"body":"RESTORED arbitrary text","is_edited":true}` → 200, body restored. `editComment`
+    (`src/lib/data/comments.ts:251-261`) has NO `.eq('is_deleted', false)` guard, and there is no DB-level
+    one-way ratchet, so a "[deleted]" comment becomes live again. (The UI masks `is_deleted=true` as '',
+    but once flipped back the text is visible.) Suggested fix (product owner): add `.eq('is_deleted',
+    false)` to the editComment filter AND a DB trigger enforcing the `is_deleted` false→true one-way
+    ratchet (defense-in-depth for the raw-REST path the action can't constrain).
+  - **PRODUCT BUG #4 (LOW — '(edited)' marker can be erased via raw REST). NOT patched.** Reviewer Finding
+    #2b: a user can `PATCH {"is_edited":false}` on their own comment (200) to hide that an edit occurred —
+    `is_edited` is in the UPDATE column grant but the action always hardcodes `true`, so the grant on that
+    column is unnecessary. Suggested fix: drop `is_edited` from the `grant update (...)` column list in
+    `supabase/migrations/0004_comments.sql:110` and rely on the action setting it server-side.
+  - **Also confirmed (LOW, reviewer Finding #3, NOT patched):** `addComment` accepts a `parentId` with no
+    check that it is a top-level (`parent_id IS NULL`) comment, so a depth-2 reply can be persisted; the
+    read path silently drops it (`threadsById` only indexes top-level), causing silent data loss for that
+    caller. No security/leak impact. The unit suite documents that getComments drops such orphan-depth
+    replies. Fix: pre-insert `.eq('parent_id', null)` check or a DB CHECK/trigger.
+  - **No M1/M2/auth regressions** (catalog/schedule/search/auth read+write paths still green on live
+    Supabase). Ran `npx supabase db reset` before the e2e run to clear probe rows; e2e users + comments
+    persist (unique emails/run) — `npx supabase db reset` wipes them.

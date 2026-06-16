@@ -207,6 +207,61 @@ export type Database = {
           },
         ]
       }
+      comments: {
+        Row: {
+          id: string
+          show_id: string
+          user_id: string
+          parent_id: string | null
+          body: string
+          is_edited: boolean
+          is_deleted: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          show_id: string
+          user_id: string
+          parent_id?: string | null
+          body: string
+          is_edited?: boolean
+          is_deleted?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          show_id?: string
+          user_id?: string
+          parent_id?: string | null
+          body?: string
+          is_edited?: boolean
+          is_deleted?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'comments_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'comments_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'comments_parent_id_fkey'
+            columns: ['parent_id']
+            referencedRelation: 'comments'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: Record<never, never>

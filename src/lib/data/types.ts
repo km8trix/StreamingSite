@@ -89,3 +89,37 @@ export type CurrentUser = {
   email: string | null
   profile: Profile | null // null only if the profile row hasn't materialized yet
 }
+
+// ---------------------------------------------------------------------------
+// Milestone 3 — comments (per-show, one level of threading)
+// ---------------------------------------------------------------------------
+
+// The public author info joined from `profiles` for display next to a comment.
+export type CommentAuthor = {
+  username: string | null
+  displayName: string | null
+  avatarUrl: string | null
+}
+
+// A single comment as the UI consumes it. `parentId` is null for a top-level
+// comment, or the id of the top-level comment it replies to. When `isDeleted`
+// is true the data layer BLANKS `body` to '' so the UI can render "[deleted]"
+// without ever leaking the original text.
+export type Comment = {
+  id: string
+  showId: string
+  userId: string
+  parentId: string | null
+  body: string
+  isEdited: boolean
+  isDeleted: boolean
+  createdAt: string // ISO timestamp
+  updatedAt: string // ISO timestamp
+  author: CommentAuthor
+}
+
+// The threaded shape returned by getComments(): a top-level comment plus its
+// replies. Top-level comments come newest-first; `replies` come oldest-first.
+export type CommentThread = Comment & {
+  replies: Comment[]
+}
