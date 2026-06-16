@@ -12,11 +12,17 @@ import { getPublicClient } from '@/lib/supabase/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import seed from './seed.json'
 import type {
+  SearchSuggestion,
   ShowFilter,
   ShowFilterResult,
   ShowSummary,
   ShowStatus,
 } from './types'
+
+// Minimum query length to return any suggestions (blank / 1-char => []).
+const MIN_SUGGEST_LEN = 2
+// Default number of suggestions returned.
+const DEFAULT_SUGGEST_LIMIT = 8
 
 // ---------------------------------------------------------------------------
 // Seed typing
@@ -223,6 +229,131 @@ function seedSearchAndFilter(filter: ShowFilter): ShowFilterResult {
   results = sortSeed(results, sort)
 
   return { shows: results.map(toSummary), total: results.length }
+}
+
+/**
+ * Lightweight search suggestions (typeahead) for an as-you-type box.
+ *
+ * Case-insensitive TITLE match over shows. Results are ranked so titles that
+ * START WITH the query come first, then titles that merely CONTAIN it; within
+ * each group, more popular shows rank higher. Returns a light payload
+ * (slug/title/coverImage/year only) capped at `limit` (default 8).
+ *
+ * A blank or <2-char query returns [] (no work, no DB hit).
+ *
+ * Resilience contract: the live-Supabase branch is wrapped in try/catch and
+ * falls back to the bundled seed (with a console.warn) — this fn NEVER throws,
+ * so `next build` / a flaky live DB can't break a request.
+ */
+export async function getSearchSuggestions(
+  query: string,
+  limit: number = DEFAULT_SUGGEST_LIMIT,
+): Promise<SearchSuggestion[]> {
+  const q = (query ?? '').trim()
+  if (q.length < MIN_SUGGEST_LEN) return []
+
+  const cap = limit > 0 ? limit : DEFAULT_SUGGEST_LIMIT
+
+  if (!isSupabaseConfigured()) return seedSuggestions(q, cap)
+
+  try {
+    const supabase = await getPublicClient()
+    // Over-fetch a bit (cap * 3) so the starts-with/contains re-rank below has
+    // candidates to promote, then trim to `cap`. `q` is passed to supabase-js
+    // .ilike — parameterized + escaped by the driver — but we still trim/cap the
+    // input upstream (route handler) and escape ilike wildcards here.
+    const pattern = `%${escapeIlike(q)}%`
+    const { data, error } = await supabase
+      .from('shows')
+      .select('slug, title, cover_image, year, popularity_score')
+      .ilike('title', pattern)
+      .order('popularity_score', { ascending: false })
+      .limit(cap * 3)
+
+    if (error) throw error
+
+    const rows = (data ?? []) as SuggestRow[]
+    const ranked = rankSuggestions(
+      rows.map((r) => ({
+        slug: r.slug,
+        title: r.title,
+        coverImage: r.cover_image,
+        year: r.year,
+        popularity: r.popularity_score,
+      })),
+      q,
+    )
+    return ranked.slice(0, cap).map(toSuggestion)
+  } catch (err) {
+    console.warn(
+      '[data] getSearchSuggestions live query failed, falling back:',
+      err,
+    )
+    return seedSuggestions(q, cap)
+  }
+}
+
+type SuggestRow = {
+  slug: string
+  title: string
+  cover_image: string
+  year: number | null
+  popularity_score: number
+}
+
+type RankableShow = {
+  slug: string
+  title: string
+  coverImage: string
+  year: number | null
+  popularity: number
+}
+
+function toSuggestion(s: RankableShow): SearchSuggestion {
+  return {
+    slug: s.slug,
+    title: s.title,
+    coverImage: s.coverImage,
+    year: s.year,
+  }
+}
+
+// Escape the LIKE wildcards in a user query so e.g. "%"/"_" are matched
+// literally (defense-in-depth; the value is already parameterized by the driver).
+function escapeIlike(s: string): string {
+  return s.replace(/[\\%_]/g, (c) => `\\${c}`)
+}
+
+// Rank: titles that START WITH the query first, then titles that CONTAIN it;
+// ties broken by popularity desc, then title asc for stability.
+function rankSuggestions(shows: RankableShow[], q: string): RankableShow[] {
+  const ql = q.toLowerCase()
+  return shows
+    .map((s) => {
+      const tl = s.title.toLowerCase()
+      return { s, starts: tl.startsWith(ql) }
+    })
+    .sort((a, b) => {
+      if (a.starts !== b.starts) return a.starts ? -1 : 1
+      if (b.s.popularity !== a.s.popularity) return b.s.popularity - a.s.popularity
+      return a.s.title.localeCompare(b.s.title)
+    })
+    .map((x) => x.s)
+}
+
+// In-memory seed suggestions — the seed-fallback result for getSearchSuggestions.
+function seedSuggestions(q: string, cap: number): SearchSuggestion[] {
+  const ql = q.toLowerCase()
+  const matches: RankableShow[] = SEED_SHOWS.filter((s) =>
+    s.title.toLowerCase().includes(ql),
+  ).map((s) => ({
+    slug: s.slug,
+    title: s.title,
+    coverImage: s.coverImage,
+    year: s.year,
+    popularity: s.popularityScore,
+  }))
+  return rankSuggestions(matches, q).slice(0, cap).map(toSuggestion)
 }
 
 /**

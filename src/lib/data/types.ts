@@ -68,6 +68,16 @@ export type ShowFilter = {
 
 export type ShowFilterResult = { shows: ShowSummary[]; total: number }
 
+// A lightweight search-suggestion payload (typeahead). Title-matched over shows,
+// returning only the fields the suggestions dropdown needs — no episode counts,
+// status, synopsis, etc. Kept small + fast for as-you-type requests.
+export type SearchSuggestion = {
+  slug: string
+  title: string
+  coverImage: string // absolute URL
+  year: number | null
+}
+
 // ---------------------------------------------------------------------------
 // Milestone 3 — accounts / profiles
 // ---------------------------------------------------------------------------

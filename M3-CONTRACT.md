@@ -1033,3 +1033,162 @@ auth-gated), `/forum/thread/[id]` (posts + reply composer auth-gated, lock state
     run (`page.goBack()` navigation timing on live Supabase) but passed in isolation and on both subsequent
     full runs — pre-existing forum-suite flakiness, unrelated to ads, no product/test change made for it. Ads
     rows persist; `npx supabase db reset` re-seeds the 4 active house ads (+ the 1 inactive proof row).
+
+- 2026-06-16 — db-search-suggestions-engineer — **Roadmap: lightweight SEARCH SUGGESTIONS endpoint —
+  data layer + route handler complete (NO UI).** Read-only over existing shows; no migration, no seed
+  change, no schema/type-table change beyond one additive domain type. Applied the resilience contract
+  (live error → warn + seed fallback, never throw). Built:
+  - **Type (additive):** `SearchSuggestion = { slug: string; title: string; coverImage: string;
+    year: number | null }` in `src/lib/data/types.ts` (a light typeahead payload — NO episode counts /
+    status / synopsis). Re-exported from `src/lib/data/index.ts`.
+  - **`src/lib/data/search.ts` — `getSearchSuggestions(query: string, limit = 8):
+    Promise<SearchSuggestion[]>`:** trims the query; **blank or <2-char → `[]`** (no DB hit).
+    Case-insensitive TITLE match. **Ranking: titles that START WITH the query rank first, then titles
+    that merely CONTAIN it; ties broken by popularity_score desc, then title asc** (shared
+    `rankSuggestions` helper used by BOTH paths). LIVE path: `getPublicClient()` →
+    `.ilike('title', '%q%').order('popularity_score', desc).limit(cap*3)` (over-fetch so the
+    starts-with re-rank has candidates), then trim to `limit`; ilike wildcards in `q` are escaped
+    (`escapeIlike` — defense-in-depth; the value is also parameterized by supabase-js). SEED-FALLBACK
+    path: filters `SEED_SHOWS` in memory + same rank. **RESILIENCE: the live branch is wrapped in
+    try/catch → `console.warn` + seed fallback; the fn NEVER throws** (matches `searchAndFilterShows` /
+    `listFilterYears`). Re-exported from `src/lib/data/index.ts`.
+  - **Route handler `src/app/api/search/suggestions/route.ts` (GET):** reads `q` (trim; **cap 80 chars**);
+    if `<2` chars returns `{ suggestions: [] }` WITHOUT touching the data layer; else
+    `getSearchSuggestions(q)` → `Response.json({ suggestions })`. `export const dynamic = 'force-dynamic'`
+    (never statically cached); `Cache-Control: public, max-age=30`. `q` is passed to supabase-js `.ilike`
+    (parameterized — safe) but is still trimmed/capped.
+  - **Validation:** `npm run typecheck` clean · `npm run build` OK (route shows as `ƒ /api/search/suggestions`
+    dynamic; the `/shows/[slug]` cookies/DYNAMIC_SERVER_USAGE warnings during prerender are the documented
+    pre-existing M3 behavior, not from this change) · `npm run test` **368/368** (no regression).
+  - **LIVE check (production server + local Supabase up):**
+    `GET /api/search/suggestions?q=fr` → `{ suggestions: [Frieren: Beyond Journey's End (starts-with, #1),
+    Fruits Basket: The Final Season (starts-with), I Made Friends with the Second Prettiest Girl in My
+    Class (contains "fr")] }` — confirms the start-with-first ranking on the live DB. `?q=f` and `?q=`
+    → `{ suggestions: [] }`. `?q=%%` (escaped wildcards) → `[]` (literal, no over-match). 120-char query
+    → HTTP 200 (capped, no crash). Cache-Control `public, max-age=30` + JSON content-type present.
+    SEED-FALLBACK path (env unset, via vitest) verified identical: Frieren-first, `<2`-char → `[]`,
+    limit respected, payload exactly `{coverImage, slug, title, year}` (no leak).
+  - **UI HANDOFF — exact API the UI consumes:**
+    - **Route:** `GET /api/search/suggestions?q=<query>` → `200 { "suggestions": SearchSuggestion[] }`.
+    - **Type** (`import type { SearchSuggestion } from '@/lib/data'`):
+      `{ slug: string; title: string; coverImage: string; year: number | null }`.
+    - **Short/empty query:** `q` blank or <2 chars (after trim) → `{ "suggestions": [] }` (no DB hit).
+      `q` longer than 80 chars is silently capped. Default cap is 8 suggestions. Results are ranked
+      starts-with → contains → popularity. `coverImage` is an absolute `cdn.myanimelist.net` URL
+      (already in the next/image allowlist); link each suggestion to `/shows/<slug>`.
+    - The data fn `getSearchSuggestions(query, limit?)` is also exported from `@/lib/data` for direct
+      server-side use (Server Component / Route Handler).
+- 2026-06-16 — ui-search-suggestions-engineer — **Roadmap: header search upgraded to an accessible
+  as-you-type combobox typeahead (UI only).** Consumed the suggestions ROUTE HANDLER over HTTP
+  (`GET /api/search/suggestions?q=`) — the client component never imports `@/lib/data`, keeping the data
+  layer behind the clean HTTP boundary. ONE file changed: `src/components/HeaderSearch.tsx` (rewrote the
+  plain submit form into a combobox). No data-layer / migration / type / route changes; the endpoint was
+  already done. Built:
+  - **As-you-type fetch:** on each keystroke, when the TRIMMED value is `>=2` chars, a 200ms-debounced
+    `fetch('/api/search/suggestions?q=…')` runs and the dropdown shows matching shows (cover thumbnail via
+    `next/image` + title + year). Below 2 chars the dropdown is hidden and NO request is made (handled in
+    the change handler, so the debounce effect never short-circuits with a synchronous setState — keeps
+    `react-hooks/set-state-in-effect` happy).
+  - **RACE-SAFETY (two layers):** (1) an `AbortController` per keystroke — the previous in-flight request
+    is `abort()`ed before a new one starts; (2) a `latestQueryRef` guard — every resolved payload is
+    compared against the query it was issued for and DROPPED if the input has moved on. So a slow earlier
+    response can never overwrite newer suggestions even if abort races. Pending timer + request are also
+    canceled on unmount.
+  - **KEYBOARD:** ArrowDown/ArrowUp cycle the active option (wrap-around), Home/End jump to first/last;
+    Enter on an active option navigates to `/shows/<slug>`; Enter with NO active option submits the full
+    search to `/search?q=<value>` (existing behavior preserved); Escape closes the dropdown. Outside-click
+    closes it (mousedown listener); options use `onMouseDown` (preventDefault) so a click navigates before
+    the input blur can close the list.
+  - **ACCESSIBILITY — WAI-ARIA combobox:** input has `role="combobox"`, `aria-expanded`,
+    `aria-controls=<listbox id>`, `aria-autocomplete="list"`, and `aria-activedescendant` pointing at the
+    active option; the dropdown is `role="listbox"` with `role="option"` children, each a stable
+    `useId()`-namespaced id + `aria-selected` on the active one. Because BOTH header instances (desktop +
+    mobile) mount, `useId()` gives each its own listbox/option id namespace (no DOM id collisions, verified
+    live: 2 distinct combobox inputs). A polite `role="status" aria-live="polite"` sr-only region announces
+    the result count / "No matches".
+  - **States + no layout shift:** spinner (`Loader2`, `motion-reduce:animate-none`) while fetching; a
+    "No matches" empty state (`search-suggestions-empty`, also `role="listbox"` so `aria-controls` always
+    resolves) when a `>=2`-char query returns nothing; the dropdown is `absolute`-positioned (anchored
+    below the input) so it NEVER shifts the header. Dark theme via existing tokens (surface/card/border/
+    accent); the global reduced-motion guard + `motion-reduce:` cover the spin.
+  - **Testids:** kept `search-input` (now the combobox); added `search-suggestions` (the listbox),
+    `search-suggestion` (each option, + `data-slug`), `search-suggestions-empty` (the empty state), plus
+    `search-loading` (spinner).
+  - **Validation:** `npm run typecheck` clean · `npm run lint` 0 errors (only the long-standing
+    `ScheduleGrid.test.tsx` unused-var WARNING remains — pre-existing, not mine) · `npm run build` OK (45
+    routes; the `/shows/[slug]` cookies/DYNAMIC_SERVER_USAGE prerender warnings are the documented M3
+    behavior, not from this change) · `npm run test` **368/368** (no unit regression) · `npx playwright
+    test e2e/search.spec.ts` **15/15** including the two header-search SUBMIT tests (`search-input` →
+    `/search?q=` and empty → bare `/search`) — the existing submit contract is fully intact.
+  - **LIVE smoke (production server + local Supabase):** `GET /api/search/suggestions?q=fr` →
+    Frieren-first (starts-with ranking), `application/json` + `Cache-Control: public, max-age=30`;
+    `?q=f` → `{suggestions:[]}`. In a real browser (preview): typing `fr` opens the listbox with 3
+    `role="option"` rows (cover img + title + year), `aria-controls` resolves to the listbox id,
+    ArrowDown sets `aria-selected="true"` + `aria-activedescendant` on option 0 then moves to option 1,
+    Escape closes (`aria-expanded="false"`); a nonsense `>=2`-char query shows the "No matches" empty
+    state; dropping to 1 char hides the dropdown entirely (no request). Both header inputs expose
+    `role="combobox"` / `aria-autocomplete="list"` with distinct `useId` namespaces.
+  - **NOTE for QA/reviewer (pre-existing, NOT caused by this change):** a FULL `npm run test:e2e` run
+    showed flaky failures in the AUTH/COMMENTS/FORUM signup-lifecycle + adversarial-PostgREST specs
+    (signup not redirecting to `/`; these reproduce on a freshly `db reset` DB AND in isolation, and are
+    unrelated to the header — this change touches only `HeaderSearch.tsx`, no auth/session/cookie code).
+    These match the previously-documented M3 auth flakiness (PRODUCT BUG #1, chunked sign-out cookies).
+    The search suite (the surface this change owns) is fully green.
+- 2026-06-16 — qa-search-suggestions-engineer — **Roadmap: SEARCH TYPEAHEAD QA complete.** Added unit
+  coverage for the `getSearchSuggestions` data fn (seed fallback + resilience) and the `HeaderSearch`
+  combobox component (fetch + router mocked), plus a LIVE-Supabase typeahead e2e. **Only TEST code
+  changed (no product/migration changes).** Final: `npm run test` **406/406** (368 prior + **38 new**) ·
+  `npm run typecheck` clean. E2e: the 4 new typeahead tests + all 15 search tests are green; the search
+  read-path surfaces (home/detail/randomize/schedule/search/ads/typeahead, 45 tests) pass together.
+  - **New unit file `src/lib/data/search.suggestions.test.ts` (24 tests):** mocks `isSupabaseConfigured`
+    + the Supabase PUBLIC client (no live DB), mirroring `ads.test.ts`. SEED-FALLBACK: `[]` for blank /
+    1-char / whitespace-only / trims-under-2 queries (asserts the client is NEVER built); matches by
+    case-insensitive title substring (lower/upper/mixed agree on the slug set); finds Frieren and ranks
+    starts-with ahead of contains-only; `[]` for a no-match query; respects the default cap (≤8) and an
+    explicit `limit` (capped set == prefix of the full ranked set); LIGHT payload shape asserted exactly
+    `{coverImage,slug,title,year}` with NO leak of subEpisodes/dubEpisodes/status/synopsis/popularity/id.
+    LIVE (mocked client): queries `shows` with `ilike('title','%fr%')` + `order('popularity_score',desc)`,
+    selects only the light columns, over-fetches (`limit > cap`) for the re-rank, maps rows to camelCase
+    (no snake_case leak), and ESCAPES LIKE wildcards (`a%_b` → `%a\%\_b%`). RESILIENCE CONTRACT: a live
+    query error → `console.warn` + seed fallback (returns Frieren, never throws); a REJECTED client also
+    degrades to seed (never throws); the live-error result == the genuine unconfigured seed result; a
+    short query still short-circuits to `[]` without touching the client even when configured.
+  - **New unit file `src/components/HeaderSearch.test.tsx` (14 tests):** `next/navigation`'s `useRouter`
+    + `global.fetch` mocked; the 200ms debounce driven with `vi.useFakeTimers()`. Uses `fireEvent`
+    (synchronous) rather than `userEvent` — userEvent's internal timer awaits DEADLOCK against fake timers
+    on this timer-driven component (every test hung at 5s); fireEvent + manual `advanceTimersByTime` is the
+    reliable pattern. Covers: typing ≥2 chars fetches `/api/search/suggestions?q=…` and renders the
+    `search-suggestions` listbox (single + multiple options, `aria-expanded=true`); a ≥2-char no-match
+    query shows `search-suggestions-empty`; <2 chars makes NO request and shows no dropdown
+    (`aria-expanded=false`); dropping back below 2 chars re-hides it; ArrowDown activates option 0 (sets
+    `aria-selected`+`aria-activedescendant`) and submit → `router.push('/shows/<slug>')`; ArrowDown×2 →
+    option 1's slug; ArrowUp from none wraps to last; mouseDown on an option navigates; Enter with NO
+    active option → `router.push('/search?q=<value>')` (and NOT `/shows/…`); empty submit → `/search`;
+    query is URL-encoded (`a b` → `q=a%20b`); Escape collapses the combobox without navigating.
+    **STALE-RESPONSE:** two overlapping fetches resolve OUT OF ORDER (q=fr pending, q=frie resolves first
+    with FRESH data; then the slow q=fr resolves with STALE data) → only FRESH renders, STALE is dropped
+    (proves the `latestQueryRef` guard + AbortController).
+  - **New e2e `e2e/typeahead.spec.ts` (4 tests, LIVE Supabase, seed-derived, debounce-aware):** focus the
+    header `search-input`, type "fr" → wait for `search-suggestions` to appear with ≥1 `search-suggestion`
+    (asserts the combobox is `aria-expanded` and the first option's `data-slug` is a real seed slug); click
+    the Frieren suggestion → URL becomes `/shows/frieren-beyond-journeys-end`, the detail h1 + `watch-section`
+    render; type "frieren" + press Enter with NO selection → lands on `/search?q=frieren` with ≥1
+    `show-card`; a <2-char query opens no dropdown and makes no request. Non-flaky: explicitly waits for the
+    listbox/options (accounting for the 200ms debounce) rather than racing the input.
+  - **NO product bugs in the search typeahead.** The endpoint, data fn, and combobox all behave per
+    contract (resilience fallback, ranking, light payload, race-safety, ARIA states).
+  - **PRE-EXISTING e2e failures (NOT caused by this change; product code untouched):** a FULL
+    `npm run test:e2e` is **59 passed / 10 failed / 26 skipped** (of 95 total). ALL 10 failures + the 26
+    serial-skips are in the AUTH/COMMENTS/FORUM/ADS-ADVERSARIAL specs and share ONE root cause: the UI
+    **signup flow does not redirect to `/`** — `auth-signup-flow`, `auth` lifecycle, `comments`/`forum`
+    signed-in lifecycles, and the adversarial PostgREST specs (which mint JWTs via the app's signup) all
+    time out at `page.waitForURL(pathname === '/')` after submitting the signup form. Reproduces on a
+    freshly `npx supabase db reset` DB AND in single-worker isolation (so NOT parallel-load flakiness).
+    The RAW Supabase signup API works (`POST /auth/v1/signup` → 200) and `enable_confirmations=false`, so
+    the break is in the app's signUp Server Action / session-cookie persistence (`src/lib/auth/actions.ts`
+    `signUp` → `getServerClient().auth.signUp()` → `redirect('/')`; the session cookie does not appear to
+    persist so the header re-renders signed-out and the redirect/menu never materialize). This is in the
+    same M3 auth/session area as the previously-documented PRODUCT BUG #1 (chunked auth cookies). It is
+    OUTSIDE the search-typeahead scope and was NOT introduced here (this session added only 3 net-new test
+    files + this log entry). Reported, NOT patched (QA fixes only test code). The search-typeahead surface
+    this workflow owns is fully green; no prior search/read-path suite was regressed.

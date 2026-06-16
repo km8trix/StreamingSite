@@ -18,6 +18,7 @@ export type {
   Genre,
   Profile,
   ScheduleEntry,
+  SearchSuggestion,
   ShowDetail,
   ShowFilter,
   ShowFilterResult,
@@ -39,7 +40,11 @@ export {
 
 export { getWeeklySchedule } from './schedule'
 
-export { listFilterYears, searchAndFilterShows } from './search'
+export {
+  getSearchSuggestions,
+  listFilterYears,
+  searchAndFilterShows,
+} from './search'
 
 export { getCurrentUser, getProfile, getProfileByUsername } from './profiles'
 

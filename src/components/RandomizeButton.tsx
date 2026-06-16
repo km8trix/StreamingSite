@@ -31,7 +31,11 @@ export function RandomizeButton({
         // href keeps it working if JS is disabled.
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
         e.preventDefault()
-        startTransition(() => router.push('/random'))
+        // Unique param per click so the App Router can't replay a cached
+        // /random navigation (the route ignores `r`). Without it, repeated
+        // pushes to the same URL get served from the client router cache and
+        // the shuffle appears to "only work" the first couple of times.
+        startTransition(() => router.push(`/random?r=${Date.now()}`))
       }}
       aria-busy={isPending}
       data-testid="randomize-button"

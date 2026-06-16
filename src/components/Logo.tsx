@@ -15,8 +15,8 @@ export function Logo() {
         <Tv className="size-5" aria-hidden />
       </span>
       <span className="text-lg">
-        <span className="text-foreground">Sen</span>
-        <span className="text-accent-strong">pai</span>
+        <span className="text-foreground">Senp</span>
+        <span className="text-accent-strong">ai</span>
       </span>
     </Link>
   )
