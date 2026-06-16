@@ -8,8 +8,10 @@ import {
   getPopularShows,
   getRandomShow,
   getRecentlyUpdatedShows,
+  getRecommendedForYou,
   getRecommendedShows,
   getShowBySlug,
+  getTopAnime,
   listGenres,
 } from '@/lib/data'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
@@ -91,6 +93,60 @@ describe('getRecommendedShows', () => {
     if (lastAiring !== -1 && firstNonAiring !== -1) {
       expect(lastAiring).toBeLessThan(firstNonAiring)
     }
+  })
+})
+
+describe('getRecommendedForYou', () => {
+  // Pick a watched show that actually carries at least one genre so overlap
+  // scoring has something to work with.
+  const watchedShow = seed.shows.find((s) => s.genres.length > 0)!
+
+  it('with no watch history returns the generic recommendations', async () => {
+    const personalized = await getRecommendedForYou([])
+    const generic = await getRecommendedShows()
+    expect(personalized).toEqual(generic)
+  })
+
+  it('never recommends an already-watched show', async () => {
+    const recs = await getRecommendedForYou([watchedShow.id], SEED_SHOW_COUNT)
+    expect(recs.some((s) => s.id === watchedShow.id)).toBe(false)
+  })
+
+  it('ranks a genre-overlapping show first', async () => {
+    const watchedGenreIds = new Set(watchedShow.genres.map((g) => g.id))
+    const recs = await getRecommendedForYou([watchedShow.id], SEED_SHOW_COUNT)
+    const topDetail = seed.shows.find((d) => d.id === recs[0].id)!
+    expect(topDetail.genres.some((g) => watchedGenreIds.has(g.id))).toBe(true)
+  })
+
+  it('returns ShowSummary shape, default-capped at 12', async () => {
+    const recs = await getRecommendedForYou([watchedShow.id])
+    expect(recs.length).toBeGreaterThan(0)
+    expect(recs.length).toBeLessThanOrEqual(12)
+    expect(recs[0]).not.toHaveProperty('episodes')
+    expect(recs[0]).toEqual(
+      expect.objectContaining({ id: expect.any(String), slug: expect.any(String) }),
+    )
+  })
+})
+
+describe('getTopAnime', () => {
+  it('falls back to popular shows with no engagement data (seed path)', async () => {
+    const top = await getTopAnime('week')
+    const popular = await getPopularShows()
+    expect(top).toEqual(popular)
+  })
+
+  it('accepts day/week/month and returns ShowSummary shape', async () => {
+    for (const w of ['day', 'week', 'month'] as const) {
+      const shows = await getTopAnime(w, 5)
+      expect(shows.length).toBeGreaterThan(0)
+      expect(shows[0]).not.toHaveProperty('episodes')
+    }
+  })
+
+  it('respects an explicit limit', async () => {
+    expect(await getTopAnime('day', 3)).toHaveLength(3)
   })
 })
 

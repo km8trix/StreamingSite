@@ -16,7 +16,8 @@ import { cn } from '@/lib/utils'
  *    matching shows (cover thumbnail + title + year). Below 2 chars the dropdown
  *    is hidden and no request is made.
  *  - Submitting the form (Enter with no active option, or pressing the search
- *    icon button) navigates to /search?q=… exactly as before.
+ *    icon button) navigates to the catalog at /shows?q=… (the single browse +
+ *    search surface; /search redirects there).
  *  - Arrow keys move the active option; Enter on an active option goes to
  *    /shows/<slug>; Escape closes the dropdown; clicking a suggestion navigates.
  *
@@ -167,7 +168,7 @@ export function HeaderSearch({ className }: { className?: string }) {
     const q = value.trim()
     closeDropdown()
     inputRef.current?.blur()
-    router.push(q ? `/search?q=${encodeURIComponent(q)}` : '/search')
+    router.push(q ? `/shows?q=${encodeURIComponent(q)}` : '/shows')
   }
 
   function goToSuggestion(s: SearchSuggestion) {

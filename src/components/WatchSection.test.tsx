@@ -30,6 +30,16 @@ import { WatchSection } from './WatchSection'
 
 const MANIFEST = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
 
+// Required props unrelated to the branching logic under test. isSignedIn:false
+// keeps the (un-fired) progress recorder on the guest path; the mocked
+// VideoPlayer never calls onProgress, so no recording actually runs.
+const base = {
+  showId: 'show-1',
+  slug: 'frieren',
+  coverImage: 'https://img.example/cover.jpg',
+  isSignedIn: false,
+}
+
 afterEach(cleanup)
 
 describe('WatchSection — default render path', () => {
@@ -38,7 +48,7 @@ describe('WatchSection — default render path', () => {
       makeEpisode({ id: 'ep-1', number: 1, videoUrl: MANIFEST }),
       makeEpisode({ id: 'ep-2', number: 2, videoUrl: null }),
     ]
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
 
     expect(screen.getByTestId('watch-section')).toBeInTheDocument()
     const player = screen.getByTestId('video-player')
@@ -53,7 +63,7 @@ describe('WatchSection — default render path', () => {
       makeEpisode({ id: 'ep-1', number: 1, videoUrl: null }),
       makeEpisode({ id: 'ep-2', number: 2, videoUrl: MANIFEST }),
     ]
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
 
     expect(screen.getByTestId('video-player')).toHaveAttribute(
       'data-src',
@@ -66,7 +76,7 @@ describe('WatchSection — default render path', () => {
       makeEpisode({ id: 'ep-1', number: 1, videoUrl: null }),
       makeEpisode({ id: 'ep-2', number: 2, videoUrl: null }),
     ]
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
 
     expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
     expect(screen.queryByTestId('video-player')).not.toBeInTheDocument()
@@ -77,7 +87,7 @@ describe('WatchSection — default render path', () => {
     const episodes = [
       makeEpisode({ id: 'ep-1', number: 1, videoUrl: '' }),
     ]
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
 
     expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
     expect(screen.queryByTestId('video-player')).not.toBeInTheDocument()
@@ -92,13 +102,13 @@ describe('WatchSection — episode selection', () => {
   ]
 
   it('renders a selector with one option per episode (multi-episode show)', () => {
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
     expect(screen.getByTestId('episode-select')).toBeInTheDocument()
     expect(screen.getAllByTestId('episode-select-option')).toHaveLength(3)
   })
 
   it('swaps to the placeholder when a higher episode without a source is selected', () => {
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
 
     // Starts on ep 1 (has stream) → real player.
     expect(screen.getByTestId('video-player')).toHaveAttribute(
@@ -117,7 +127,7 @@ describe('WatchSection — episode selection', () => {
   })
 
   it('marks watchable episodes with data-has-video and the active one with aria-pressed', () => {
-    render(<WatchSection title="Frieren" episodes={episodes} />)
+    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
     const options = screen.getAllByTestId('episode-select-option')
 
     const ep1 = options.find((b) => b.getAttribute('data-episode-id') === 'ep-1')!
@@ -132,7 +142,7 @@ describe('WatchSection — episode selection', () => {
 
   it('does NOT render the selector for a single-episode entry (movie)', () => {
     const single = [makeEpisode({ id: 'ep-1', number: 1, videoUrl: MANIFEST })]
-    render(<WatchSection title="A Silent Voice" episodes={single} />)
+    render(<WatchSection {...base} title="A Silent Voice" episodes={single} />)
 
     expect(screen.queryByTestId('episode-select')).not.toBeInTheDocument()
     // Still plays the stream.

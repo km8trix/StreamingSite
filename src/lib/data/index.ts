@@ -7,6 +7,7 @@ export type {
   Comment,
   CommentAuthor,
   CommentThread,
+  ContinueWatchingItem,
   CurrentUser,
   DayOfWeek,
   Episode,
@@ -25,16 +26,20 @@ export type {
   ShowSort,
   ShowStatus,
   ShowSummary,
+  TopAnimeWindow,
   UserRole,
 } from './types'
 
 export {
   getAllShows,
+  getGenreBySlug,
   getPopularShows,
   getRandomShow,
   getRecentlyUpdatedShows,
+  getRecommendedForYou,
   getRecommendedShows,
   getShowBySlug,
+  getTopAnime,
   listGenres,
 } from './shows'
 
@@ -47,6 +52,8 @@ export {
 } from './search'
 
 export { getCurrentUser, getProfile, getProfileByUsername } from './profiles'
+
+export { getContinueWatching } from './watch-progress'
 
 export {
   addComment,

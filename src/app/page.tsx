@@ -1,10 +1,18 @@
 import {
+  getContinueWatching,
+  getCurrentUser,
   getPopularShows,
   getRecentlyUpdatedShows,
+  getRecommendedForYou,
   getRecommendedShows,
+  getTopAnime,
 } from '@/lib/data'
 import { FeaturedHero } from '@/components/FeaturedHero'
 import { ShowCarousel } from '@/components/ShowCarousel'
+import { ContinueWatchingRail } from '@/components/ContinueWatchingRail'
+import { RecommendedForYouRail } from '@/components/RecommendedForYouRail'
+import { TopAnimeSection } from '@/components/TopAnimeSection'
+import { GuestProgressSync } from '@/components/GuestProgressSync'
 import { AdSlot } from '@/components/AdSlot'
 
 // The home-banner AdSlot calls getAdForPlacement (weighted-random, non-deterministic),
@@ -12,11 +20,37 @@ import { AdSlot } from '@/components/AdSlot'
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const [recentlyUpdated, popular, recommended] = await Promise.all([
+  const [
+    recentlyUpdated,
+    popular,
+    recommended,
+    continueWatching,
+    user,
+    topDay,
+    topWeek,
+    topMonth,
+  ] = await Promise.all([
     getRecentlyUpdatedShows(),
     getPopularShows(),
     getRecommendedShows(),
+    getContinueWatching(),
+    getCurrentUser(),
+    getTopAnime('day'),
+    getTopAnime('week'),
+    getTopAnime('month'),
   ])
+
+  const topWindows = { day: topDay, week: topWeek, month: topMonth }
+
+  const isSignedIn = Boolean(user)
+
+  // Personalized "Recommended For You" from watch history. Signed-in users are
+  // resolved server-side off their Continue Watching shows; guests get the
+  // generic list as a baseline here and the rail upgrades it client-side from
+  // localStorage. getRecommendedForYou falls back to generic for empty history.
+  const recommendedForYou = isSignedIn
+    ? await getRecommendedForYou(continueWatching.map((i) => i.showId))
+    : recommended
 
   const featured = popular[0] ?? recommended[0] ?? recentlyUpdated[0] ?? null
   // Avoid repeating the featured title as the first popular card.
@@ -29,6 +63,22 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      {/* Flush guest localStorage progress into the DB once after sign-in. */}
+      <GuestProgressSync isSignedIn={isSignedIn} />
+
+      {/* Continue Watching — pinned to the top for returning viewers; renders
+          nothing when there's no progress (guests resolve it client-side). */}
+      <ContinueWatchingRail items={continueWatching} isSignedIn={isSignedIn} />
+
+      {/* Personalized Recommended For You, directly under Continue Watching
+          (replaces the old generic rail; falls back to generic with no history). */}
+      <div className="mb-10">
+        <RecommendedForYouRail
+          shows={recommendedForYou}
+          isSignedIn={isSignedIn}
+        />
+      </div>
+
       {featured && (
         <div className="mb-10">
           <FeaturedHero show={featured} />
@@ -41,6 +91,9 @@ export default async function HomePage() {
         </p>
       ) : (
         <div className="flex flex-col gap-10">
+          {/* Top Anime — ranked by real engagement, with a Day/Week/Month toggle. */}
+          <TopAnimeSection windows={topWindows} />
+
           <ShowCarousel
             title="Recently Updated"
             shows={recentlyUpdated}
@@ -50,8 +103,6 @@ export default async function HomePage() {
 
           {/* Non-invasive in-flow banner between rails — reserved height, no CLS. */}
           <AdSlot placementKey="home-banner" />
-
-          <ShowCarousel title="Recommended For You" shows={recommended} />
         </div>
       )}
     </div>

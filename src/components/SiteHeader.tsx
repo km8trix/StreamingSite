@@ -1,5 +1,6 @@
 import { Logo } from './Logo'
 import { NavLink } from './NavLink'
+import { MobileNav } from './MobileNav'
 import { RandomizeButton } from './RandomizeButton'
 import { HeaderSearch } from './HeaderSearch'
 import { AuthControls } from './AuthControls'
@@ -16,6 +17,10 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Logo />
+
+        {/* Mobile hamburger (md:hidden) — exposes the same routes as the
+            desktop nav below, which is hidden under md. */}
+        <MobileNav />
 
         <nav aria-label="Primary" className="ml-2 hidden items-center gap-1 md:flex">
           <NavLink href="/" exact>

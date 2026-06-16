@@ -435,6 +435,92 @@ export type Database = {
         }
         Relationships: []
       }
+      watch_progress: {
+        Row: {
+          user_id: string
+          show_id: string
+          episode_id: string
+          position_seconds: number
+          duration_seconds: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          show_id: string
+          episode_id: string
+          position_seconds?: number
+          duration_seconds?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          show_id?: string
+          episode_id?: string
+          position_seconds?: number
+          duration_seconds?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'watch_progress_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'watch_progress_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'watch_progress_episode_id_fkey'
+            columns: ['episode_id']
+            referencedRelation: 'episodes'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      show_view_events: {
+        Row: {
+          id: number
+          show_id: string
+          user_id: string | null
+          occurred_at: string
+          view_hour: string
+        }
+        Insert: {
+          id?: number
+          show_id: string
+          user_id?: string | null
+          occurred_at?: string
+          view_hour?: string
+        }
+        Update: {
+          id?: number
+          show_id?: string
+          user_id?: string | null
+          occurred_at?: string
+          view_hour?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'show_view_events_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'show_view_events_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: {
@@ -445,6 +531,33 @@ export type Database = {
       record_ad_click: {
         Args: { p_id: string }
         Returns: undefined
+      }
+      record_watch_progress: {
+        Args: {
+          p_show_id: string
+          p_episode_id: string
+          p_position_seconds: number
+          p_duration_seconds: number
+        }
+        Returns: undefined
+      }
+      record_show_view: {
+        Args: { p_show_id: string }
+        Returns: undefined
+      }
+      get_top_anime: {
+        Args: { p_since: string; p_limit?: number }
+        Returns: {
+          id: string
+          slug: string
+          title: string
+          cover_image: string
+          sub_episodes: number
+          dub_episodes: number
+          status: string
+          year: number | null
+          views: number
+        }[]
       }
     }
     Enums: Record<never, never>

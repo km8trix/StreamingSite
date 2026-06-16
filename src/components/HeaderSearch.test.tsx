@@ -13,7 +13,7 @@
 // Covers (the QA deliverable):
 //   - typing >=2 chars renders suggestions; <2 chars shows none (no fetch);
 //   - ArrowDown + Enter navigates to /shows/<slug> (router.push);
-//   - Enter with no active option pushes /search?q=<value>;
+//   - Enter with no active option pushes /shows?q=<value>;
 //   - Escape closes the dropdown;
 //   - STALE-RESPONSE: two overlapping fetches resolving out of order -> only the
 //     latest query's suggestions render.
@@ -272,11 +272,11 @@ describe('HeaderSearch — keyboard navigation', () => {
 })
 
 // ===========================================================================
-// Enter with no active option -> /search?q=<value>
+// Enter with no active option -> /shows?q=<value>
 // ===========================================================================
 
 describe('HeaderSearch — full-text submit', () => {
-  it('Enter with no active option pushes /search?q=<value>', async () => {
+  it('Enter with no active option pushes /shows?q=<value>', async () => {
     render(<HeaderSearch />)
     const input = screen.getByTestId('search-input')
 
@@ -285,18 +285,18 @@ describe('HeaderSearch — full-text submit', () => {
 
     // No ArrowDown -> no active option -> submit runs the full search.
     fireEvent.submit(input.closest('form')!)
-    expect(mockPush).toHaveBeenCalledWith('/search?q=frieren')
+    expect(mockPush).toHaveBeenCalledWith('/shows?q=frieren')
     // It did NOT navigate to a show detail page.
     expect(mockPush).not.toHaveBeenCalledWith(
       expect.stringMatching(/^\/shows\//),
     )
   })
 
-  it('submitting an empty input navigates to bare /search', async () => {
+  it('submitting an empty input navigates to bare /shows', async () => {
     render(<HeaderSearch />)
     const input = screen.getByTestId('search-input')
     fireEvent.submit(input.closest('form')!)
-    expect(mockPush).toHaveBeenCalledWith('/search')
+    expect(mockPush).toHaveBeenCalledWith('/shows')
   })
 
   it('URL-encodes the query in the full-text submit', async () => {
@@ -304,7 +304,7 @@ describe('HeaderSearch — full-text submit', () => {
     const input = screen.getByTestId('search-input')
     await search(input, 'a b')
     fireEvent.submit(input.closest('form')!)
-    expect(mockPush).toHaveBeenCalledWith('/search?q=a%20b')
+    expect(mockPush).toHaveBeenCalledWith('/shows?q=a%20b')
   })
 })
 

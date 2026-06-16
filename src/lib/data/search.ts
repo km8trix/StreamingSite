@@ -106,6 +106,10 @@ const SHOW_COLUMNS =
  */
 export async function searchAndFilterShows(
   filter: ShowFilter,
+  // Opt-in pagination. When omitted, ALL matches are returned (preserves the
+  // original contract and the data-layer unit tests). `total` is always the full
+  // pre-page match count so the UI can render a pager.
+  paging?: { page: number; perPage: number },
 ): Promise<ShowFilterResult> {
   const { query, genres, audio, status, year, sort = 'popularity' } = filter
 
@@ -113,7 +117,7 @@ export async function searchAndFilterShows(
   // fallback too: a live query MUST NEVER throw out of this read fn — `next build`
   // calls it during static generation and the cloud DB may be empty / unmigrated
   // / unreachable. We log once and fall back to the seed result instead.
-  if (!isSupabaseConfigured()) return seedSearchAndFilter(filter)
+  if (!isSupabaseConfigured()) return seedSearchAndFilter(filter, paging)
 
   try {
     // -----------------------------------------------------------------------
@@ -183,6 +187,13 @@ export async function searchAndFilterShows(
         q = q.order('popularity_score', { ascending: false })
     }
 
+    // Opt-in page window. `count: 'exact'` (above) still reports the FULL match
+    // count, so `total` is unaffected by the range.
+    if (paging) {
+      const from = (paging.page - 1) * paging.perPage
+      q = q.range(from, from + paging.perPage - 1)
+    }
+
     const { data, error, count } = await q
 
     if (error) throw error
@@ -194,12 +205,15 @@ export async function searchAndFilterShows(
       '[data] searchAndFilterShows live query failed, falling back:',
       err,
     )
-    return seedSearchAndFilter(filter)
+    return seedSearchAndFilter(filter, paging)
   }
 }
 
 // In-memory seed filter+sort — the seed-fallback result for searchAndFilterShows.
-function seedSearchAndFilter(filter: ShowFilter): ShowFilterResult {
+function seedSearchAndFilter(
+  filter: ShowFilter,
+  paging?: { page: number; perPage: number },
+): ShowFilterResult {
   const { query, genres, audio, status, year, sort = 'popularity' } = filter
   let results = [...SEED_SHOWS]
 
@@ -228,7 +242,16 @@ function seedSearchAndFilter(filter: ShowFilter): ShowFilterResult {
   // Sort
   results = sortSeed(results, sort)
 
-  return { shows: results.map(toSummary), total: results.length }
+  // `total` is the full match count; slice to the requested page window when
+  // pagination is requested (otherwise return all — the original contract).
+  const total = results.length
+  const paged = paging
+    ? results.slice(
+        (paging.page - 1) * paging.perPage,
+        (paging.page - 1) * paging.perPage + paging.perPage,
+      )
+    : results
+  return { shows: paged.map(toSummary), total }
 }
 
 /**

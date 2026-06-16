@@ -46,16 +46,6 @@ afterEach(() => {
 })
 
 // ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/** Pin the process TZ and re-render (Intl reads TZ at construction time). */
-function renderWithTZ(tz: string, entries: ReturnType<typeof makeScheduleEntry>[]) {
-  process.env.TZ = tz
-  return render(<ScheduleGrid entries={entries} />)
-}
-
-// ---------------------------------------------------------------------------
 // Structure
 // ---------------------------------------------------------------------------
 

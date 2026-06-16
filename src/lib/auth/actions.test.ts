@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 // ---------------------------------------------------------------------------
 // M3 Feature 1 (AUTH) — auth server-action unit tests.
@@ -65,6 +65,10 @@ type AuthResponses = {
   signInWithPassword?: { error: { message: string } | null }
   signOut?: { error: { message: string } | null }
   update?: { error: { message: string; code?: string } | null }
+  signInWithOAuth?: {
+    data: { url: string | null } | null
+    error: { message: string } | null
+  }
 }
 let responses: AuthResponses = {}
 const authCalls = {
@@ -73,6 +77,7 @@ const authCalls = {
   signOut: 0,
   updates: [] as unknown[],
   updateEq: [] as Array<[string, unknown]>,
+  signInWithOAuth: [] as unknown[],
 }
 
 function makeFakeClient() {
@@ -100,6 +105,15 @@ function makeFakeClient() {
         authCalls.signOut += 1
         return responses.signOut ?? { error: null }
       },
+      async signInWithOAuth(payload: unknown) {
+        authCalls.signInWithOAuth.push(payload)
+        return (
+          responses.signInWithOAuth ?? {
+            data: { url: 'https://accounts.google.com/o/oauth2/auth?x=1' },
+            error: null,
+          }
+        )
+      },
     },
     from(table: string) {
       expect(table).toBe('profiles')
@@ -119,7 +133,13 @@ vi.mock('@/lib/data/profiles', () => ({
   getCurrentUser: () => getCurrentUserMock(),
 }))
 
-import { signIn, signOut, signUp, updateProfile } from '@/lib/auth/actions'
+import {
+  signIn,
+  signInWithGoogle,
+  signOut,
+  signUp,
+  updateProfile,
+} from '@/lib/auth/actions'
 
 // Helper: invoke an action and capture either its returned value OR the redirect
 // target if it redirected (threw RedirectError). Re-throws anything else.
@@ -142,6 +162,7 @@ beforeEach(() => {
   authCalls.signOut = 0
   authCalls.updates = []
   authCalls.updateEq = []
+  authCalls.signInWithOAuth = []
   revalidatePath.mockClear()
   redirect.mockClear()
   getServerClientMock.mockClear()
@@ -257,6 +278,22 @@ describe('signUp', () => {
     expect(JSON.stringify(result)).not.toContain('sup3rsecret')
     expect(Object.keys(result ?? {})).toEqual(['error'])
   })
+
+  it('redirects to a safe `next` from FormData, ignoring off-site values', async () => {
+    const ok = new FormData()
+    ok.set('email', 'a@b.com')
+    ok.set('password', 'secret123')
+    ok.set('next', '/forum/thread/7')
+    expect((await runAction(() => signUp(ok))).redirectedTo).toBe(
+      '/forum/thread/7',
+    )
+
+    const evil = new FormData()
+    evil.set('email', 'a@b.com')
+    evil.set('password', 'secret123')
+    evil.set('next', '//evil.com')
+    expect((await runAction(() => signUp(evil))).redirectedTo).toBe('/')
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -310,6 +347,20 @@ describe('signIn', () => {
     )
     expect(JSON.stringify(result)).not.toContain('myp@ssw0rd')
   })
+
+  it('redirects to a safe `next` from FormData, ignoring off-site values', async () => {
+    const ok = new FormData()
+    ok.set('email', 'a@b.com')
+    ok.set('password', 'secret123')
+    ok.set('next', '/profile')
+    expect((await runAction(() => signIn(ok))).redirectedTo).toBe('/profile')
+
+    const evil = new FormData()
+    evil.set('email', 'a@b.com')
+    evil.set('password', 'secret123')
+    evil.set('next', 'https://evil.com')
+    expect((await runAction(() => signIn(evil))).redirectedTo).toBe('/')
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -347,6 +398,72 @@ describe('signOut', () => {
     expect(result).toEqual({ error: 'session not found' })
     expect(redirectedTo).toBeUndefined()
     expect(revalidatePath).not.toHaveBeenCalled()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// signInWithGoogle (OAuth) — NEXT_PUBLIC_SITE_URL is set so getSiteOrigin()
+// resolves from env without touching request headers().
+// ---------------------------------------------------------------------------
+
+describe('signInWithGoogle', () => {
+  const ORIGINAL_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+
+  beforeEach(() => {
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://senpai.test'
+  })
+  afterAll(() => {
+    if (ORIGINAL_SITE_URL === undefined) delete process.env.NEXT_PUBLIC_SITE_URL
+    else process.env.NEXT_PUBLIC_SITE_URL = ORIGINAL_SITE_URL
+  })
+
+  it('requests the google provider with an /auth/callback redirectTo and redirects to the returned URL', async () => {
+    const { redirectedTo } = await runAction(() => signInWithGoogle())
+    expect(redirectedTo).toBe(
+      'https://accounts.google.com/o/oauth2/auth?x=1',
+    )
+    expect(authCalls.signInWithOAuth[0]).toMatchObject({
+      provider: 'google',
+      options: { redirectTo: 'https://senpai.test/auth/callback' },
+    })
+  })
+
+  it('forwards a safe `next` into the callback redirectTo', async () => {
+    const fd = new FormData()
+    fd.set('next', '/forum/thread/42')
+    await runAction(() => signInWithGoogle(fd))
+    expect(authCalls.signInWithOAuth[0]).toMatchObject({
+      options: {
+        redirectTo:
+          'https://senpai.test/auth/callback?next=%2Fforum%2Fthread%2F42',
+      },
+    })
+  })
+
+  it('drops an open-redirect `next` (off-site) before building redirectTo', async () => {
+    const fd = new FormData()
+    fd.set('next', '//evil.com/phish')
+    await runAction(() => signInWithGoogle(fd))
+    // safeRedirectPath collapses it to "/", so no `next` param is appended.
+    expect(authCalls.signInWithOAuth[0]).toMatchObject({
+      options: { redirectTo: 'https://senpai.test/auth/callback' },
+    })
+  })
+
+  it('maps a Supabase OAuth error onto { error } (no redirect)', async () => {
+    responses.signInWithOAuth = {
+      data: null,
+      error: { message: 'provider disabled' },
+    }
+    const { result, redirectedTo } = await runAction(() => signInWithGoogle())
+    expect(result).toEqual({ error: 'provider disabled' })
+    expect(redirectedTo).toBeUndefined()
+  })
+
+  it('returns a friendly error when no provider URL is returned', async () => {
+    responses.signInWithOAuth = { data: { url: null }, error: null }
+    const { result } = await runAction(() => signInWithGoogle())
+    expect(result?.error).toMatch(/google sign-in/i)
   })
 })
 
@@ -460,5 +577,40 @@ describe('updateProfile', () => {
     const result = await updateProfile({ displayName: 'x' })
     expect(Object.keys(result)).toEqual(['error'])
     expect(JSON.stringify(result)).not.toContain('user-123') // no user id leaked
+  })
+
+  it('rejects a non-http(s) avatar URL before touching the DB', async () => {
+    getCurrentUserMock.mockResolvedValue(signedIn)
+    for (const bad of [
+      'javascript:alert(1)',
+      'data:image/png;base64,AAAA',
+      '/relative/path.png',
+      'ftp://host/x.png',
+    ]) {
+      const result = await updateProfile({ avatarUrl: bad })
+      expect(result.error).toMatch(/avatar url/i)
+    }
+    expect(authCalls.updates).toHaveLength(0)
+  })
+
+  it('rejects an over-long avatar URL', async () => {
+    getCurrentUserMock.mockResolvedValue(signedIn)
+    const result = await updateProfile({
+      avatarUrl: 'https://x.example/' + 'a'.repeat(2100),
+    })
+    expect(result.error).toMatch(/avatar url/i)
+    expect(authCalls.updates).toHaveLength(0)
+  })
+
+  it('accepts a valid https avatar URL and clears it when blank', async () => {
+    getCurrentUserMock.mockResolvedValue(signedIn)
+    await updateProfile({ avatarUrl: 'https://cdn.example.com/a.png' })
+    expect(authCalls.updates[0]).toEqual({
+      avatar_url: 'https://cdn.example.com/a.png',
+    })
+
+    authCalls.updates = []
+    await updateProfile({ avatarUrl: '   ' })
+    expect(authCalls.updates[0]).toEqual({ avatar_url: null })
   })
 })

@@ -6,7 +6,7 @@ import seed from '../src/lib/data/seed.json'
 // The header search-input is an as-you-type WAI-ARIA combobox: typing >=2 chars
 // (200ms-debounced) fetches GET /api/search/suggestions?q=… and renders a
 // listbox of matching shows. Selecting one navigates to /shows/<slug>; pressing
-// Enter with no active option runs the full-text search at /search?q=.
+// Enter with no active option runs the full-text search at /shows?q=.
 //
 // Non-flaky: we explicitly wait for the listbox/options to appear (accounting
 // for the debounce) before asserting, rather than racing the input.
@@ -87,7 +87,7 @@ test.describe('Header search typeahead (live Supabase)', () => {
     await expect(page.getByTestId('watch-section')).toBeVisible()
   })
 
-  test('typing + Enter with no selection lands on /search?q=', async ({
+  test('typing + Enter with no selection lands on /shows?q=', async ({
     page,
   }) => {
     await page.goto('/')
@@ -103,10 +103,10 @@ test.describe('Header search typeahead (live Supabase)', () => {
 
     await input.press('Enter')
 
-    await page.waitForURL(/\/search\?q=/)
-    expect(page.url()).toContain('/search')
+    await page.waitForURL(/\/shows\?q=/)
+    expect(page.url()).toContain('/shows')
     expect(page.url()).toContain('q=frieren')
-    // The search results page renders at least one matching card.
+    // The catalog results page renders at least one matching card.
     await expect(page.getByTestId('show-card').first()).toBeVisible()
   })
 

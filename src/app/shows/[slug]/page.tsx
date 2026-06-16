@@ -3,13 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
-import { getShowBySlug } from '@/lib/data'
+import { getCurrentUser, getShowBySlug } from '@/lib/data'
 import seed from '@/lib/data/seed.json'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
 import { StatusBadge } from '@/components/StatusBadge'
 import { SubDubBadges } from '@/components/SubDubBadges'
 import { WatchSection } from '@/components/WatchSection'
+import { ShowViewTracker } from '@/components/ShowViewTracker'
 
 type Params = { slug: string }
 
@@ -61,15 +62,25 @@ export async function generateMetadata({
 
 export default async function ShowDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<Params>
+  // Continue Watching deep-link: ?ep=<episodeId>&t=<seconds> resumes playback.
+  searchParams: Promise<{ ep?: string | string[]; t?: string | string[] }>
 }) {
   const { slug } = await params
   const show = await getShowBySlug(slug)
   if (!show) notFound()
 
+  const [{ ep, t }, user] = await Promise.all([searchParams, getCurrentUser()])
+  const resumeEpisodeId = (Array.isArray(ep) ? ep[0] : ep) ?? null
+  const rawT = Array.isArray(t) ? t[0] : t
+  const resumeSeconds = rawT ? Math.max(0, Math.floor(Number(rawT)) || 0) : 0
+
   return (
     <article className="pb-8">
+      {/* Records a view event (guests + signed-in) for the Top Anime rankings. */}
+      <ShowViewTracker showId={show.id} />
       {/* ---- HERO (tolerates null bannerImage) ---------------------------- */}
       <header className="relative isolate overflow-hidden border-b border-border">
         <div className="absolute inset-0 -z-10">
@@ -98,7 +109,10 @@ export default async function ShowDetailPage({
           </div>
 
           <div className="flex flex-col gap-4">
-            <nav aria-label="Breadcrumb" className="text-xs text-subtle">
+            <nav
+              aria-label="Breadcrumb"
+              className="flex items-center text-xs text-subtle"
+            >
               <Link href="/" className="hover:text-foreground">
                 Home
               </Link>
@@ -108,6 +122,15 @@ export default async function ShowDetailPage({
               <Link href="/shows" className="hover:text-foreground">
                 Browse
               </Link>
+              <span className="mx-1.5" aria-hidden>
+                /
+              </span>
+              <span
+                className="max-w-[55vw] truncate text-muted sm:max-w-xs"
+                aria-current="page"
+              >
+                {show.title}
+              </span>
             </nav>
 
             <h1 className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
@@ -137,11 +160,13 @@ export default async function ShowDetailPage({
             {show.genres.length > 0 && (
               <ul className="flex flex-wrap gap-2" aria-label="Genres">
                 {show.genres.map((g) => (
-                  <li
-                    key={g.id}
-                    className="rounded-full bg-card px-3 py-1 text-xs font-medium text-muted ring-1 ring-inset ring-border"
-                  >
-                    {g.name}
+                  <li key={g.id}>
+                    <Link
+                      href={`/genre/${g.slug}`}
+                      className="inline-block rounded-full bg-card px-3 py-1 text-xs font-medium text-muted ring-1 ring-inset ring-border transition-colors hover:text-accent-strong hover:ring-border-strong"
+                    >
+                      {g.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -154,9 +179,15 @@ export default async function ShowDetailPage({
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_22rem] lg:px-8">
         <div className="flex flex-col gap-8">
           <WatchSection
+            showId={show.id}
+            slug={show.slug}
             title={show.title}
             poster={show.bannerImage ?? show.coverImage}
+            coverImage={show.coverImage}
             episodes={show.episodes}
+            isSignedIn={Boolean(user)}
+            initialEpisodeId={resumeEpisodeId}
+            initialStartSeconds={resumeSeconds}
           />
 
           {show.synopsis && (

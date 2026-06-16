@@ -8,7 +8,7 @@ import { expect, test } from '@playwright/test'
 // "Sponsored", reserved fixed height. These tests assert exactly that against
 // the three wired pages:
 //   - /        -> home-banner (between the Popular and Recommended rails)
-//   - /search  -> sidebar     (below the filter panel)
+//   - /shows   -> sidebar     (below the filter panel)
 //   - /forum   -> grid-native (below the category grid)
 //
 // The 4 seeded HOUSE ads are all served from live Supabase (active-only RLS).
@@ -30,7 +30,7 @@ import { expect, test } from '@playwright/test'
 const WIRED = [
   { path: '/', placement: 'home-banner' },
   { path: '/forum', placement: 'grid-native' },
-  { path: '/search', placement: 'sidebar' },
+  { path: '/shows', placement: 'sidebar' },
 ] as const
 
 // Routes a Sponsored creative may legitimately point at (all same-origin,

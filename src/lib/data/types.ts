@@ -41,6 +41,27 @@ export type ShowDetail = ShowSummary & {
 }
 
 // ---------------------------------------------------------------------------
+// Continue Watching — resume rail (signed-in users via DB, guests via
+// localStorage). One item per show: the current resume episode + position.
+// ---------------------------------------------------------------------------
+
+// "Top Anime" ranking window — rolling Day / Week / Month engagement.
+export type TopAnimeWindow = 'day' | 'week' | 'month'
+
+export type ContinueWatchingItem = {
+  showId: string
+  slug: string
+  title: string
+  coverImage: string // absolute URL
+  episodeId: string
+  episodeNumber: number
+  episodeTitle: string | null
+  positionSeconds: number // resume point (0 for an "up next" advanced episode)
+  durationSeconds: number // 0 when unknown (treated as 0% progress by the UI)
+  updatedAt: string // ISO timestamp; rail is ordered newest-first
+}
+
+// ---------------------------------------------------------------------------
 // Milestone 2 — schedule + search/filter types
 // ---------------------------------------------------------------------------
 

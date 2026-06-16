@@ -25,6 +25,8 @@ export function UserMenu({
 }) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const firstItemRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
     if (!open) return
@@ -38,7 +40,11 @@ export function UserMenu({
       }
     }
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false)
+      // Escape closes and returns focus to the trigger (menu a11y expectation).
+      if (e.key === 'Escape') {
+        setOpen(false)
+        buttonRef.current?.focus()
+      }
     }
 
     document.addEventListener('mousedown', onPointerDown)
@@ -49,9 +55,16 @@ export function UserMenu({
     }
   }, [open])
 
+  // When the menu opens, move focus to the first item so keyboard users land
+  // inside the menu rather than having to tab into it.
+  useEffect(() => {
+    if (open) firstItemRef.current?.focus()
+  }, [open])
+
   return (
     <div ref={containerRef} className="relative" data-testid="header-user-menu">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
@@ -87,6 +100,7 @@ export function UserMenu({
 
           <Link
             href="/profile"
+            ref={firstItemRef}
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-3 py-2.5 text-sm text-muted transition-colors hover:bg-card hover:text-foreground"
