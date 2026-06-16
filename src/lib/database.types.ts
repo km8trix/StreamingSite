@@ -262,6 +262,134 @@ export type Database = {
           },
         ]
       }
+      forum_categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string
+          sort_order: number
+        }
+        Insert: {
+          id: string
+          name: string
+          slug: string
+          description?: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          description?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      forum_threads: {
+        Row: {
+          id: string
+          category_id: string
+          user_id: string
+          title: string
+          slug: string
+          is_pinned: boolean
+          is_locked: boolean
+          show_id: string | null
+          created_at: string
+          last_activity_at: string
+        }
+        Insert: {
+          id?: string
+          category_id: string
+          user_id: string
+          title: string
+          slug?: string
+          is_pinned?: boolean
+          is_locked?: boolean
+          show_id?: string | null
+          created_at?: string
+          last_activity_at?: string
+        }
+        Update: {
+          id?: string
+          category_id?: string
+          user_id?: string
+          title?: string
+          slug?: string
+          is_pinned?: boolean
+          is_locked?: boolean
+          show_id?: string | null
+          created_at?: string
+          last_activity_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'forum_threads_category_id_fkey'
+            columns: ['category_id']
+            referencedRelation: 'forum_categories'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'forum_threads_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'forum_threads_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      forum_posts: {
+        Row: {
+          id: string
+          thread_id: string
+          user_id: string
+          body: string
+          is_edited: boolean
+          is_deleted: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          thread_id: string
+          user_id: string
+          body: string
+          is_edited?: boolean
+          is_deleted?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          thread_id?: string
+          user_id?: string
+          body?: string
+          is_edited?: boolean
+          is_deleted?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'forum_posts_thread_id_fkey'
+            columns: ['thread_id']
+            referencedRelation: 'forum_threads'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'forum_posts_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: Record<never, never>

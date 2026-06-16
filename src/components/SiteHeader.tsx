@@ -23,6 +23,7 @@ export function SiteHeader() {
           </NavLink>
           <NavLink href="/shows">Browse</NavLink>
           <NavLink href="/schedule">Schedule</NavLink>
+          <NavLink href="/forum">Forum</NavLink>
         </nav>
 
         <HeaderSearch className="ml-auto hidden w-full max-w-xs lg:block" />

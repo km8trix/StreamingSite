@@ -490,3 +490,221 @@ auth-gated), `/forum/thread/[id]` (posts + reply composer auth-gated, lock state
   - **No M1/M2/auth regressions** (catalog/schedule/search/auth read+write paths still green on live
     Supabase). Ran `npx supabase db reset` before the e2e run to clear probe rows; e2e users + comments
     persist (unique emails/run) — `npx supabase db reset` wipes them.
+- 2026-06-15 — db-forum-engineer-m3 — **Feature 3 (FORUM) data layer complete (NO UI).** Built (applied
+  the auth+comments security lessons up front — got RLS + GRANTs + triggers right on the first reset):
+  - **`supabase/migrations/0005_forum.sql`**: three tables + the `is_moderator()` helper + triggers.
+    - `is_moderator()` — SECURITY DEFINER, `set search_path = ''`, stable; returns
+      `exists(select 1 from public.profiles where id = auth.uid() and role in ('moderator','admin'))`.
+      role is not client-writable (0003), so it can't be self-granted.
+    - `forum_categories` (id text pk, name, slug unique, description, sort_order int) — public SELECT;
+      NO write policy/grant for anon/authenticated (seed-only; service role only).
+    - `forum_threads` (id uuid pk default gen_random_uuid(); category_id text fk→forum_categories on
+      delete cascade; user_id uuid fk→profiles on delete cascade; title text CHECK len 1..200; slug text;
+      is_pinned/is_locked bool default false; show_id text fk→shows on delete set null; created_at;
+      last_activity_at timestamptz default now()). Indexes: category_id, last_activity_at desc, and
+      (is_pinned desc, last_activity_at desc).
+    - `forum_posts` (id uuid pk; thread_id uuid fk→forum_threads on delete cascade; user_id uuid fk→
+      profiles on delete cascade; body text CHECK len 1..10000, empty only when is_deleted; is_edited/
+      is_deleted bool default false; created_at; updated_at). Index (thread_id, created_at).
+    - **RLS**: categories public SELECT only. threads/posts public SELECT. threads INSERT WITH CHECK
+      `user_id = auth.uid()`. threads UPDATE = `using (own OR is_moderator())` + `with check` that pins
+      user_id AND, for NON-mods, pins is_pinned/is_locked to their stored values (so an author may only
+      change `title`; pin/lock require moderator). threads DELETE own or mod. posts INSERT WITH CHECK
+      `user_id = auth.uid() AND (is_moderator() OR thread not locked)`. posts UPDATE own or mod (body/
+      is_edited/is_deleted). posts DELETE own or mod.
+    - **GRANTs (column-restricted)**: select to anon,authenticated on all 3. threads:
+      `insert (category_id,user_id,title,slug,show_id)`, `update (title,is_pinned,is_locked)`, delete —
+      to authenticated. posts: `insert (thread_id,user_id,body)`, `update (body,is_edited,is_deleted)`,
+      delete — to authenticated. user_id / created_at / last_activity_at (threads) and user_id /
+      thread_id / created_at / updated_at (posts) are NOT in any grant → cannot be re-owned, re-keyed,
+      moved, or have timestamps forged via raw REST.
+    - **TRIGGERS**: BEFORE UPDATE `enforce_forum_post_integrity()` (SECURITY DEFINER, search_path='')
+      — is_deleted ONE-WAY ratchet (stays true + body forced '') and is_edited MONOTONIC (mirrors
+      comments 0004, COERCES rather than raises). AFTER INSERT `bump_thread_activity()` (SECURITY
+      DEFINER) sets the parent thread's last_activity_at = now() — the only path that changes it.
+      `set_updated_at()` (reused from 0001) on forum_posts.
+  - **Seed**: appended 4 idempotent (`on conflict do update`) categories to `supabase/seed/seed.sql`
+    (inside the existing begin/commit) — `cat-general` General Discussion, `cat-seasonal` Seasonal Anime,
+    `cat-recommendations` Recommendations, `cat-feedback` Site Feedback (stable text ids; sort_order
+    1..4). seed.sql is already in `config.toml` sql_paths, so `npx supabase db reset` seeds them.
+  - **`src/lib/data/types.ts`** (additive): `ForumAuthor`, `ForumCategory`, `ForumThread` (+ author,
+    postCount, lastActivityAt), `ForumPost` (+ author), `ForumThreadWithPosts` (thread + posts).
+  - **`src/lib/data/forum.ts`**: reads `listCategories()`, `getCategory(slug)`,
+    `listThreads(categoryId)` (PINNED-first then last_activity_at desc; author + postCount where
+    postCount counts LIVE posts only via the `forum_posts(count)` embed filtered `is_deleted=false`),
+    `getThread(idOrSlug)` (accepts uuid id OR slug; posts oldest-first, author join, soft-deleted bodies
+    BLANKED to ''). Server actions (auth-gated; user_id always from auth.uid()): `createThread(categoryId,
+    title,body)` (creates thread + first post; rolls back the orphan thread if the post insert fails),
+    `replyToThread(threadId,body)` (rejects locked-and-not-mod; relies on the AFTER INSERT trigger for the
+    bump), `editPost(id,body)` (own; is_edited=true; is_deleted=false guard), `deletePost(id)` (SOFT;
+    own OR mod — NOT scoped by user_id so RLS's own-or-mod gate lets a mod delete any), moderator actions
+    `pinThread(id,bool)`/`lockThread(id,bool)` (pre-check profile.role for a friendly error; RLS is the
+    authoritative guard). Re-exported from `src/lib/data/index.ts` (+ the new types). Client-importable
+    `'use server'` wrappers in **`src/lib/forum/actions.ts`** (mirrors `src/lib/comments/actions.ts` so
+    client composers don't drag server-only code into the bundle).
+  - **`src/lib/database.types.ts`**: forum_categories / forum_threads / forum_posts added (Row/Insert/
+    Update/Relationships → forum_categories, profiles, shows, forum_threads).
+  - **LIVE security validation (vs local Supabase via supabase-js — the exact lib path the actions use;
+    `scripts/forum_live_check.mjs`, 21/21 PASS):** public SELECT categories (4 seeded) OK; legit own
+    thread + post OK; **SPOOFED user_id INSERT (thread AND post) → REJECTED 42501** "row-level security";
+    last_activity_at bumped by trigger on new post; **NON-MOD pin/lock of ANOTHER user's thread →
+    REJECTED** (0 rows, unchanged); **NON-MOD author pin/lock of OWN thread → REJECTED** (flags restricted
+    to mods) while author CAN still rename (title); **NON-MOD soft-delete AND hard-delete of another
+    user's post → REJECTED** (intact); re-own via user_id PATCH → REJECTED by the column grant; one-way
+    delete ratchet (cannot un-delete/repopulate own post); **MODERATOR (promoted via privileged SQL —
+    `role` is intentionally not in any PostgREST grant, so even the service_role REST client can't PATCH
+    it) CAN pin/lock/soft-delete any post and post in a locked thread; NON-MOD post in a locked thread →
+    REJECTED 42501.** Read-path check `scripts/forum_read_check.mjs` (3/3 PASS): postCount counts only
+    LIVE posts (3 posts, 1 deleted → 2); author embed present; getThread returns all posts incl. deleted.
+  - **Validation:** `npx supabase db reset` clean (0005 applies; 4 categories seeded). `npm run typecheck`
+    clean · `npm run build` OK (47 pages; no forum routes yet — UI is the next workflow) · `npm run test`
+    **229/229** (no M1/M2/auth/comments regression).
+  - **NOTE for QA/UI:** promoting a user to moderator requires a PRIVILEGED SQL UPDATE
+    (`update public.profiles set role='moderator' where id=…`) — `role` is deliberately excluded from all
+    PostgREST grants, so the service_role REST client returns "permission denied for table" on it. Run via
+    `docker exec supabase_db_StreamingSite psql -U postgres -d postgres -c "…"` (see forum_live_check.mjs).
+  - **UI HANDOFF — forum API to consume (import from `@/lib/data` only; mutations from
+    `@/lib/forum/actions` in client components):**
+    - Reads: `listCategories(): Promise<ForumCategory[]>`; `getCategory(slug): Promise<ForumCategory|null>`;
+      `listThreads(categoryId): Promise<ForumThread[]>` (pinned-first then recent; each has `author` +
+      `postCount` of live posts); `getThread(idOrSlug): Promise<ForumThreadWithPosts|null>` (posts
+      oldest-first; soft-deleted posts have `body === ''` + `isDeleted === true` → render "[deleted]").
+      Pass a category **id** (e.g. `cat-general`) to listThreads; getThread accepts the thread uuid OR slug.
+    - Actions (all auth-gated; UI must NOT send user_id — set server-side from the session):
+      `createThread(categoryId,title,body) => { error?, threadId? }` (navigate to the thread on success);
+      `replyToThread(threadId,body) => { error? }` (returns `{ error: 'This thread is locked.' }` for
+      non-mods on a locked thread); `editPost(id,body)`, `deletePost(id)` (soft; own OR mod);
+      `pinThread(id,bool)`, `lockThread(id,bool)` (moderator-only — return an error for non-mods).
+    - Types from `@/lib/data`: `ForumCategory`, `ForumThread`, `ForumPost`, `ForumThreadWithPosts`,
+      `ForumAuthor` (+ `ForumActionResult`, `CreateThreadResult`).
+    - Render post/thread text as TEXT (no dangerouslySetInnerHTML).
+- 2026-06-15 — ui-forum-engineer-m3 — **Feature 3 (FORUM) UI complete.** Consumed the forum API exactly
+  as handed off (reads via `@/lib/data`; mutations via the client-safe `@/lib/forum/actions` wrappers —
+  client composers never import `@/lib/data/forum` directly, per the documented build gotcha). No
+  data-layer / migration / schema / type changes. Built (Server Components by default; `'use client'`
+  only on the interactive islands; all text rendered as TEXT):
+  - **Routes:**
+    - `src/app/forum/page.tsx` (`force-dynamic`) — category cards (name, description, live thread
+      count) linking to each category by **slug**. Thread counts via `listThreads(c.id).length` in
+      parallel. Testids `forum-categories`, `category-card` (+ `data-category-slug`).
+    - `src/app/forum/[category]/page.tsx` (`force-dynamic`) — resolves the slug via `getCategory`
+      (`notFound()` on miss), lists threads (PINNED-first then recent, exactly the data-layer order),
+      each row: avatar + title + author + reply count (`postCount - 1`, floored at 0) + last activity
+      (relative). Pin/Lock indicators on pinned/locked rows. Auth-gated `NewThreadForm` (signed-out →
+      sign-in prompt). Testids `thread-list`, `thread-row` (+ `data-thread-id`), `thread-pinned`,
+      `thread-locked`, `new-thread-button`, `new-thread-form`, `thread-title-input`,
+      `thread-body-input`, `new-thread-submit`.
+    - `src/app/forum/thread/[id]/page.tsx` (`force-dynamic`) — `getThread(id)` (`notFound()` on miss;
+      accepts uuid or slug). Title + pin/lock badges; posts oldest-first (avatar/name/@handle/relative
+      time, "OP" tag on the first post, "(edited)" marker, `[deleted]` for soft-deleted). Owner-only
+      Edit, owner-OR-moderator Delete (soft, two-step confirm). Reply composer auth-gated; for a locked
+      thread a non-mod sees a `thread-locked-notice` instead of the composer (a moderator still gets the
+      composer with a note). Moderator-only Pin/Lock toggles rendered only when
+      `getCurrentUser().profile.role` is moderator/admin. Testids `thread-posts`, `post-item`,
+      `post-body`, `post-author`, `post-edit`, `post-delete`, `reply-composer`, `reply-submit`,
+      `mod-pin`, `mod-lock`.
+  - **Components** (`src/components/forum/`): `NewThreadForm` (client — toggle → title+body composer →
+    `createThread` → `router.push` to the new thread id on success), `ReplyComposer` (client →
+    `replyToThread`; locked rejection surfaces inline), `PostItem` (client — owns the edit toggle;
+    renders body as TEXT; owner/mod affordances), `PostEditForm` (client → `editPost`), `PostDeleteButton`
+    (client, two-step confirm → `deletePost`), `ThreadModControls` (client, `useTransition` →
+    `pinThread`/`lockThread`). All reuse `UserAvatar` + `formatRelativeTime`, mirror the comments UI
+    patterns, dark theme, focus rings preserved, accessible (labels, `aria-busy`, `role="alert"`,
+    `aria-pressed` on toggles, breadcrumbs).
+  - **Header:** added a `Forum` `NavLink` to `SiteHeader` (after Schedule).
+  - **Validation:** `npm run typecheck` clean · `npm run lint` 0 errors (the 1 pre-existing
+    `ScheduleGrid.test.tsx` warning is unrelated/not mine) · `npm run build` OK (47 routes; the 3 forum
+    routes build as `ƒ` dynamic, consistent with the M3 auth-cookie state) · `npm run test` **229/229**
+    (no M1/M2/auth/comments regression) · `npm run test:e2e` **53/53** (no regression; Forum nav link
+    did not disturb existing selectors). Live smoke vs local Supabase: `/forum` 200 with all 4 seeded
+    category cards; category page lists threads PINNED-first (verified a pinned thread sorts above a
+    normal one); thread page renders posts, shows `[deleted]` for a soft-deleted post and the original
+    body NEVER leaks to the client; signed-out reply area shows the sign-in prompt; unknown category
+    renders the not-found UI.
+  - **QA — how to reach signed-in + moderator states:** `enable_confirmations=false`, so go to `/signup`,
+    enter any email + password ≥6 chars (+ optional username) → instantly signed in. Then `/forum` →
+    pick a category → `new-thread-button` reveals the form (`thread-title-input` / `thread-body-input` /
+    `new-thread-submit`) → on submit you land on the new thread. Reply via `reply-composer` +
+    `reply-submit`; edit/delete via `post-edit`/`post-delete` on YOUR OWN posts (delete also works on any
+    post when you are a moderator). **Moderator state:** `role` is intentionally not client-writable, so
+    promote via privileged SQL — `docker exec supabase_db_StreamingSite psql -U postgres -d postgres -c
+    "update public.profiles set role='moderator' where id='<user-uuid>'"` (the user's id is shown on
+    `/profile` data or via the admin API). After promotion, reload a thread page → the `mod-pin` /
+    `mod-lock` toggles appear, a moderator may delete any post, and a moderator may reply in a locked
+    thread. Sign-ups + forum content PERSIST in live Supabase — use a unique email per run or
+    `npx supabase db reset` to wipe accounts + threads (re-seeds the 4 categories).
+- 2026-06-15 — qa-forum-engineer-m3 — **Feature 3 (FORUM) QA complete.** Added a unit suite for the
+  forum data layer + actions, a UI-flow e2e, and an ADVERSARIAL PostgREST security e2e. Only TEST code
+  changed (no product/migration changes). All prior suites kept green on live Supabase. Final (after
+  `npx supabase db reset`): `npm run test` **305/305** (229 prior + **76 new**) · `npm run typecheck`
+  clean · `npm run test:e2e` **71/71** (53 prior + **18 new**), both green.
+  - **New unit file (Vitest, Supabase server client + `isSupabaseConfigured` + `next/cache` +
+    `getCurrentUser` all mocked — no live DB):** `src/lib/data/forum.test.ts` (76 tests).
+    - **Reads (listCategories/getCategory/listThreads/getThread):** `[]`/`null` when unconfigured
+      (never builds a client); row→camelCase mapping for category/thread/post; author embed normalized
+      (object / 1-element array / null); `postCount` derived from the embedded `forum_posts(count)`
+      aggregate (and defaults to 0 when the embed is empty/null); listThreads scopes to category_id,
+      filters the count embed to live posts (`post_count.is_deleted=false`), and orders PINNED-FIRST
+      then last_activity_at desc (order asserted, pinned key applied first); getThread routes a uuid →
+      `.eq('id')` and a slug → `.eq('slug')`, returns posts oldest-first (created_at asc), BLANKS a
+      soft-deleted post body to '' (original text never leaks), raw snake_case keys never leak; query
+      errors rethrown.
+    - **createThread (12):** auth required (no DB touch signed out); title/body empty + over-length
+      (200 / 10000) rejected pre-DB; non-existent category → friendly error (no insert); user_id taken
+      SERVER-SIDE from the session for BOTH the thread AND the first post (never the client); slug
+      derived from title; the thread insert never sends is_pinned/is_locked/last_activity_at/created_at;
+      thread-insert error surfaced; **orphan thread rolled back (deleted) when the first-post insert
+      fails**; revalidates /forum + the category page.
+    - **replyToThread (10):** auth + body validation; non-existent thread rejected; **LOCKED thread
+      reply REJECTED at the action level for a non-mod (no insert attempted); a MODERATOR is allowed
+      through**; user_id from the session; insert payload omits is_deleted/is_edited/created_at; RLS
+      insert error surfaced; revalidates the thread page.
+    - **editPost (7):** auth + body validation; sets is_edited=true and scopes by id AND owner AND
+      is_deleted=false; never writes user_id/thread_id/is_deleted; zero-row → "not yours to edit"; DB
+      error surfaced; revalidates from the returned thread_id.
+    - **deletePost (6):** auth; SOFT delete (is_deleted=true, body ''); **NOT scoped by user_id** (so
+      RLS's own-or-mod gate lets a mod delete any post); no ownership columns written; zero-row → "not
+      allowed"; DB error surfaced; revalidates.
+    - **pinThread/lockThread (12):** auth; **non-moderator REJECTED BEFORE any DB write** (role
+      pre-check — asserts the server client is never even built); moderator AND admin allowed; writes
+      only is_pinned / is_locked (incl. unlock); zero-row → "not allowed"; revalidates.
+  - **New UI-flow e2e:** `e2e/forum.spec.ts` (4 tests, LIVE Supabase, unique email/run): signed-out —
+    /forum lists the 4 seeded categories; a category page shows the sign-in prompt and NO new-thread
+    form. Signed-in lifecycle — sign up → /forum → open a category → create a thread (navigates to it)
+    → see the first post → see the thread back in the category list → open it → reply → see the reply
+    (≥2 posts). Plus a signed-out thread-page check (clears cookies): content + first post visible, NO
+    reply-composer, "Sign in to reply" prompt shown.
+  - **New ADVERSARIAL e2e:** `e2e/forum-adversarial.spec.ts` (14 tests, LIVE Supabase, hits PostgREST
+    DIRECTLY with real per-run JWTs; service-role + `docker exec … psql` for the moderator promote,
+    mirroring `scripts/forum_live_check.mjs`). Loads keys from `.env.local` itself (Playwright runs in
+    plain Node; zero new deps). Cleans up its thread + users via the service role in afterAll. All PASS:
+    - **(a) spoof user_id REJECTED:** thread insert as another user → 403 / 42501 row-level security;
+      post insert as another user → 403 / 42501; anonymous (no-JWT) thread insert → 4xx.
+    - **(b) non-mod cannot moderate:** non-mod pin/lock of another's thread → 0 rows, flags unchanged;
+      NON-MOD AUTHOR pin/lock of OWN thread → REJECTED (403/42501 since RLS USING passes but WITH CHECK
+      pins the flags) — accepts 403-or-0-rows, flags verified still false; author CAN still rename (title
+      writable); non-mod soft-delete + hard-delete of another's post → 0 rows, post intact; re-own via
+      user_id PATCH → rejected/0-rows, ownership preserved.
+    - **(c) MODERATOR allowed:** promote B to moderator via privileged SQL (`role` is intentionally NOT
+      REST-writable), then B (a non-owner) CAN pin + lock A's thread and soft-delete A's post; a
+      moderator CAN reply in a locked thread.
+    - **(d) non-mod cannot reply to a LOCKED thread** via raw PostgREST → 403 / 42501.
+    - **(e) one-way delete ratchet:** owner soft-deletes own post, then PATCH {is_deleted:false} +
+      {body:'…'} attempts → row stays deleted with body '' (cannot un-delete/repopulate).
+  - **TEST-CODE NOTE (not a product change):** the (b3) author-self-pin assertion accepts EITHER a 403
+    RLS violation OR 0-rows. For a row the caller OWNS, RLS USING passes so the WITH CHECK that pins the
+    moderation flags fails hard (403/42501); for a NON-owned row USING filters it out first (0 rows).
+    Both outcomes leave the flags unchanged — the test asserts the invariant, not the wire form.
+  - **PRODUCT BUGS: none found in this pass.** The forum security model (RLS + column-restricted GRANTs
+    + is_moderator() helper + one-way delete ratchet + last_activity trigger) held against every
+    adversarial probe — the db-forum-engineer applied the auth+comments lessons correctly the first time.
+    The two reviewer findings (Medium: forum_threads.slug has no UNIQUE constraint + no slugify suffix
+    dedup, so duplicate-title threads collide and getThread's slug `.maybeSingle()` would PGRST116-crash
+    a bookmarked /forum/thread/<slug> URL — the UUID routing path the UI navigates is unaffected; Low:
+    postCount differs between listThreads (filters deleted) and getThread (doesn't)) are REAL but
+    pre-existing data-layer items owned by the lead/DB engineer — NOT patched here (QA fixes only test
+    code). Neither breaks the test suite (the UI always routes by uuid; getThread's postCount isn't
+    asserted for live/deleted-count parity).
+  - **No M1/M2/auth/comments regressions** (catalog/schedule/search/auth/comments read+write paths
+    still green on live Supabase). Ran `npx supabase db reset` before the final e2e run; forum content +
+    e2e users persist (unique emails/run) — `npx supabase db reset` wipes them (re-seeds 4 categories).

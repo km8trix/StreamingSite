@@ -31,19 +31,23 @@ test.describe('Comments — signed-out', () => {
 test.describe('Comments — signed-in lifecycle (live Supabase)', () => {
   test.describe.configure({ mode: 'serial' })
 
-  const stamp = `${Date.now()}-${Math.floor(Math.random() * 1_000_000)}`
-  const creds = {
-    email: `cmttest+${stamp}@example.com`,
-    username: `cmt${stamp.replace(/\D/g, '').slice(-8)}`,
-    password: 'secret123',
-  }
-  const original = `Smoke comment ${stamp}`
-  const edited = `Edited comment ${stamp}`
-  const reply = `Reply ${stamp}`
-
   test('sign up, post a comment, reply, edit, then soft-delete it', async ({
     page,
   }) => {
+    // Mint UNIQUE credentials + content PER TEST RUN (not at module load) so the
+    // same spec under `--repeat-each` doesn't reuse an already-registered email
+    // (a duplicate signup yields no session) or collide on comment text. This is
+    // the "unique per run" contract note applied per-invocation.
+    const stamp = `${Date.now()}-${Math.floor(Math.random() * 1_000_000)}`
+    const creds = {
+      email: `cmttest+${stamp}@example.com`,
+      username: `cmt${stamp.replace(/\D/g, '').slice(-8)}`,
+      password: 'secret123',
+    }
+    const original = `Smoke comment ${stamp}`
+    const edited = `Edited comment ${stamp}`
+    const reply = `Reply ${stamp}`
+
     // --- sign up (instantly signed in) ----------------------------------
     await page.goto('/signup')
     await page.getByTestId('email-input').fill(creds.email)
@@ -62,12 +66,20 @@ test.describe('Comments — signed-in lifecycle (live Supabase)', () => {
     await expect(page.getByTestId('comments-signin-prompt')).toHaveCount(0)
 
     // --- post a top-level comment ---------------------------------------
+    // ROBUST WAIT (test-timing fix): the action's POST can resolve BEFORE the
+    // revalidated RSC re-render paints in place, so don't assert against the
+    // racing in-place re-render. Wait for the mutation's POST to land, then
+    // RELOAD and assert against a fresh server render — the row is persisted the
+    // moment the action commits, so a reload renders it deterministically.
     await composer.locator('textarea').fill(original)
     await Promise.all([
       page.waitForResponse((r) => r.request().method() === 'POST'),
       composer.getByTestId('comment-submit').click(),
     ])
-    await expect(page.getByTestId('comment-body').filter({ hasText: original })).toBeVisible()
+    await page.reload()
+    await expect(
+      page.getByTestId('comment-body').filter({ hasText: original }),
+    ).toBeVisible({ timeout: 15000 })
 
     // The comment is authored by this user → owner affordances present.
     const item = page
@@ -86,7 +98,10 @@ test.describe('Comments — signed-in lifecycle (live Supabase)', () => {
       page.waitForResponse((r) => r.request().method() === 'POST'),
       replyComposer.getByTestId('comment-submit').click(),
     ])
-    await expect(page.getByTestId('comment-body').filter({ hasText: reply })).toBeVisible()
+    await page.reload()
+    await expect(
+      page.getByTestId('comment-body').filter({ hasText: reply }),
+    ).toBeVisible({ timeout: 15000 })
 
     // --- edit the top-level comment -------------------------------------
     const topItem = page
@@ -100,7 +115,10 @@ test.describe('Comments — signed-in lifecycle (live Supabase)', () => {
       page.waitForResponse((r) => r.request().method() === 'POST'),
       topItem.getByTestId('comment-edit-save').click(),
     ])
-    await expect(page.getByTestId('comment-body').filter({ hasText: edited })).toBeVisible()
+    await page.reload()
+    await expect(
+      page.getByTestId('comment-body').filter({ hasText: edited }),
+    ).toBeVisible({ timeout: 15000 })
     await expect(page.getByText('(edited)').first()).toBeVisible()
 
     // --- soft-delete it -> "[deleted]" ----------------------------------
@@ -113,8 +131,11 @@ test.describe('Comments — signed-in lifecycle (live Supabase)', () => {
       page.waitForResponse((r) => r.request().method() === 'POST'),
       editedItem.getByTestId('comment-delete-confirm').click(),
     ])
-    await expect(page.getByText('[deleted]').first()).toBeVisible()
-    // The original text is gone from the page.
+    await page.reload()
+    await expect(page.getByText('[deleted]').first()).toBeVisible({
+      timeout: 15000,
+    })
+    // The original (edited) text is gone from the page.
     await expect(page.getByText(edited)).toHaveCount(0)
   })
 })

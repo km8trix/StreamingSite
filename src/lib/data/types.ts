@@ -123,3 +123,61 @@ export type Comment = {
 export type CommentThread = Comment & {
   replies: Comment[]
 }
+
+// ---------------------------------------------------------------------------
+// Milestone 3 — forum (categories / threads / posts)
+// ---------------------------------------------------------------------------
+
+// The public author info joined from `profiles` for display in the forum
+// (shared shape with comments' CommentAuthor).
+export type ForumAuthor = {
+  username: string | null
+  displayName: string | null
+  avatarUrl: string | null
+}
+
+// A fixed discussion area. Seed-only; never client-writable.
+export type ForumCategory = {
+  id: string
+  name: string
+  slug: string
+  description: string
+  sortOrder: number
+}
+
+// A topic inside a category. `author` is the starter's public profile;
+// `postCount` is the number of LIVE (non-deleted) posts; `lastActivityAt` is the
+// timestamp of the most recent post (bumped by a DB trigger on new post).
+export type ForumThread = {
+  id: string
+  categoryId: string
+  userId: string
+  title: string
+  slug: string
+  isPinned: boolean
+  isLocked: boolean
+  showId: string | null
+  createdAt: string // ISO timestamp
+  lastActivityAt: string // ISO timestamp
+  author: ForumAuthor
+  postCount: number
+}
+
+// A single message in a thread. When `isDeleted` is true the data layer BLANKS
+// `body` to '' so the UI can render "[deleted]" without leaking the original.
+export type ForumPost = {
+  id: string
+  threadId: string
+  userId: string
+  body: string
+  isEdited: boolean
+  isDeleted: boolean
+  createdAt: string // ISO timestamp
+  updatedAt: string // ISO timestamp
+  author: ForumAuthor
+}
+
+// The shape returned by getThread(): a thread plus its posts (oldest-first).
+export type ForumThreadWithPosts = ForumThread & {
+  posts: ForumPost[]
+}

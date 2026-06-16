@@ -9,6 +9,11 @@ export type {
   CurrentUser,
   DayOfWeek,
   Episode,
+  ForumAuthor,
+  ForumCategory,
+  ForumPost,
+  ForumThread,
+  ForumThreadWithPosts,
   Genre,
   Profile,
   ScheduleEntry,
@@ -43,3 +48,18 @@ export {
   editComment,
   getComments,
 } from './comments'
+
+export {
+  createThread,
+  deletePost,
+  editPost,
+  getCategory,
+  getThread,
+  listCategories,
+  listThreads,
+  lockThread,
+  pinThread,
+  replyToThread,
+} from './forum'
+
+export type { CreateThreadResult, ForumActionResult } from './forum'
