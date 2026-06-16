@@ -64,32 +64,42 @@ const PROFILE_COLUMNS =
 export async function getCurrentUser(): Promise<CurrentUser | null> {
   if (!isSupabaseConfigured()) return null
 
-  const supabase = await getServerClient()
+  // Build/render resilience: a live failure here MUST NOT throw. getCurrentUser
+  // runs in the header on every page (incl. statically generated ones), and the
+  // cloud DB/auth server may be empty / unmigrated / unreachable. Returning null
+  // = "logged out", which is always safe. (The profiles read already degrades to
+  // profile=null; this outer guard also covers auth.getUser() / client creation.)
+  try {
+    const supabase = await getServerClient()
 
-  // getUser() validates the JWT with the auth server (more trustworthy than
-  // getSession(), which only decodes the cookie).
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser()
+    // getUser() validates the JWT with the auth server (more trustworthy than
+    // getSession(), which only decodes the cookie).
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser()
 
-  if (userError || !user) return null
+    if (userError || !user) return null
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select(PROFILE_COLUMNS)
-    .eq('id', user.id)
-    .maybeSingle()
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(PROFILE_COLUMNS)
+      .eq('id', user.id)
+      .maybeSingle()
 
-  // A missing profile row is not fatal (trigger may not have run yet); only a
-  // real query error is unexpected. We swallow it to null rather than throw so
-  // a transient profiles read never takes down the whole layout/header.
-  const profile = !error && data ? mapProfileRow(data as ProfileRow) : null
+    // A missing profile row is not fatal (trigger may not have run yet); only a
+    // real query error is unexpected. We swallow it to null rather than throw so
+    // a transient profiles read never takes down the whole layout/header.
+    const profile = !error && data ? mapProfileRow(data as ProfileRow) : null
 
-  return {
-    userId: user.id,
-    email: user.email ?? null,
-    profile,
+    return {
+      userId: user.id,
+      email: user.email ?? null,
+      profile,
+    }
+  } catch (err) {
+    console.warn('[data] getCurrentUser live query failed, falling back:', err)
+    return null
   }
 }
 
@@ -97,16 +107,21 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 export async function getProfile(userId: string): Promise<Profile | null> {
   if (!isSupabaseConfigured()) return null
 
-  const supabase = await getServerClient()
-  const { data, error } = await supabase
-    .from('profiles')
-    .select(PROFILE_COLUMNS)
-    .eq('id', userId)
-    .maybeSingle()
+  try {
+    const supabase = await getServerClient()
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(PROFILE_COLUMNS)
+      .eq('id', userId)
+      .maybeSingle()
 
-  if (error) throw error
-  if (!data) return null
-  return mapProfileRow(data as ProfileRow)
+    if (error) throw error
+    if (!data) return null
+    return mapProfileRow(data as ProfileRow)
+  } catch (err) {
+    console.warn('[data] getProfile live query failed, falling back:', err)
+    return null
+  }
 }
 
 /** A single public profile by username (case-insensitive), or `null`. */
@@ -115,14 +130,22 @@ export async function getProfileByUsername(
 ): Promise<Profile | null> {
   if (!isSupabaseConfigured()) return null
 
-  const supabase = await getServerClient()
-  const { data, error } = await supabase
-    .from('profiles')
-    .select(PROFILE_COLUMNS)
-    .ilike('username', username)
-    .maybeSingle()
+  try {
+    const supabase = await getServerClient()
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(PROFILE_COLUMNS)
+      .ilike('username', username)
+      .maybeSingle()
 
-  if (error) throw error
-  if (!data) return null
-  return mapProfileRow(data as ProfileRow)
+    if (error) throw error
+    if (!data) return null
+    return mapProfileRow(data as ProfileRow)
+  } catch (err) {
+    console.warn(
+      '[data] getProfileByUsername live query failed, falling back:',
+      err,
+    )
+    return null
+  }
 }

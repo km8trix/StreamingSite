@@ -105,23 +105,34 @@ function weightedPick(ads: AdPlacement[]): AdPlacement | null {
 export async function getAdForPlacement(
   placementKey: string,
 ): Promise<AdPlacement | null> {
-  if (!isSupabaseConfigured()) {
-    const candidates = SEED_ADS.filter((a) => a.placementKey === placementKey)
-    return weightedPick(candidates)
+  if (!isSupabaseConfigured()) return seedAdForPlacement(placementKey)
+
+  try {
+    const supabase = await getPublicClient()
+    const { data, error } = await supabase
+      .from('ad_placements')
+      .select(AD_COLUMNS)
+      // RLS already restricts to is_active; this is a defense-in-depth filter so
+      // the intent is explicit at the query level too.
+      .eq('placement_key', placementKey)
+      .eq('is_active', true)
+
+    if (error) throw error
+    const ads = ((data ?? []) as AdRow[]).map(mapAdRow)
+    return weightedPick(ads)
+  } catch (err) {
+    // A live query MUST NEVER throw out of this read fn: ad slots render on every
+    // page (incl. statically generated ones at `next build`), and the cloud DB may
+    // be empty / unmigrated (PGRST205) / unreachable. Log once, fall back to seed.
+    console.warn('[data] getAdForPlacement live query failed, falling back:', err)
+    return seedAdForPlacement(placementKey)
   }
+}
 
-  const supabase = await getPublicClient()
-  const { data, error } = await supabase
-    .from('ad_placements')
-    .select(AD_COLUMNS)
-    // RLS already restricts to is_active; this is a defense-in-depth filter so
-    // the intent is explicit at the query level too.
-    .eq('placement_key', placementKey)
-    .eq('is_active', true)
-
-  if (error) throw error
-  const ads = ((data ?? []) as AdRow[]).map(mapAdRow)
-  return weightedPick(ads)
+// Weighted pick from the seed ad placements — the seed-fallback result.
+function seedAdForPlacement(placementKey: string): AdPlacement | null {
+  const candidates = SEED_ADS.filter((a) => a.placementKey === placementKey)
+  return weightedPick(candidates)
 }
 
 // ---------------------------------------------------------------------------

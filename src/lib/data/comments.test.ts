@@ -373,11 +373,16 @@ describe('getComments', () => {
     expect(await getComments('show-001')).toEqual([])
   })
 
-  it('throws when the comments query errors', async () => {
+  it('falls back to [] when the comments query errors (build resilience)', async () => {
+    // Build resilience (Vercel): a live read MUST NOT throw — getComments renders
+    // on statically generated show pages too, and a fresh / unmigrated / unreachable
+    // cloud DB legitimately yields no comments. The error degrades to [] (the same
+    // value the unconfigured branch returns) instead of crashing the render/build.
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.commentsSelect = { data: null, error: { message: 'boom' } }
-    await expect(getComments('show-001')).rejects.toMatchObject({
-      message: 'boom',
-    })
+    expect(await getComments('show-001')).toEqual([])
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 

@@ -110,48 +110,56 @@ function mapCommentRow(row: CommentRow): Comment {
  * catalog seed has none).
  */
 export async function getComments(showId: string): Promise<CommentThread[]> {
+  // No comment seed: the EMPTY fallback is `[]`. A fresh cloud DB legitimately
+  // has no comments yet, so a live failure here (empty/unmigrated/unreachable DB)
+  // must NOT throw out of this read fn and crash a render — it falls back to [].
   if (!isSupabaseConfigured()) return []
 
-  const supabase = await getServerClient()
-  const { data, error } = await supabase
-    .from('comments')
-    .select(COMMENT_COLUMNS)
-    .eq('show_id', showId)
-    .order('created_at', { ascending: true })
+  try {
+    const supabase = await getServerClient()
+    const { data, error } = await supabase
+      .from('comments')
+      .select(COMMENT_COLUMNS)
+      .eq('show_id', showId)
+      .order('created_at', { ascending: true })
 
-  if (error) throw error
+    if (error) throw error
 
-  // The aliased embed (`author:profiles(...)`) defeats the generated client's
-  // row typing, so we cast through `unknown` to our explicit CommentRow shape
-  // (same approach schedule.ts uses for its joined SlotRow).
-  const comments = ((data ?? []) as unknown as CommentRow[]).map(mapCommentRow)
+    // The aliased embed (`author:profiles(...)`) defeats the generated client's
+    // row typing, so we cast through `unknown` to our explicit CommentRow shape
+    // (same approach schedule.ts uses for its joined SlotRow).
+    const comments = ((data ?? []) as unknown as CommentRow[]).map(mapCommentRow)
 
-  // Build threads. We fetched ascending (oldest-first), which is exactly the
-  // order we want for replies; top-level comments are then reversed to
-  // newest-first.
-  const threadsById = new Map<string, CommentThread>()
-  const topLevel: CommentThread[] = []
+    // Build threads. We fetched ascending (oldest-first), which is exactly the
+    // order we want for replies; top-level comments are then reversed to
+    // newest-first.
+    const threadsById = new Map<string, CommentThread>()
+    const topLevel: CommentThread[] = []
 
-  for (const c of comments) {
-    if (c.parentId === null) {
-      const thread: CommentThread = { ...c, replies: [] }
-      threadsById.set(c.id, thread)
-      topLevel.push(thread)
+    for (const c of comments) {
+      if (c.parentId === null) {
+        const thread: CommentThread = { ...c, replies: [] }
+        threadsById.set(c.id, thread)
+        topLevel.push(thread)
+      }
     }
-  }
 
-  for (const c of comments) {
-    if (c.parentId !== null) {
-      const parent = threadsById.get(c.parentId)
-      // A reply whose parent is missing (e.g. parent hard-deleted) is dropped —
-      // one level of threading only; we never promote orphans to top-level.
-      if (parent) parent.replies.push(c)
+    for (const c of comments) {
+      if (c.parentId !== null) {
+        const parent = threadsById.get(c.parentId)
+        // A reply whose parent is missing (e.g. parent hard-deleted) is dropped —
+        // one level of threading only; we never promote orphans to top-level.
+        if (parent) parent.replies.push(c)
+      }
     }
-  }
 
-  // Top-level newest-first; replies already oldest-first from the asc fetch.
-  topLevel.reverse()
-  return topLevel
+    // Top-level newest-first; replies already oldest-first from the asc fetch.
+    topLevel.reverse()
+    return topLevel
+  } catch (err) {
+    console.warn('[data] getComments live query failed, falling back:', err)
+    return []
+  }
 }
 
 // ---------------------------------------------------------------------------

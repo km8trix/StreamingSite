@@ -284,12 +284,19 @@ describe('getProfile', () => {
     expect(await getProfile('missing')).toBeNull()
   })
 
-  it('throws when the query errors (unexpected DB failure surfaces)', async () => {
+  it('falls back to null when the query errors (build resilience)', async () => {
+    // Build resilience (Vercel): a live read MUST NOT throw — a profile read can
+    // happen on a statically generated page, and the cloud DB may be empty /
+    // unmigrated / unreachable. The error degrades to null (not-found / no-row)
+    // instead of crashing the render/build.
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { client } = makeFakeClient({
       rows: { data: null, error: { message: 'boom' } },
     })
     setClient(client)
-    await expect(getProfile('x')).rejects.toMatchObject({ message: 'boom' })
+    expect(await getProfile('x')).toBeNull()
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 
@@ -315,13 +322,14 @@ describe('getProfileByUsername', () => {
     expect(await getProfileByUsername('nobody')).toBeNull()
   })
 
-  it('throws when the query errors', async () => {
+  it('falls back to null when the query errors (build resilience)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { client } = makeFakeClient({
       rows: { data: null, error: { message: 'kaboom' } },
     })
     setClient(client)
-    await expect(getProfileByUsername('x')).rejects.toMatchObject({
-      message: 'kaboom',
-    })
+    expect(await getProfileByUsername('x')).toBeNull()
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })

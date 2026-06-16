@@ -158,34 +158,49 @@ function mapPostRow(row: PostRow): ForumPost {
 // Read
 // ---------------------------------------------------------------------------
 
+// Build resilience: forum reads have NO seed (a fresh cloud DB legitimately has
+// no categories/threads/posts yet), so each EMPTY fallback is `[]` / `null`. A
+// live failure (empty / unmigrated / unreachable DB) MUST NOT throw out of these
+// read fns — that would crash a render / `next build`. We log once and fall back.
+
 /** All forum categories, ordered by sort_order asc. `[]` when unconfigured. */
 export async function listCategories(): Promise<ForumCategory[]> {
   if (!isSupabaseConfigured()) return []
 
-  const supabase = await getServerClient()
-  const { data, error } = await supabase
-    .from('forum_categories')
-    .select('id, name, slug, description, sort_order')
-    .order('sort_order', { ascending: true })
+  try {
+    const supabase = await getServerClient()
+    const { data, error } = await supabase
+      .from('forum_categories')
+      .select('id, name, slug, description, sort_order')
+      .order('sort_order', { ascending: true })
 
-  if (error) throw error
-  return ((data ?? []) as CategoryRow[]).map(mapCategoryRow)
+    if (error) throw error
+    return ((data ?? []) as CategoryRow[]).map(mapCategoryRow)
+  } catch (err) {
+    console.warn('[data] listCategories live query failed, falling back:', err)
+    return []
+  }
 }
 
 /** A single category by slug, or `null` if not found / unconfigured. */
 export async function getCategory(slug: string): Promise<ForumCategory | null> {
   if (!isSupabaseConfigured()) return null
 
-  const supabase = await getServerClient()
-  const { data, error } = await supabase
-    .from('forum_categories')
-    .select('id, name, slug, description, sort_order')
-    .eq('slug', slug)
-    .maybeSingle()
+  try {
+    const supabase = await getServerClient()
+    const { data, error } = await supabase
+      .from('forum_categories')
+      .select('id, name, slug, description, sort_order')
+      .eq('slug', slug)
+      .maybeSingle()
 
-  if (error) throw error
-  if (!data) return null
-  return mapCategoryRow(data as CategoryRow)
+    if (error) throw error
+    if (!data) return null
+    return mapCategoryRow(data as CategoryRow)
+  } catch (err) {
+    console.warn('[data] getCategory live query failed, falling back:', err)
+    return null
+  }
 }
 
 /**
@@ -199,20 +214,25 @@ export async function getCategory(slug: string): Promise<ForumCategory | null> {
 export async function listThreads(categoryId: string): Promise<ForumThread[]> {
   if (!isSupabaseConfigured()) return []
 
-  const supabase = await getServerClient()
-  const { data, error } = await supabase
-    .from('forum_threads')
-    .select(THREAD_COLUMNS)
-    // Count only live posts for postCount.
-    .eq('post_count.is_deleted', false)
-    .eq('category_id', categoryId)
-    .order('is_pinned', { ascending: false })
-    .order('last_activity_at', { ascending: false })
+  try {
+    const supabase = await getServerClient()
+    const { data, error } = await supabase
+      .from('forum_threads')
+      .select(THREAD_COLUMNS)
+      // Count only live posts for postCount.
+      .eq('post_count.is_deleted', false)
+      .eq('category_id', categoryId)
+      .order('is_pinned', { ascending: false })
+      .order('last_activity_at', { ascending: false })
 
-  if (error) throw error
+    if (error) throw error
 
-  // The aliased embeds defeat the generated row typing, so cast through unknown.
-  return ((data ?? []) as unknown as ThreadRow[]).map(mapThreadRow)
+    // The aliased embeds defeat the generated row typing, so cast through unknown.
+    return ((data ?? []) as unknown as ThreadRow[]).map(mapThreadRow)
+  } catch (err) {
+    console.warn('[data] listThreads live query failed, falling back:', err)
+    return []
+  }
 }
 
 /**
@@ -225,46 +245,54 @@ export async function getThread(
 ): Promise<ForumThreadWithPosts | null> {
   if (!isSupabaseConfigured()) return null
 
-  const supabase = await getServerClient()
+  try {
+    const supabase = await getServerClient()
 
-  // A uuid id and a slug never collide; try id first, then slug.
-  const isUuid =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-      idOrSlug,
-    )
+    // A uuid id and a slug never collide; try id first, then slug.
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        idOrSlug,
+      )
 
-  // Count only LIVE (non-deleted) posts for postCount, consistent with
-  // listThreads — getThread still RETURNS soft-deleted posts (blanked) below,
-  // but the numeric postCount must exclude them.
-  const query = supabase
-    .from('forum_threads')
-    .select(THREAD_COLUMNS)
-    .eq('post_count.is_deleted', false)
+    // Count only LIVE (non-deleted) posts for postCount, consistent with
+    // listThreads — getThread still RETURNS soft-deleted posts (blanked) below,
+    // but the numeric postCount must exclude them.
+    const query = supabase
+      .from('forum_threads')
+      .select(THREAD_COLUMNS)
+      .eq('post_count.is_deleted', false)
 
-  // slug now has a UNIQUE index, but be robust regardless: order + limit(1) so an
-  // unexpected duplicate resolves to one row instead of throwing PGRST116. (id is
-  // the primary key, so its branch is inherently single-row.)
-  const scoped = isUuid
-    ? query.eq('id', idOrSlug)
-    : query.eq('slug', idOrSlug).order('created_at', { ascending: true }).limit(1)
+    // slug now has a UNIQUE index, but be robust regardless: order + limit(1) so an
+    // unexpected duplicate resolves to one row instead of throwing PGRST116. (id is
+    // the primary key, so its branch is inherently single-row.)
+    const scoped = isUuid
+      ? query.eq('id', idOrSlug)
+      : query
+          .eq('slug', idOrSlug)
+          .order('created_at', { ascending: true })
+          .limit(1)
 
-  const { data: threadData, error: threadError } = await scoped.maybeSingle()
+    const { data: threadData, error: threadError } = await scoped.maybeSingle()
 
-  if (threadError) throw threadError
-  if (!threadData) return null
+    if (threadError) throw threadError
+    if (!threadData) return null
 
-  const thread = mapThreadRow(threadData as unknown as ThreadRow)
+    const thread = mapThreadRow(threadData as unknown as ThreadRow)
 
-  const { data: postsData, error: postsError } = await supabase
-    .from('forum_posts')
-    .select(POST_COLUMNS)
-    .eq('thread_id', thread.id)
-    .order('created_at', { ascending: true })
+    const { data: postsData, error: postsError } = await supabase
+      .from('forum_posts')
+      .select(POST_COLUMNS)
+      .eq('thread_id', thread.id)
+      .order('created_at', { ascending: true })
 
-  if (postsError) throw postsError
+    if (postsError) throw postsError
 
-  const posts = ((postsData ?? []) as unknown as PostRow[]).map(mapPostRow)
-  return { ...thread, posts }
+    const posts = ((postsData ?? []) as unknown as PostRow[]).map(mapPostRow)
+    return { ...thread, posts }
+  } catch (err) {
+    console.warn('[data] getThread live query failed, falling back:', err)
+    return null
+  }
 }
 
 // ---------------------------------------------------------------------------

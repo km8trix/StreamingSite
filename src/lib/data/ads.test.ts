@@ -263,11 +263,27 @@ describe('getAdForPlacement — live Supabase', () => {
     expect(await getAdForPlacement('home-banner')).toBeNull()
   })
 
-  it('throws when the query errors', async () => {
+  it('falls back to a seed ad when the live query errors (build resilience)', async () => {
+    // Build resilience (Vercel): a live ad query MUST NOT throw — ad slots render
+    // on statically generated pages too, and the cloud DB may be empty / unmigrated
+    // (PGRST205) / unreachable. The live error now degrades to the seed weighted-pick
+    // for the slot instead of crashing the render/build.
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.select = { data: null, error: { message: 'boom' } }
-    await expect(getAdForPlacement('home-banner')).rejects.toMatchObject({
-      message: 'boom',
-    })
+    const ad = await getAdForPlacement('home-banner')
+    // The seed has a 'home-banner' ad, so the fallback returns one (never throws).
+    expect(ad).not.toBeNull()
+    expect(ad!.placementKey).toBe('home-banner')
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
+  })
+
+  it('falls back to null when the live query errors for a slot with no seed ad', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    installed.select = { data: null, error: { message: 'boom' } }
+    expect(await getAdForPlacement('no-such-slot')).toBeNull()
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 

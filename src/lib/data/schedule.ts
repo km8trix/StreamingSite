@@ -67,67 +67,78 @@ type SlotRow = {
 // Public API
 // ---------------------------------------------------------------------------
 
+// Seed-fallback computation, reused by both the "unconfigured" branch and the
+// live-error catch branch. A live query MUST NEVER throw out of this read fn:
+// `next build` calls it at static-generation time, and the cloud DB may be
+// empty, missing migrations, or unreachable — we log once and use the seed.
+function seedWeeklySchedule(): ScheduleEntry[] {
+  return SEED_SLOTS.map((slot): ScheduleEntry => {
+    const show = SEED_SHOWS.find((s) => s.id === slot.showId)
+    if (!show) return null as unknown as ScheduleEntry
+    const summary: ShowSummary = {
+      id: show.id,
+      slug: show.slug,
+      title: show.title,
+      coverImage: show.coverImage,
+      subEpisodes: show.subEpisodes,
+      dubEpisodes: show.dubEpisodes,
+      status: show.status as ShowSummary['status'],
+      year: show.year,
+    }
+    return {
+      show: summary,
+      dayOfWeek: slot.dayOfWeek as DayOfWeek,
+      airTime: slot.airTime,
+      timezone: slot.timezone,
+    }
+  }).filter((e): e is ScheduleEntry => e !== null)
+}
+
 /**
  * Returns all airing shows' weekly air slots as ScheduleEntry objects.
  * airTime is 'HH:MM' 24h in the slot's timezone (default 'Asia/Tokyo' / JST).
  * Do NOT convert timezone here — that is the UI's job at render time.
  */
 export async function getWeeklySchedule(): Promise<ScheduleEntry[]> {
-  if (!isSupabaseConfigured()) {
-    return SEED_SLOTS.map((slot): ScheduleEntry => {
-      const show = SEED_SHOWS.find((s) => s.id === slot.showId)
-      if (!show) return null as unknown as ScheduleEntry
-      const summary: ShowSummary = {
-        id: show.id,
-        slug: show.slug,
-        title: show.title,
-        coverImage: show.coverImage,
-        subEpisodes: show.subEpisodes,
-        dubEpisodes: show.dubEpisodes,
-        status: show.status as ShowSummary['status'],
-        year: show.year,
-      }
-      return {
-        show: summary,
-        dayOfWeek: slot.dayOfWeek as DayOfWeek,
-        airTime: slot.airTime,
-        timezone: slot.timezone,
-      }
-    }).filter((e): e is ScheduleEntry => e !== null)
+  if (!isSupabaseConfigured()) return seedWeeklySchedule()
+
+  try {
+    const supabase = await getPublicClient()
+    const { data, error } = await supabase
+      .from('airing_slots')
+      .select(
+        `id, show_id, day_of_week, air_time, timezone, season,
+         shows ( id, slug, title, cover_image, sub_episodes, dub_episodes, status, year )`,
+      )
+      .order('day_of_week', { ascending: true })
+      .order('air_time', { ascending: true })
+
+    if (error) throw error
+
+    return ((data ?? []) as SlotRow[])
+      .map((row): ScheduleEntry | null => {
+        if (!row.shows) return null
+        const s = row.shows
+        const summary: ShowSummary = {
+          id: s.id,
+          slug: s.slug,
+          title: s.title,
+          coverImage: s.cover_image,
+          subEpisodes: s.sub_episodes,
+          dubEpisodes: s.dub_episodes,
+          status: s.status as ShowSummary['status'],
+          year: s.year,
+        }
+        return {
+          show: summary,
+          dayOfWeek: row.day_of_week as DayOfWeek,
+          airTime: row.air_time,
+          timezone: row.timezone,
+        }
+      })
+      .filter((e): e is ScheduleEntry => e !== null)
+  } catch (err) {
+    console.warn('[data] getWeeklySchedule live query failed, falling back:', err)
+    return seedWeeklySchedule()
   }
-
-  const supabase = await getPublicClient()
-  const { data, error } = await supabase
-    .from('airing_slots')
-    .select(
-      `id, show_id, day_of_week, air_time, timezone, season,
-       shows ( id, slug, title, cover_image, sub_episodes, dub_episodes, status, year )`,
-    )
-    .order('day_of_week', { ascending: true })
-    .order('air_time', { ascending: true })
-
-  if (error) throw error
-
-  return ((data ?? []) as SlotRow[])
-    .map((row): ScheduleEntry | null => {
-      if (!row.shows) return null
-      const s = row.shows
-      const summary: ShowSummary = {
-        id: s.id,
-        slug: s.slug,
-        title: s.title,
-        coverImage: s.cover_image,
-        subEpisodes: s.sub_episodes,
-        dubEpisodes: s.dub_episodes,
-        status: s.status as ShowSummary['status'],
-        year: s.year,
-      }
-      return {
-        show: summary,
-        dayOfWeek: row.day_of_week as DayOfWeek,
-        airTime: row.air_time,
-        timezone: row.timezone,
-      }
-    })
-    .filter((e): e is ScheduleEntry => e !== null)
 }

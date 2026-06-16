@@ -3,7 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
-import { getAllShows, getShowBySlug } from '@/lib/data'
+import { getShowBySlug } from '@/lib/data'
+import seed from '@/lib/data/seed.json'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
 import { StatusBadge } from '@/components/StatusBadge'
@@ -12,22 +13,26 @@ import { WatchSection } from '@/components/WatchSection'
 
 type Params = { slug: string }
 
-// The catalog is fully known at build time, so prerender every show and let any
-// unknown slug fall through to Next's real 404 handler (true 404 status) rather
-// than being rendered on demand. notFound() below still guards the live-Supabase
-// path where a slug could 404 at request time.
+// Prerender every show in the bundled seed at build time, but allow slugs that
+// only exist in the live DB to render ON DEMAND too (dynamicParams = true).
 //
-// NOTE (M3): this only keeps producing a hard 404 because the auth/session read
-// in the header is isolated behind a <Suspense> boundary (see SiteHeader). That
-// keeps this route statically prerenderable; without it, the cookie read would
-// taint the tree dynamic and an unknown slug would render the not-found UI with
-// a 200 status instead of 404.
-export const dynamicParams = false
+// We intentionally do NOT query the live database here: build-time path
+// enumeration must never depend on the cloud DB being reachable/seeded/migrated
+// (a thrown query here crashes `next build` → "Collecting page data" on Vercel).
+// Deriving params straight from the bundled seed.json keeps the build fully
+// self-contained; getShowBySlug() below still calls notFound() for any slug that
+// resolves to no show, so unknown slugs correctly 404 at request time.
+export const dynamicParams = true
 
-// Prerender every seed show at build time.
+// Prerender every seed show at build time (no live DB query).
 export async function generateStaticParams(): Promise<Params[]> {
-  const shows = await getAllShows()
-  return shows.map((s) => ({ slug: s.slug }))
+  try {
+    const shows = (seed.shows ?? []) as { slug: string }[]
+    return shows.map((s) => ({ slug: s.slug }))
+  } catch {
+    // Final safety net: never let path enumeration crash the build.
+    return []
+  }
 }
 
 export async function generateMetadata({

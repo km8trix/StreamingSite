@@ -103,115 +103,126 @@ export async function searchAndFilterShows(
 ): Promise<ShowFilterResult> {
   const { query, genres, audio, status, year, sort = 'popularity' } = filter
 
-  // -------------------------------------------------------------------------
-  // Seed-fallback path (in-memory filtering + sorting)
-  // -------------------------------------------------------------------------
-  if (!isSupabaseConfigured()) {
-    let results = [...SEED_SHOWS]
+  // Seed-fallback path (in-memory filtering + sorting). Reused as the live-error
+  // fallback too: a live query MUST NEVER throw out of this read fn — `next build`
+  // calls it during static generation and the cloud DB may be empty / unmigrated
+  // / unreachable. We log once and fall back to the seed result instead.
+  if (!isSupabaseConfigured()) return seedSearchAndFilter(filter)
 
-    // Title: case-insensitive substring
-    if (query && query.trim().length > 0) {
-      const q = query.trim().toLowerCase()
-      results = results.filter((s) => s.title.toLowerCase().includes(q))
-    }
+  try {
+    // -----------------------------------------------------------------------
+    // Supabase path
+    // -----------------------------------------------------------------------
+    const supabase = await getPublicClient()
 
-    // Genres: OR — show matches if any of its genre slugs is in the filter set
+    // Genre filter via a robust two-step using base-table .in() calls (avoids
+    // embedded-resource filter syntax). 1) resolve the selected slugs to genre
+    // ids; 2) resolve those genre ids to the matching show ids.
+    let genreShowIds: Set<string> | null = null
     if (genres && genres.length > 0) {
-      const slugSet = new Set(genres)
-      results = results.filter((s) =>
-        s.genres.some((g) => slugSet.has(g.slug)),
+      const { data: genreRows, error: genreErr } = await supabase
+        .from('genres')
+        .select('id')
+        .in('slug', genres)
+
+      if (genreErr) throw genreErr
+      const genreIds = (genreRows as { id: string }[]).map((r) => r.id)
+
+      const { data: sgData, error: sgErr } = await supabase
+        .from('show_genres')
+        .select('show_id')
+        .in('genre_id', genreIds)
+
+      if (sgErr) throw sgErr
+      genreShowIds = new Set(
+        (sgData as { show_id: string }[]).map((r) => r.show_id),
       )
     }
 
+    let q = supabase.from('shows').select(SHOW_COLUMNS, { count: 'exact' })
+
+    // Title: case-insensitive substring via ilike
+    if (query && query.trim().length > 0) {
+      q = q.ilike('title', `%${query.trim()}%`)
+    }
+
+    // Genre: restrict to precomputed show_ids
+    if (genreShowIds !== null) {
+      q = q.in('id', Array.from(genreShowIds))
+    }
+
     // Audio
-    if (audio === 'sub') results = results.filter((s) => s.subEpisodes > 0)
-    if (audio === 'dub') results = results.filter((s) => s.dubEpisodes > 0)
+    if (audio === 'sub') q = q.gt('sub_episodes', 0)
+    if (audio === 'dub') q = q.gt('dub_episodes', 0)
 
     // Status
-    if (status) results = results.filter((s) => s.status === status)
+    if (status) q = q.eq('status', status)
 
     // Year
-    if (year != null) results = results.filter((s) => s.year === year)
+    if (year != null) q = q.eq('year', year)
 
     // Sort
-    results = sortSeed(results, sort)
+    switch (sort) {
+      case 'title':
+        q = q.order('title', { ascending: true })
+        break
+      case 'recent':
+        q = q.order('updated_at', { ascending: false })
+        break
+      case 'year':
+        q = q.order('year', { ascending: false })
+        break
+      case 'popularity':
+      default:
+        q = q.order('popularity_score', { ascending: false })
+    }
 
-    return { shows: results.map(toSummary), total: results.length }
-  }
+    const { data, error, count } = await q
 
-  // -------------------------------------------------------------------------
-  // Supabase path
-  // -------------------------------------------------------------------------
-  const supabase = await getPublicClient()
+    if (error) throw error
 
-  // Genre filter via a robust two-step using base-table .in() calls (avoids
-  // embedded-resource filter syntax). 1) resolve the selected slugs to genre
-  // ids; 2) resolve those genre ids to the matching show ids.
-  let genreShowIds: Set<string> | null = null
-  if (genres && genres.length > 0) {
-    const { data: genreRows, error: genreErr } = await supabase
-      .from('genres')
-      .select('id')
-      .in('slug', genres)
-
-    if (genreErr) throw genreErr
-    const genreIds = (genreRows as { id: string }[]).map((r) => r.id)
-
-    const { data: sgData, error: sgErr } = await supabase
-      .from('show_genres')
-      .select('show_id')
-      .in('genre_id', genreIds)
-
-    if (sgErr) throw sgErr
-    genreShowIds = new Set(
-      (sgData as { show_id: string }[]).map((r) => r.show_id),
+    const shows = (data ?? []).map((r) => mapRow(r as ShowRow))
+    return { shows, total: count ?? shows.length }
+  } catch (err) {
+    console.warn(
+      '[data] searchAndFilterShows live query failed, falling back:',
+      err,
     )
+    return seedSearchAndFilter(filter)
   }
+}
 
-  let q = supabase.from('shows').select(SHOW_COLUMNS, { count: 'exact' })
+// In-memory seed filter+sort — the seed-fallback result for searchAndFilterShows.
+function seedSearchAndFilter(filter: ShowFilter): ShowFilterResult {
+  const { query, genres, audio, status, year, sort = 'popularity' } = filter
+  let results = [...SEED_SHOWS]
 
-  // Title: case-insensitive substring via ilike
+  // Title: case-insensitive substring
   if (query && query.trim().length > 0) {
-    q = q.ilike('title', `%${query.trim()}%`)
+    const q = query.trim().toLowerCase()
+    results = results.filter((s) => s.title.toLowerCase().includes(q))
   }
 
-  // Genre: restrict to precomputed show_ids
-  if (genreShowIds !== null) {
-    q = q.in('id', Array.from(genreShowIds))
+  // Genres: OR — show matches if any of its genre slugs is in the filter set
+  if (genres && genres.length > 0) {
+    const slugSet = new Set(genres)
+    results = results.filter((s) => s.genres.some((g) => slugSet.has(g.slug)))
   }
 
   // Audio
-  if (audio === 'sub') q = q.gt('sub_episodes', 0)
-  if (audio === 'dub') q = q.gt('dub_episodes', 0)
+  if (audio === 'sub') results = results.filter((s) => s.subEpisodes > 0)
+  if (audio === 'dub') results = results.filter((s) => s.dubEpisodes > 0)
 
   // Status
-  if (status) q = q.eq('status', status)
+  if (status) results = results.filter((s) => s.status === status)
 
   // Year
-  if (year != null) q = q.eq('year', year)
+  if (year != null) results = results.filter((s) => s.year === year)
 
   // Sort
-  switch (sort) {
-    case 'title':
-      q = q.order('title', { ascending: true })
-      break
-    case 'recent':
-      q = q.order('updated_at', { ascending: false })
-      break
-    case 'year':
-      q = q.order('year', { ascending: false })
-      break
-    case 'popularity':
-    default:
-      q = q.order('popularity_score', { ascending: false })
-  }
+  results = sortSeed(results, sort)
 
-  const { data, error, count } = await q
-
-  if (error) throw error
-
-  const shows = (data ?? []).map((r) => mapRow(r as ShowRow))
-  return { shows, total: count ?? shows.length }
+  return { shows: results.map(toSummary), total: results.length }
 }
 
 /**
@@ -219,32 +230,42 @@ export async function searchAndFilterShows(
  * Null years are excluded.
  */
 export async function listFilterYears(): Promise<number[]> {
-  if (!isSupabaseConfigured()) {
-    const years = [
-      ...new Set(SEED_SHOWS.map((s) => s.year).filter((y): y is number => y != null)),
-    ]
-    return years.sort((a, b) => b - a)
-  }
+  if (!isSupabaseConfigured()) return seedFilterYears()
 
-  const supabase = await getPublicClient()
-  const { data, error } = await supabase
-    .from('shows')
-    .select('year')
-    .not('year', 'is', null)
-    .order('year', { ascending: false })
+  try {
+    const supabase = await getPublicClient()
+    const { data, error } = await supabase
+      .from('shows')
+      .select('year')
+      .not('year', 'is', null)
+      .order('year', { ascending: false })
 
-  if (error) throw error
+    if (error) throw error
 
-  const seen = new Set<number>()
-  const years: number[] = []
-  for (const row of data ?? []) {
-    const y = (row as { year: number | null }).year
-    if (y != null && !seen.has(y)) {
-      seen.add(y)
-      years.push(y)
+    const seen = new Set<number>()
+    const years: number[] = []
+    for (const row of data ?? []) {
+      const y = (row as { year: number | null }).year
+      if (y != null && !seen.has(y)) {
+        seen.add(y)
+        years.push(y)
+      }
     }
+    return years
+  } catch (err) {
+    console.warn('[data] listFilterYears live query failed, falling back:', err)
+    return seedFilterYears()
   }
-  return years
+}
+
+// Distinct seed years (desc) — the seed-fallback result for listFilterYears.
+function seedFilterYears(): number[] {
+  const years = [
+    ...new Set(
+      SEED_SHOWS.map((s) => s.year).filter((y): y is number => y != null),
+    ),
+  ]
+  return years.sort((a, b) => b - a)
 }
 
 // ---------------------------------------------------------------------------

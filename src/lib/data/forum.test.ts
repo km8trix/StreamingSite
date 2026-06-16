@@ -377,9 +377,16 @@ describe('listCategories', () => {
     expect(cat).not.toHaveProperty('sort_order')
   })
 
-  it('throws when the query errors', async () => {
+  it('falls back to [] when the query errors (build resilience)', async () => {
+    // Build resilience (Vercel): forum reads have no seed and MUST NOT throw —
+    // a fresh / unmigrated (PGRST205) / unreachable cloud DB legitimately yields
+    // no categories. The error degrades to [] (the unconfigured value) instead of
+    // crashing the render/build.
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.categoriesList = { data: null, error: { message: 'boom' } }
-    await expect(listCategories()).rejects.toMatchObject({ message: 'boom' })
+    expect(await listCategories()).toEqual([])
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 
@@ -407,9 +414,12 @@ describe('getCategory', () => {
     expect(await getCategory('nope')).toBeNull()
   })
 
-  it('throws when the query errors', async () => {
+  it('falls back to null when the query errors (build resilience)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.categoryLookup = { data: null, error: { message: 'kaboom' } }
-    await expect(getCategory('x')).rejects.toMatchObject({ message: 'kaboom' })
+    expect(await getCategory('x')).toBeNull()
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 
@@ -508,9 +518,12 @@ describe('listThreads', () => {
     expect(thread.author).not.toHaveProperty('avatar_url')
   })
 
-  it('throws when the query errors', async () => {
+  it('falls back to [] when the query errors (build resilience)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.threadsList = { data: null, error: { message: 'threads boom' } }
-    await expect(listThreads('cat-general')).rejects.toMatchObject({ message: 'threads boom' })
+    expect(await listThreads('cat-general')).toEqual([])
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 
@@ -610,15 +623,21 @@ describe('getThread', () => {
     expect(post.author).not.toHaveProperty('display_name')
   })
 
-  it('throws when the thread read errors', async () => {
+  it('falls back to null when the thread read errors (build resilience)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.threadLookup = { data: null, error: { message: 'read boom' } }
-    await expect(getThread(UUID)).rejects.toMatchObject({ message: 'read boom' })
+    expect(await getThread(UUID)).toBeNull()
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 
-  it('throws when the posts read errors', async () => {
+  it('falls back to null when the posts read errors (build resilience)', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     installed.threadLookup = { data: rawThread(), error: null }
     installed.postsList = { data: null, error: { message: 'posts boom' } }
-    await expect(getThread(UUID)).rejects.toMatchObject({ message: 'posts boom' })
+    expect(await getThread(UUID)).toBeNull()
+    expect(warn).toHaveBeenCalled()
+    warn.mockRestore()
   })
 })
 
