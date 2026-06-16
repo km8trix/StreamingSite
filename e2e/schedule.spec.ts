@@ -75,8 +75,12 @@ test.describe('Schedule page (/schedule)', () => {
     expect(href).toBeTruthy()
     await firstEntry.click()
     await page.waitForURL(`**${href}`)
-    // Confirm we landed on a real detail page.
-    await expect(page.getByTestId('player-placeholder')).toBeVisible()
+    // Confirm we landed on a real detail page. The watch section renders either
+    // the real <VideoPlayer> (episode has a stream) or the <PlayerPlaceholder>.
+    await expect(page.getByTestId('watch-section')).toBeVisible()
+    await expect(
+      page.getByTestId('video-player').or(page.getByTestId('player-placeholder')),
+    ).toBeVisible()
   })
 
   test('empty days render without crashing (show "No releases")', async ({ page }) => {

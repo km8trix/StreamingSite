@@ -39,6 +39,7 @@ export function makeEpisode(overrides: Partial<Episode> = {}): Episode {
     isSubbed: true,
     isDubbed: true,
     airDate: '1998-04-03',
+    videoUrl: null,
     ...overrides,
   }
 }

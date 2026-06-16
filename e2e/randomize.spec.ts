@@ -12,8 +12,13 @@ test.describe('Randomizer', () => {
     await page.waitForURL(/\/shows\/.+/)
     expect(page.url()).toMatch(/\/shows\/.+/)
 
-    // Confirm we actually landed on a real detail page.
-    await expect(page.getByTestId('player-placeholder')).toBeVisible()
+    // Confirm we actually landed on a real detail page. A random show may or
+    // may not have a seeded stream, so accept either the real <VideoPlayer> or
+    // the <PlayerPlaceholder> render path.
+    await expect(page.getByTestId('watch-section')).toBeVisible()
+    await expect(
+      page.getByTestId('video-player').or(page.getByTestId('player-placeholder')),
+    ).toBeVisible()
   })
 
   test('visiting /random redirects to a show detail page', async ({ page }) => {

@@ -105,7 +105,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-16"
+          "airDate": "2025-12-16",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-001-ep-002",
@@ -113,7 +114,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-23"
+          "airDate": "2025-12-23",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-003",
@@ -121,7 +123,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-30"
+          "airDate": "2025-12-30",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-004",
@@ -129,7 +132,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-06"
+          "airDate": "2026-01-06",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-005",
@@ -137,7 +141,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-13"
+          "airDate": "2026-01-13",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-006",
@@ -145,7 +150,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-20"
+          "airDate": "2026-01-20",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-007",
@@ -153,7 +159,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-27"
+          "airDate": "2026-01-27",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-008",
@@ -161,7 +168,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-03"
+          "airDate": "2026-02-03",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-009",
@@ -169,7 +177,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-10"
+          "airDate": "2026-02-10",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-010",
@@ -177,7 +186,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-17"
+          "airDate": "2026-02-17",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-011",
@@ -185,7 +195,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-24"
+          "airDate": "2026-02-24",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-012",
@@ -193,7 +204,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-03"
+          "airDate": "2026-03-03",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-013",
@@ -201,7 +213,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-10"
+          "airDate": "2026-03-10",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-014",
@@ -209,7 +222,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-17"
+          "airDate": "2026-03-17",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-015",
@@ -217,7 +231,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-24"
+          "airDate": "2026-03-24",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-016",
@@ -225,7 +240,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-31"
+          "airDate": "2026-03-31",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-017",
@@ -233,7 +249,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-018",
@@ -241,7 +258,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-019",
@@ -249,7 +267,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-020",
@@ -257,7 +276,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-021",
@@ -265,7 +285,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-022",
@@ -273,7 +294,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-023",
@@ -281,7 +303,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-024",
@@ -289,7 +312,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-26"
+          "airDate": "2026-05-26",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-025",
@@ -297,7 +321,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-02"
+          "airDate": "2026-06-02",
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-026",
@@ -305,7 +330,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-09"
+          "airDate": "2026-06-09",
+          "videoUrl": null
         }
       ],
       "popularityScore": 1458270,
@@ -351,7 +377,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-29"
+          "airDate": "2026-03-29",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-002-ep-002",
@@ -359,7 +386,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-05"
+          "airDate": "2026-04-05",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-003",
@@ -367,7 +395,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-12"
+          "airDate": "2026-04-12",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-004",
@@ -375,7 +404,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-19"
+          "airDate": "2026-04-19",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-005",
@@ -383,7 +413,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-26"
+          "airDate": "2026-04-26",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-006",
@@ -391,7 +422,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-03"
+          "airDate": "2026-05-03",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-007",
@@ -399,7 +431,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-10"
+          "airDate": "2026-05-10",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-008",
@@ -407,7 +440,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-17"
+          "airDate": "2026-05-17",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-009",
@@ -415,7 +449,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-24"
+          "airDate": "2026-05-24",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-010",
@@ -423,7 +458,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-31"
+          "airDate": "2026-05-31",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-011",
@@ -431,7 +467,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-07"
+          "airDate": "2026-06-07",
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-012",
@@ -439,7 +476,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-14"
+          "airDate": "2026-06-14",
+          "videoUrl": null
         }
       ],
       "popularityScore": 212973,
@@ -485,7 +523,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-11-25"
+          "airDate": "2025-11-25",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-003-ep-002",
@@ -493,7 +532,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-02"
+          "airDate": "2025-12-02",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-003",
@@ -501,7 +541,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-09"
+          "airDate": "2025-12-09",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-004",
@@ -509,7 +550,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-16"
+          "airDate": "2025-12-16",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-005",
@@ -517,7 +559,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-23"
+          "airDate": "2025-12-23",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-006",
@@ -525,7 +568,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-30"
+          "airDate": "2025-12-30",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-007",
@@ -533,7 +577,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-06"
+          "airDate": "2026-01-06",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-008",
@@ -541,7 +586,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-13"
+          "airDate": "2026-01-13",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-009",
@@ -549,7 +595,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-20"
+          "airDate": "2026-01-20",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-010",
@@ -557,7 +604,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-27"
+          "airDate": "2026-01-27",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-011",
@@ -565,7 +613,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-03"
+          "airDate": "2026-02-03",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-012",
@@ -573,7 +622,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-10"
+          "airDate": "2026-02-10",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-013",
@@ -581,7 +631,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-17"
+          "airDate": "2026-02-17",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-014",
@@ -589,7 +640,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-24"
+          "airDate": "2026-02-24",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-015",
@@ -597,7 +649,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-03"
+          "airDate": "2026-03-03",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-016",
@@ -605,7 +658,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-10"
+          "airDate": "2026-03-10",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-017",
@@ -613,7 +667,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-17"
+          "airDate": "2026-03-17",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-018",
@@ -621,7 +676,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-24"
+          "airDate": "2026-03-24",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-019",
@@ -629,7 +685,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-31"
+          "airDate": "2026-03-31",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-020",
@@ -637,7 +694,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-021",
@@ -645,7 +703,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-022",
@@ -653,7 +712,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-023",
@@ -661,7 +721,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-024",
@@ -669,7 +730,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-025",
@@ -677,7 +739,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-026",
@@ -685,7 +748,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         }
       ],
       "popularityScore": 3697344,
@@ -721,7 +785,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-31"
+          "airDate": "2026-05-31",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         }
       ],
       "popularityScore": 496946,
@@ -762,7 +827,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-29"
+          "airDate": "2025-12-29",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-005-ep-002",
@@ -770,7 +836,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-05"
+          "airDate": "2026-01-05",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-003",
@@ -778,7 +845,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-12"
+          "airDate": "2026-01-12",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-004",
@@ -786,7 +854,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-19"
+          "airDate": "2026-01-19",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-005",
@@ -794,7 +863,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-26"
+          "airDate": "2026-01-26",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-006",
@@ -802,7 +872,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-02"
+          "airDate": "2026-02-02",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-007",
@@ -810,7 +881,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-09"
+          "airDate": "2026-02-09",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-008",
@@ -818,7 +890,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-16"
+          "airDate": "2026-02-16",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-009",
@@ -826,7 +899,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-23"
+          "airDate": "2026-02-23",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-010",
@@ -834,7 +908,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-02"
+          "airDate": "2026-03-02",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-011",
@@ -842,7 +917,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-09"
+          "airDate": "2026-03-09",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-012",
@@ -850,7 +926,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-16"
+          "airDate": "2026-03-16",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-013",
@@ -858,7 +935,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-23"
+          "airDate": "2026-03-23",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-014",
@@ -866,7 +944,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-30"
+          "airDate": "2026-03-30",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-015",
@@ -874,7 +953,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-06"
+          "airDate": "2026-04-06",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-016",
@@ -882,7 +962,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-13"
+          "airDate": "2026-04-13",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-017",
@@ -890,7 +971,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-20"
+          "airDate": "2026-04-20",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-018",
@@ -898,7 +980,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-27"
+          "airDate": "2026-04-27",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-019",
@@ -906,7 +989,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-04"
+          "airDate": "2026-05-04",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-020",
@@ -914,7 +998,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-11"
+          "airDate": "2026-05-11",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-021",
@@ -922,7 +1007,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-18"
+          "airDate": "2026-05-18",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-022",
@@ -930,7 +1016,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-25"
+          "airDate": "2026-05-25",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-023",
@@ -938,7 +1025,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-01"
+          "airDate": "2026-06-01",
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-024",
@@ -946,7 +1034,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-08"
+          "airDate": "2026-06-08",
+          "videoUrl": null
         }
       ],
       "popularityScore": 2823401,
@@ -987,7 +1076,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-10"
+          "airDate": "2026-04-10",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-006-ep-002",
@@ -995,7 +1085,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-17"
+          "airDate": "2026-04-17",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-003",
@@ -1003,7 +1094,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-24"
+          "airDate": "2026-04-24",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-004",
@@ -1011,7 +1103,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-01"
+          "airDate": "2026-05-01",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-005",
@@ -1019,7 +1112,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-08"
+          "airDate": "2026-05-08",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-006",
@@ -1027,7 +1121,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-15"
+          "airDate": "2026-05-15",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-007",
@@ -1035,7 +1130,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-22"
+          "airDate": "2026-05-22",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-008",
@@ -1043,7 +1139,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-29"
+          "airDate": "2026-05-29",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-009",
@@ -1051,7 +1148,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-05"
+          "airDate": "2026-06-05",
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-010",
@@ -1059,7 +1157,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-12"
+          "airDate": "2026-06-12",
+          "videoUrl": null
         }
       ],
       "popularityScore": 2605771,
@@ -1100,7 +1199,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-10"
+          "airDate": "2025-12-10",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-007-ep-002",
@@ -1108,7 +1208,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-17"
+          "airDate": "2025-12-17",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-003",
@@ -1116,7 +1217,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-24"
+          "airDate": "2025-12-24",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-004",
@@ -1124,7 +1226,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-31"
+          "airDate": "2025-12-31",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-005",
@@ -1132,7 +1235,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-07"
+          "airDate": "2026-01-07",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-006",
@@ -1140,7 +1244,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-14"
+          "airDate": "2026-01-14",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-007",
@@ -1148,7 +1253,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-21"
+          "airDate": "2026-01-21",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-008",
@@ -1156,7 +1262,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-28"
+          "airDate": "2026-01-28",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-009",
@@ -1164,7 +1271,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-04"
+          "airDate": "2026-02-04",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-010",
@@ -1172,7 +1280,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-11"
+          "airDate": "2026-02-11",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-011",
@@ -1180,7 +1289,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-18"
+          "airDate": "2026-02-18",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-012",
@@ -1188,7 +1298,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-25"
+          "airDate": "2026-02-25",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-013",
@@ -1196,7 +1307,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-04"
+          "airDate": "2026-03-04",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-014",
@@ -1204,7 +1316,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-11"
+          "airDate": "2026-03-11",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-015",
@@ -1212,7 +1325,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-18"
+          "airDate": "2026-03-18",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-016",
@@ -1220,7 +1334,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-25"
+          "airDate": "2026-03-25",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-017",
@@ -1228,7 +1343,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-01"
+          "airDate": "2026-04-01",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-018",
@@ -1236,7 +1352,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-08"
+          "airDate": "2026-04-08",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-019",
@@ -1244,7 +1361,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-15"
+          "airDate": "2026-04-15",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-020",
@@ -1252,7 +1370,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-22"
+          "airDate": "2026-04-22",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-021",
@@ -1260,7 +1379,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-29"
+          "airDate": "2026-04-29",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-022",
@@ -1268,7 +1388,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-06"
+          "airDate": "2026-05-06",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-023",
@@ -1276,7 +1397,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-13"
+          "airDate": "2026-05-13",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-024",
@@ -1284,7 +1406,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-20"
+          "airDate": "2026-05-20",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-025",
@@ -1292,7 +1415,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-27"
+          "airDate": "2026-05-27",
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-026",
@@ -1300,7 +1424,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-03"
+          "airDate": "2026-06-03",
+          "videoUrl": null
         }
       ],
       "popularityScore": 694044,
@@ -1346,7 +1471,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-04"
+          "airDate": "2026-06-04",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         }
       ],
       "popularityScore": 185315,
@@ -1387,7 +1513,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-09"
+          "airDate": "2026-02-09",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-009-ep-002",
@@ -1395,7 +1522,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-16"
+          "airDate": "2026-02-16",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-003",
@@ -1403,7 +1531,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-23"
+          "airDate": "2026-02-23",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-004",
@@ -1411,7 +1540,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-02"
+          "airDate": "2026-03-02",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-005",
@@ -1419,7 +1549,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-09"
+          "airDate": "2026-03-09",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-006",
@@ -1427,7 +1558,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-16"
+          "airDate": "2026-03-16",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-007",
@@ -1435,7 +1567,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-23"
+          "airDate": "2026-03-23",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-008",
@@ -1443,7 +1576,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-30"
+          "airDate": "2026-03-30",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-009",
@@ -1451,7 +1585,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-06"
+          "airDate": "2026-04-06",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-010",
@@ -1459,7 +1594,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-13"
+          "airDate": "2026-04-13",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-011",
@@ -1467,7 +1603,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-20"
+          "airDate": "2026-04-20",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-012",
@@ -1475,7 +1612,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-27"
+          "airDate": "2026-04-27",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-013",
@@ -1483,7 +1621,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-04"
+          "airDate": "2026-05-04",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-014",
@@ -1491,7 +1630,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-11"
+          "airDate": "2026-05-11",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-015",
@@ -1499,7 +1639,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-18"
+          "airDate": "2026-05-18",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-016",
@@ -1507,7 +1648,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-25"
+          "airDate": "2026-05-25",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-017",
@@ -1515,7 +1657,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-01"
+          "airDate": "2026-06-01",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-018",
@@ -1523,7 +1666,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-08"
+          "airDate": "2026-06-08",
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-019",
@@ -1531,7 +1675,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-15"
+          "airDate": "2026-06-15",
+          "videoUrl": null
         }
       ],
       "popularityScore": 250862,
@@ -1572,7 +1717,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-05"
+          "airDate": "2025-12-05",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-010-ep-002",
@@ -1580,7 +1726,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-12"
+          "airDate": "2025-12-12",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-003",
@@ -1588,7 +1735,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-19"
+          "airDate": "2025-12-19",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-004",
@@ -1596,7 +1744,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-26"
+          "airDate": "2025-12-26",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-005",
@@ -1604,7 +1753,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-02"
+          "airDate": "2026-01-02",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-006",
@@ -1612,7 +1762,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-09"
+          "airDate": "2026-01-09",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-007",
@@ -1620,7 +1771,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-16"
+          "airDate": "2026-01-16",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-008",
@@ -1628,7 +1780,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-23"
+          "airDate": "2026-01-23",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-009",
@@ -1636,7 +1789,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-30"
+          "airDate": "2026-01-30",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-010",
@@ -1644,7 +1798,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-06"
+          "airDate": "2026-02-06",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-011",
@@ -1652,7 +1807,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-13"
+          "airDate": "2026-02-13",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-012",
@@ -1660,7 +1816,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-20"
+          "airDate": "2026-02-20",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-013",
@@ -1668,7 +1825,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-27"
+          "airDate": "2026-02-27",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-014",
@@ -1676,7 +1834,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-06"
+          "airDate": "2026-03-06",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-015",
@@ -1684,7 +1843,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-13"
+          "airDate": "2026-03-13",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-016",
@@ -1692,7 +1852,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-20"
+          "airDate": "2026-03-20",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-017",
@@ -1700,7 +1861,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-27"
+          "airDate": "2026-03-27",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-018",
@@ -1708,7 +1870,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-03"
+          "airDate": "2026-04-03",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-019",
@@ -1716,7 +1879,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-10"
+          "airDate": "2026-04-10",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-020",
@@ -1724,7 +1888,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-17"
+          "airDate": "2026-04-17",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-021",
@@ -1732,7 +1897,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-24"
+          "airDate": "2026-04-24",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-022",
@@ -1740,7 +1906,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-01"
+          "airDate": "2026-05-01",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-023",
@@ -1748,7 +1915,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-08"
+          "airDate": "2026-05-08",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-024",
@@ -1756,7 +1924,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-15"
+          "airDate": "2026-05-15",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-025",
@@ -1764,7 +1933,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-22"
+          "airDate": "2026-05-22",
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-026",
@@ -1772,7 +1942,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-29"
+          "airDate": "2026-05-29",
+          "videoUrl": null
         }
       ],
       "popularityScore": 3202930,
@@ -1813,7 +1984,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-11-28"
+          "airDate": "2025-11-28",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-011-ep-002",
@@ -1821,7 +1993,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-05"
+          "airDate": "2025-12-05",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-003",
@@ -1829,7 +2002,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-12"
+          "airDate": "2025-12-12",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-004",
@@ -1837,7 +2011,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-19"
+          "airDate": "2025-12-19",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-005",
@@ -1845,7 +2020,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-26"
+          "airDate": "2025-12-26",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-006",
@@ -1853,7 +2029,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-02"
+          "airDate": "2026-01-02",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-007",
@@ -1861,7 +2038,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-09"
+          "airDate": "2026-01-09",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-008",
@@ -1869,7 +2047,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-16"
+          "airDate": "2026-01-16",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-009",
@@ -1877,7 +2056,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-23"
+          "airDate": "2026-01-23",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-010",
@@ -1885,7 +2065,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-30"
+          "airDate": "2026-01-30",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-011",
@@ -1893,7 +2074,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-06"
+          "airDate": "2026-02-06",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-012",
@@ -1901,7 +2083,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-13"
+          "airDate": "2026-02-13",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-013",
@@ -1909,7 +2092,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-20"
+          "airDate": "2026-02-20",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-014",
@@ -1917,7 +2101,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-27"
+          "airDate": "2026-02-27",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-015",
@@ -1925,7 +2110,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-06"
+          "airDate": "2026-03-06",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-016",
@@ -1933,7 +2119,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-13"
+          "airDate": "2026-03-13",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-017",
@@ -1941,7 +2128,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-20"
+          "airDate": "2026-03-20",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-018",
@@ -1949,7 +2137,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-27"
+          "airDate": "2026-03-27",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-019",
@@ -1957,7 +2146,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-03"
+          "airDate": "2026-04-03",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-020",
@@ -1965,7 +2155,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-10"
+          "airDate": "2026-04-10",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-021",
@@ -1973,7 +2164,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-17"
+          "airDate": "2026-04-17",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-022",
@@ -1981,7 +2173,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-24"
+          "airDate": "2026-04-24",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-023",
@@ -1989,7 +2182,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-01"
+          "airDate": "2026-05-01",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-024",
@@ -1997,7 +2191,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-08"
+          "airDate": "2026-05-08",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-025",
@@ -2005,7 +2200,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-15"
+          "airDate": "2026-05-15",
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-026",
@@ -2013,7 +2209,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-22"
+          "airDate": "2026-05-22",
+          "videoUrl": null
         }
       ],
       "popularityScore": 616631,
@@ -2054,7 +2251,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-22"
+          "airDate": "2026-02-22",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-012-ep-002",
@@ -2062,7 +2260,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-01"
+          "airDate": "2026-03-01",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-003",
@@ -2070,7 +2269,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-08"
+          "airDate": "2026-03-08",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-004",
@@ -2078,7 +2278,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-15"
+          "airDate": "2026-03-15",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-005",
@@ -2086,7 +2287,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-22"
+          "airDate": "2026-03-22",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-006",
@@ -2094,7 +2296,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-29"
+          "airDate": "2026-03-29",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-007",
@@ -2102,7 +2305,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-05"
+          "airDate": "2026-04-05",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-008",
@@ -2110,7 +2314,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-12"
+          "airDate": "2026-04-12",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-009",
@@ -2118,7 +2323,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-19"
+          "airDate": "2026-04-19",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-010",
@@ -2126,7 +2332,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-26"
+          "airDate": "2026-04-26",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-011",
@@ -2134,7 +2341,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-03"
+          "airDate": "2026-05-03",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-012",
@@ -2142,7 +2350,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-10"
+          "airDate": "2026-05-10",
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-013",
@@ -2150,7 +2359,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-17"
+          "airDate": "2026-05-17",
+          "videoUrl": null
         }
       ],
       "popularityScore": 359435,
@@ -2186,7 +2396,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-03"
+          "airDate": "2025-12-03",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-013-ep-002",
@@ -2194,7 +2405,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-10"
+          "airDate": "2025-12-10",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-003",
@@ -2202,7 +2414,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-17"
+          "airDate": "2025-12-17",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-004",
@@ -2210,7 +2423,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-24"
+          "airDate": "2025-12-24",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-005",
@@ -2218,7 +2432,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-31"
+          "airDate": "2025-12-31",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-006",
@@ -2226,7 +2441,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-07"
+          "airDate": "2026-01-07",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-007",
@@ -2234,7 +2450,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-14"
+          "airDate": "2026-01-14",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-008",
@@ -2242,7 +2459,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-21"
+          "airDate": "2026-01-21",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-009",
@@ -2250,7 +2468,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-28"
+          "airDate": "2026-01-28",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-010",
@@ -2258,7 +2477,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-04"
+          "airDate": "2026-02-04",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-011",
@@ -2266,7 +2486,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-11"
+          "airDate": "2026-02-11",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-012",
@@ -2274,7 +2495,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-18"
+          "airDate": "2026-02-18",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-013",
@@ -2282,7 +2504,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-25"
+          "airDate": "2026-02-25",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-014",
@@ -2290,7 +2513,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-04"
+          "airDate": "2026-03-04",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-015",
@@ -2298,7 +2522,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-11"
+          "airDate": "2026-03-11",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-016",
@@ -2306,7 +2531,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-18"
+          "airDate": "2026-03-18",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-017",
@@ -2314,7 +2540,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-25"
+          "airDate": "2026-03-25",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-018",
@@ -2322,7 +2549,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-01"
+          "airDate": "2026-04-01",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-019",
@@ -2330,7 +2558,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-08"
+          "airDate": "2026-04-08",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-020",
@@ -2338,7 +2567,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-15"
+          "airDate": "2026-04-15",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-021",
@@ -2346,7 +2576,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-22"
+          "airDate": "2026-04-22",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-022",
@@ -2354,7 +2585,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-29"
+          "airDate": "2026-04-29",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-023",
@@ -2362,7 +2594,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-06"
+          "airDate": "2026-05-06",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-024",
@@ -2370,7 +2603,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-13"
+          "airDate": "2026-05-13",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-025",
@@ -2378,7 +2612,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-20"
+          "airDate": "2026-05-20",
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-026",
@@ -2386,7 +2621,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-27"
+          "airDate": "2026-05-27",
+          "videoUrl": null
         }
       ],
       "popularityScore": 364955,
@@ -2427,7 +2663,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-30"
+          "airDate": "2026-05-30",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         }
       ],
       "popularityScore": 158332,
@@ -2468,7 +2705,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-07"
+          "airDate": "2026-03-07",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-015-ep-002",
@@ -2476,7 +2714,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-14"
+          "airDate": "2026-03-14",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-003",
@@ -2484,7 +2723,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-21"
+          "airDate": "2026-03-21",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-004",
@@ -2492,7 +2732,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-28"
+          "airDate": "2026-03-28",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-005",
@@ -2500,7 +2741,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-04"
+          "airDate": "2026-04-04",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-006",
@@ -2508,7 +2750,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-11"
+          "airDate": "2026-04-11",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-007",
@@ -2516,7 +2759,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-18"
+          "airDate": "2026-04-18",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-008",
@@ -2524,7 +2768,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-25"
+          "airDate": "2026-04-25",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-009",
@@ -2532,7 +2777,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-02"
+          "airDate": "2026-05-02",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-010",
@@ -2540,7 +2786,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-09"
+          "airDate": "2026-05-09",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-011",
@@ -2548,7 +2795,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-16"
+          "airDate": "2026-05-16",
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-012",
@@ -2556,7 +2804,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-23"
+          "airDate": "2026-05-23",
+          "videoUrl": null
         }
       ],
       "popularityScore": 350112,
@@ -2597,7 +2846,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-26"
+          "airDate": "2026-02-26",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-016-ep-002",
@@ -2605,7 +2855,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-05"
+          "airDate": "2026-03-05",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-003",
@@ -2613,7 +2864,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-12"
+          "airDate": "2026-03-12",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-004",
@@ -2621,7 +2873,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-19"
+          "airDate": "2026-03-19",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-005",
@@ -2629,7 +2882,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-26"
+          "airDate": "2026-03-26",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-006",
@@ -2637,7 +2891,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-02"
+          "airDate": "2026-04-02",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-007",
@@ -2645,7 +2900,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-09"
+          "airDate": "2026-04-09",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-008",
@@ -2653,7 +2909,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-16"
+          "airDate": "2026-04-16",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-009",
@@ -2661,7 +2918,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-23"
+          "airDate": "2026-04-23",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-010",
@@ -2669,7 +2927,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-30"
+          "airDate": "2026-04-30",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-011",
@@ -2677,7 +2936,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-07"
+          "airDate": "2026-05-07",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-012",
@@ -2685,7 +2945,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-14"
+          "airDate": "2026-05-14",
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-013",
@@ -2693,7 +2954,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-21"
+          "airDate": "2026-05-21",
+          "videoUrl": null
         }
       ],
       "popularityScore": 712213,
@@ -2729,7 +2991,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-26"
+          "airDate": "2026-02-26",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-017-ep-002",
@@ -2737,7 +3000,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-05"
+          "airDate": "2026-03-05",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-003",
@@ -2745,7 +3009,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-12"
+          "airDate": "2026-03-12",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-004",
@@ -2753,7 +3018,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-19"
+          "airDate": "2026-03-19",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-005",
@@ -2761,7 +3027,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-26"
+          "airDate": "2026-03-26",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-006",
@@ -2769,7 +3036,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-02"
+          "airDate": "2026-04-02",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-007",
@@ -2777,7 +3045,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-09"
+          "airDate": "2026-04-09",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-008",
@@ -2785,7 +3054,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-16"
+          "airDate": "2026-04-16",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-009",
@@ -2793,7 +3063,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-23"
+          "airDate": "2026-04-23",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-010",
@@ -2801,7 +3072,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-30"
+          "airDate": "2026-04-30",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-011",
@@ -2809,7 +3081,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-07"
+          "airDate": "2026-05-07",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-012",
@@ -2817,7 +3090,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-14"
+          "airDate": "2026-05-14",
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-013",
@@ -2825,7 +3099,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-21"
+          "airDate": "2026-05-21",
+          "videoUrl": null
         }
       ],
       "popularityScore": 1119164,
@@ -2866,7 +3141,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-14"
+          "airDate": "2026-03-14",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-018-ep-002",
@@ -2874,7 +3150,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-21"
+          "airDate": "2026-03-21",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-003",
@@ -2882,7 +3159,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-28"
+          "airDate": "2026-03-28",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-004",
@@ -2890,7 +3168,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-04"
+          "airDate": "2026-04-04",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-005",
@@ -2898,7 +3177,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-11"
+          "airDate": "2026-04-11",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-006",
@@ -2906,7 +3186,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-18"
+          "airDate": "2026-04-18",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-007",
@@ -2914,7 +3195,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-25"
+          "airDate": "2026-04-25",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-008",
@@ -2922,7 +3204,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-02"
+          "airDate": "2026-05-02",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-009",
@@ -2930,7 +3213,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-09"
+          "airDate": "2026-05-09",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-010",
@@ -2938,7 +3222,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-16"
+          "airDate": "2026-05-16",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-011",
@@ -2946,7 +3231,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-23"
+          "airDate": "2026-05-23",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-012",
@@ -2954,7 +3240,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-30"
+          "airDate": "2026-05-30",
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-013",
@@ -2962,7 +3249,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-06"
+          "airDate": "2026-06-06",
+          "videoUrl": null
         }
       ],
       "popularityScore": 566530,
@@ -2998,7 +3286,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-30"
+          "airDate": "2025-12-30",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-019-ep-002",
@@ -3006,7 +3295,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-06"
+          "airDate": "2026-01-06",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-003",
@@ -3014,7 +3304,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-13"
+          "airDate": "2026-01-13",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-004",
@@ -3022,7 +3313,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-20"
+          "airDate": "2026-01-20",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-005",
@@ -3030,7 +3322,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-27"
+          "airDate": "2026-01-27",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-006",
@@ -3038,7 +3331,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-03"
+          "airDate": "2026-02-03",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-007",
@@ -3046,7 +3340,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-10"
+          "airDate": "2026-02-10",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-008",
@@ -3054,7 +3349,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-17"
+          "airDate": "2026-02-17",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-009",
@@ -3062,7 +3358,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-24"
+          "airDate": "2026-02-24",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-010",
@@ -3070,7 +3367,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-03"
+          "airDate": "2026-03-03",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-011",
@@ -3078,7 +3376,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-10"
+          "airDate": "2026-03-10",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-012",
@@ -3086,7 +3385,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-17"
+          "airDate": "2026-03-17",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-013",
@@ -3094,7 +3394,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-24"
+          "airDate": "2026-03-24",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-014",
@@ -3102,7 +3403,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-31"
+          "airDate": "2026-03-31",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-015",
@@ -3110,7 +3412,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-016",
@@ -3118,7 +3421,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-017",
@@ -3126,7 +3430,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-018",
@@ -3134,7 +3439,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-019",
@@ -3142,7 +3448,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-020",
@@ -3150,7 +3457,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-021",
@@ -3158,7 +3466,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-022",
@@ -3166,7 +3475,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-26"
+          "airDate": "2026-05-26",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-023",
@@ -3174,7 +3484,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-02"
+          "airDate": "2026-06-02",
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-024",
@@ -3182,7 +3493,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-09"
+          "airDate": "2026-06-09",
+          "videoUrl": null
         }
       ],
       "popularityScore": 1290078,
@@ -3223,7 +3535,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-09"
+          "airDate": "2025-12-09",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-020-ep-002",
@@ -3231,7 +3544,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-16"
+          "airDate": "2025-12-16",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-003",
@@ -3239,7 +3553,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-23"
+          "airDate": "2025-12-23",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-004",
@@ -3247,7 +3562,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-30"
+          "airDate": "2025-12-30",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-005",
@@ -3255,7 +3571,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-06"
+          "airDate": "2026-01-06",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-006",
@@ -3263,7 +3580,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-13"
+          "airDate": "2026-01-13",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-007",
@@ -3271,7 +3589,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-20"
+          "airDate": "2026-01-20",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-008",
@@ -3279,7 +3598,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-27"
+          "airDate": "2026-01-27",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-009",
@@ -3287,7 +3607,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-03"
+          "airDate": "2026-02-03",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-010",
@@ -3295,7 +3616,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-10"
+          "airDate": "2026-02-10",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-011",
@@ -3303,7 +3625,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-17"
+          "airDate": "2026-02-17",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-012",
@@ -3311,7 +3634,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-24"
+          "airDate": "2026-02-24",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-013",
@@ -3319,7 +3643,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-03"
+          "airDate": "2026-03-03",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-014",
@@ -3327,7 +3652,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-10"
+          "airDate": "2026-03-10",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-015",
@@ -3335,7 +3661,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-17"
+          "airDate": "2026-03-17",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-016",
@@ -3343,7 +3670,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-24"
+          "airDate": "2026-03-24",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-017",
@@ -3351,7 +3679,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-31"
+          "airDate": "2026-03-31",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-018",
@@ -3359,7 +3688,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-019",
@@ -3367,7 +3697,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-020",
@@ -3375,7 +3706,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-021",
@@ -3383,7 +3715,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-022",
@@ -3391,7 +3724,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-023",
@@ -3399,7 +3733,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-024",
@@ -3407,7 +3742,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-025",
@@ -3415,7 +3751,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-26"
+          "airDate": "2026-05-26",
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-026",
@@ -3423,7 +3760,8 @@
           "title": "Episode 26",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-02"
+          "airDate": "2026-06-02",
+          "videoUrl": null
         }
       ],
       "popularityScore": 1158920,
@@ -3459,7 +3797,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-28"
+          "airDate": "2026-05-28",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         }
       ],
       "popularityScore": 2628439,
@@ -3500,7 +3839,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-16"
+          "airDate": "2025-12-16",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-022-ep-002",
@@ -3508,7 +3848,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-23"
+          "airDate": "2025-12-23",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-003",
@@ -3516,7 +3857,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-30"
+          "airDate": "2025-12-30",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-004",
@@ -3524,7 +3866,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-06"
+          "airDate": "2026-01-06",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-005",
@@ -3532,7 +3875,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-13"
+          "airDate": "2026-01-13",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-006",
@@ -3540,7 +3884,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-20"
+          "airDate": "2026-01-20",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-007",
@@ -3548,7 +3893,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-27"
+          "airDate": "2026-01-27",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-008",
@@ -3556,7 +3902,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-03"
+          "airDate": "2026-02-03",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-009",
@@ -3564,7 +3911,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-10"
+          "airDate": "2026-02-10",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-010",
@@ -3572,7 +3920,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-17"
+          "airDate": "2026-02-17",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-011",
@@ -3580,7 +3929,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-24"
+          "airDate": "2026-02-24",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-012",
@@ -3588,7 +3938,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-03"
+          "airDate": "2026-03-03",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-013",
@@ -3596,7 +3947,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-10"
+          "airDate": "2026-03-10",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-014",
@@ -3604,7 +3956,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-17"
+          "airDate": "2026-03-17",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-015",
@@ -3612,7 +3965,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-24"
+          "airDate": "2026-03-24",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-016",
@@ -3620,7 +3974,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-31"
+          "airDate": "2026-03-31",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-017",
@@ -3628,7 +3983,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-018",
@@ -3636,7 +3992,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-019",
@@ -3644,7 +4001,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-020",
@@ -3652,7 +4010,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-021",
@@ -3660,7 +4019,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-022",
@@ -3668,7 +4028,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-023",
@@ -3676,7 +4037,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-024",
@@ -3684,7 +4046,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-26"
+          "airDate": "2026-05-26",
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-025",
@@ -3692,7 +4055,8 @@
           "title": "Episode 25",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-02"
+          "airDate": "2026-06-02",
+          "videoUrl": null
         }
       ],
       "popularityScore": 1963111,
@@ -3728,7 +4092,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-24"
+          "airDate": "2025-12-24",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-023-ep-002",
@@ -3736,7 +4101,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2025-12-31"
+          "airDate": "2025-12-31",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-003",
@@ -3744,7 +4110,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-07"
+          "airDate": "2026-01-07",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-004",
@@ -3752,7 +4119,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-14"
+          "airDate": "2026-01-14",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-005",
@@ -3760,7 +4128,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-21"
+          "airDate": "2026-01-21",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-006",
@@ -3768,7 +4137,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-28"
+          "airDate": "2026-01-28",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-007",
@@ -3776,7 +4146,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-04"
+          "airDate": "2026-02-04",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-008",
@@ -3784,7 +4155,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-11"
+          "airDate": "2026-02-11",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-009",
@@ -3792,7 +4164,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-02-18"
+          "airDate": "2026-02-18",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-010",
@@ -3800,7 +4173,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-02-25"
+          "airDate": "2026-02-25",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-011",
@@ -3808,7 +4182,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-04"
+          "airDate": "2026-03-04",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-012",
@@ -3816,7 +4191,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-11"
+          "airDate": "2026-03-11",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-013",
@@ -3824,7 +4200,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-18"
+          "airDate": "2026-03-18",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-014",
@@ -3832,7 +4209,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-03-25"
+          "airDate": "2026-03-25",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-015",
@@ -3840,7 +4218,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-01"
+          "airDate": "2026-04-01",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-016",
@@ -3848,7 +4227,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-08"
+          "airDate": "2026-04-08",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-017",
@@ -3856,7 +4236,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-15"
+          "airDate": "2026-04-15",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-018",
@@ -3864,7 +4245,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-22"
+          "airDate": "2026-04-22",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-019",
@@ -3872,7 +4254,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-29"
+          "airDate": "2026-04-29",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-020",
@@ -3880,7 +4263,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-06"
+          "airDate": "2026-05-06",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-021",
@@ -3888,7 +4272,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-13"
+          "airDate": "2026-05-13",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-022",
@@ -3896,7 +4281,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-20"
+          "airDate": "2026-05-20",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-023",
@@ -3904,7 +4290,8 @@
           "title": "Episode 23",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-27"
+          "airDate": "2026-05-27",
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-024",
@@ -3912,7 +4299,8 @@
           "title": "Episode 24",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-03"
+          "airDate": "2026-06-03",
+          "videoUrl": null
         }
       ],
       "popularityScore": 516207,
@@ -3943,7 +4331,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-06"
+          "airDate": "2026-01-06",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-024-ep-002",
@@ -3951,7 +4340,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-13"
+          "airDate": "2026-01-13",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-003",
@@ -3959,7 +4349,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-20"
+          "airDate": "2026-01-20",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-004",
@@ -3967,7 +4358,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-01-27"
+          "airDate": "2026-01-27",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-005",
@@ -3975,7 +4367,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-03"
+          "airDate": "2026-02-03",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-006",
@@ -3983,7 +4376,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-10"
+          "airDate": "2026-02-10",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-007",
@@ -3991,7 +4385,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-17"
+          "airDate": "2026-02-17",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-008",
@@ -3999,7 +4394,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-02-24"
+          "airDate": "2026-02-24",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-009",
@@ -4007,7 +4403,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-03"
+          "airDate": "2026-03-03",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-010",
@@ -4015,7 +4412,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-10"
+          "airDate": "2026-03-10",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-011",
@@ -4023,7 +4421,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-17"
+          "airDate": "2026-03-17",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-012",
@@ -4031,7 +4430,8 @@
           "title": "Episode 12",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-24"
+          "airDate": "2026-03-24",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-013",
@@ -4039,7 +4439,8 @@
           "title": "Episode 13",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-03-31"
+          "airDate": "2026-03-31",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-014",
@@ -4047,7 +4448,8 @@
           "title": "Episode 14",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-015",
@@ -4055,7 +4457,8 @@
           "title": "Episode 15",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-016",
@@ -4063,7 +4466,8 @@
           "title": "Episode 16",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-017",
@@ -4071,7 +4475,8 @@
           "title": "Episode 17",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-018",
@@ -4079,7 +4484,8 @@
           "title": "Episode 18",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-019",
@@ -4087,7 +4493,8 @@
           "title": "Episode 19",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-020",
@@ -4095,7 +4502,8 @@
           "title": "Episode 20",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-021",
@@ -4103,7 +4511,8 @@
           "title": "Episode 21",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-05-26"
+          "airDate": "2026-05-26",
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-022",
@@ -4111,7 +4520,8 @@
           "title": "Episode 22",
           "isSubbed": true,
           "isDubbed": true,
-          "airDate": "2026-06-02"
+          "airDate": "2026-06-02",
+          "videoUrl": null
         }
       ],
       "popularityScore": 440204,
@@ -4142,7 +4552,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-06"
+          "airDate": "2026-04-06",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-025-ep-002",
@@ -4150,7 +4561,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-13"
+          "airDate": "2026-04-13",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-003",
@@ -4158,7 +4570,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-20"
+          "airDate": "2026-04-20",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-004",
@@ -4166,7 +4579,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-27"
+          "airDate": "2026-04-27",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-005",
@@ -4174,7 +4588,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-04"
+          "airDate": "2026-05-04",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-006",
@@ -4182,7 +4597,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-11"
+          "airDate": "2026-05-11",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-007",
@@ -4190,7 +4606,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-18"
+          "airDate": "2026-05-18",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-008",
@@ -4198,7 +4615,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-25"
+          "airDate": "2026-05-25",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-009",
@@ -4206,7 +4624,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-01"
+          "airDate": "2026-06-01",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-010",
@@ -4214,7 +4633,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-08"
+          "airDate": "2026-06-08",
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-011",
@@ -4222,7 +4642,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-15"
+          "airDate": "2026-06-15",
+          "videoUrl": null
         }
       ],
       "popularityScore": 334452,
@@ -4258,7 +4679,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-01"
+          "airDate": "2026-04-01",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-026-ep-002",
@@ -4266,7 +4688,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-08"
+          "airDate": "2026-04-08",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-003",
@@ -4274,7 +4697,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-15"
+          "airDate": "2026-04-15",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-004",
@@ -4282,7 +4706,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-22"
+          "airDate": "2026-04-22",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-005",
@@ -4290,7 +4715,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-29"
+          "airDate": "2026-04-29",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-006",
@@ -4298,7 +4724,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-06"
+          "airDate": "2026-05-06",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-007",
@@ -4306,7 +4733,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-13"
+          "airDate": "2026-05-13",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-008",
@@ -4314,7 +4742,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-20"
+          "airDate": "2026-05-20",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-009",
@@ -4322,7 +4751,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-27"
+          "airDate": "2026-05-27",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-010",
@@ -4330,7 +4760,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-03"
+          "airDate": "2026-06-03",
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-011",
@@ -4338,7 +4769,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-10"
+          "airDate": "2026-06-10",
+          "videoUrl": null
         }
       ],
       "popularityScore": 212418,
@@ -4379,7 +4811,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-03"
+          "airDate": "2026-04-03",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-027-ep-002",
@@ -4387,7 +4820,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-10"
+          "airDate": "2026-04-10",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-003",
@@ -4395,7 +4829,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-17"
+          "airDate": "2026-04-17",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-004",
@@ -4403,7 +4838,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-24"
+          "airDate": "2026-04-24",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-005",
@@ -4411,7 +4847,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-01"
+          "airDate": "2026-05-01",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-006",
@@ -4419,7 +4856,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-08"
+          "airDate": "2026-05-08",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-007",
@@ -4427,7 +4865,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-15"
+          "airDate": "2026-05-15",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-008",
@@ -4435,7 +4874,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-22"
+          "airDate": "2026-05-22",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-009",
@@ -4443,7 +4883,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-29"
+          "airDate": "2026-05-29",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-010",
@@ -4451,7 +4892,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-05"
+          "airDate": "2026-06-05",
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-011",
@@ -4459,7 +4901,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-12"
+          "airDate": "2026-06-12",
+          "videoUrl": null
         }
       ],
       "popularityScore": 207193,
@@ -4500,7 +4943,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-04"
+          "airDate": "2026-04-04",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-028-ep-002",
@@ -4508,7 +4952,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-11"
+          "airDate": "2026-04-11",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-003",
@@ -4516,7 +4961,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-18"
+          "airDate": "2026-04-18",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-004",
@@ -4524,7 +4970,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-25"
+          "airDate": "2026-04-25",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-005",
@@ -4532,7 +4979,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-02"
+          "airDate": "2026-05-02",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-006",
@@ -4540,7 +4988,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-09"
+          "airDate": "2026-05-09",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-007",
@@ -4548,7 +4997,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-16"
+          "airDate": "2026-05-16",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-008",
@@ -4556,7 +5006,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-23"
+          "airDate": "2026-05-23",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-009",
@@ -4564,7 +5015,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-30"
+          "airDate": "2026-05-30",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-010",
@@ -4572,7 +5024,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-06"
+          "airDate": "2026-06-06",
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-011",
@@ -4580,7 +5033,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-13"
+          "airDate": "2026-06-13",
+          "videoUrl": null
         }
       ],
       "popularityScore": 193117,
@@ -4616,7 +5070,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-12"
+          "airDate": "2026-04-12",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-029-ep-002",
@@ -4624,7 +5079,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-19"
+          "airDate": "2026-04-19",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-003",
@@ -4632,7 +5088,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-26"
+          "airDate": "2026-04-26",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-004",
@@ -4640,7 +5097,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-03"
+          "airDate": "2026-05-03",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-005",
@@ -4648,7 +5106,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-10"
+          "airDate": "2026-05-10",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-006",
@@ -4656,7 +5115,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-17"
+          "airDate": "2026-05-17",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-007",
@@ -4664,7 +5124,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-24"
+          "airDate": "2026-05-24",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-008",
@@ -4672,7 +5133,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-31"
+          "airDate": "2026-05-31",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-009",
@@ -4680,7 +5142,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-07"
+          "airDate": "2026-06-07",
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-010",
@@ -4688,7 +5151,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-14"
+          "airDate": "2026-06-14",
+          "videoUrl": null
         }
       ],
       "popularityScore": 162450,
@@ -4724,7 +5188,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-02"
+          "airDate": "2026-04-02",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-030-ep-002",
@@ -4732,7 +5197,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-09"
+          "airDate": "2026-04-09",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-003",
@@ -4740,7 +5206,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-16"
+          "airDate": "2026-04-16",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-004",
@@ -4748,7 +5215,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-23"
+          "airDate": "2026-04-23",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-005",
@@ -4756,7 +5224,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-30"
+          "airDate": "2026-04-30",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-006",
@@ -4764,7 +5233,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-07"
+          "airDate": "2026-05-07",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-007",
@@ -4772,7 +5242,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-14"
+          "airDate": "2026-05-14",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-008",
@@ -4780,7 +5251,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-21"
+          "airDate": "2026-05-21",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-009",
@@ -4788,7 +5260,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-28"
+          "airDate": "2026-05-28",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-010",
@@ -4796,7 +5269,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-04"
+          "airDate": "2026-06-04",
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-011",
@@ -4804,7 +5278,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-11"
+          "airDate": "2026-06-11",
+          "videoUrl": null
         }
       ],
       "popularityScore": 151633,
@@ -4835,7 +5310,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-03"
+          "airDate": "2026-04-03",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-031-ep-002",
@@ -4843,7 +5319,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-10"
+          "airDate": "2026-04-10",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-003",
@@ -4851,7 +5328,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-17"
+          "airDate": "2026-04-17",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-004",
@@ -4859,7 +5337,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-24"
+          "airDate": "2026-04-24",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-005",
@@ -4867,7 +5346,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-01"
+          "airDate": "2026-05-01",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-006",
@@ -4875,7 +5355,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-08"
+          "airDate": "2026-05-08",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-007",
@@ -4883,7 +5364,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-15"
+          "airDate": "2026-05-15",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-008",
@@ -4891,7 +5373,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-22"
+          "airDate": "2026-05-22",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-009",
@@ -4899,7 +5382,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-29"
+          "airDate": "2026-05-29",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-010",
@@ -4907,7 +5391,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-05"
+          "airDate": "2026-06-05",
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-011",
@@ -4915,7 +5400,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-12"
+          "airDate": "2026-06-12",
+          "videoUrl": null
         }
       ],
       "popularityScore": 144235,
@@ -4946,7 +5432,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-07"
+          "airDate": "2026-04-07",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-032-ep-002",
@@ -4954,7 +5441,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-14"
+          "airDate": "2026-04-14",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-003",
@@ -4962,7 +5450,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-21"
+          "airDate": "2026-04-21",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-004",
@@ -4970,7 +5459,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-28"
+          "airDate": "2026-04-28",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-005",
@@ -4978,7 +5468,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-05"
+          "airDate": "2026-05-05",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-006",
@@ -4986,7 +5477,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-12"
+          "airDate": "2026-05-12",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-007",
@@ -4994,7 +5486,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-19"
+          "airDate": "2026-05-19",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-008",
@@ -5002,7 +5495,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-26"
+          "airDate": "2026-05-26",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-009",
@@ -5010,7 +5504,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-02"
+          "airDate": "2026-06-02",
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-010",
@@ -5018,7 +5513,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-09"
+          "airDate": "2026-06-09",
+          "videoUrl": null
         }
       ],
       "popularityScore": 121520,
@@ -5054,7 +5550,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-08"
+          "airDate": "2026-04-08",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-033-ep-002",
@@ -5062,7 +5559,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-15"
+          "airDate": "2026-04-15",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-003",
@@ -5070,7 +5568,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-22"
+          "airDate": "2026-04-22",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-004",
@@ -5078,7 +5577,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-29"
+          "airDate": "2026-04-29",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-005",
@@ -5086,7 +5586,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-06"
+          "airDate": "2026-05-06",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-006",
@@ -5094,7 +5595,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-13"
+          "airDate": "2026-05-13",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-007",
@@ -5102,7 +5604,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-20"
+          "airDate": "2026-05-20",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-008",
@@ -5110,7 +5613,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-27"
+          "airDate": "2026-05-27",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-009",
@@ -5118,7 +5622,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-03"
+          "airDate": "2026-06-03",
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-010",
@@ -5126,7 +5631,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-10"
+          "airDate": "2026-06-10",
+          "videoUrl": null
         }
       ],
       "popularityScore": 94439,
@@ -5167,7 +5673,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-09"
+          "airDate": "2026-04-09",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-034-ep-002",
@@ -5175,7 +5682,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-16"
+          "airDate": "2026-04-16",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-003",
@@ -5183,7 +5691,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-23"
+          "airDate": "2026-04-23",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-004",
@@ -5191,7 +5700,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-30"
+          "airDate": "2026-04-30",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-005",
@@ -5199,7 +5709,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-07"
+          "airDate": "2026-05-07",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-006",
@@ -5207,7 +5718,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-14"
+          "airDate": "2026-05-14",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-007",
@@ -5215,7 +5727,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-21"
+          "airDate": "2026-05-21",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-008",
@@ -5223,7 +5736,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-28"
+          "airDate": "2026-05-28",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-009",
@@ -5231,7 +5745,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-04"
+          "airDate": "2026-06-04",
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-010",
@@ -5239,7 +5754,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-11"
+          "airDate": "2026-06-11",
+          "videoUrl": null
         }
       ],
       "popularityScore": 83569,
@@ -5275,7 +5791,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-04"
+          "airDate": "2026-04-04",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-035-ep-002",
@@ -5283,7 +5800,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-11"
+          "airDate": "2026-04-11",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-003",
@@ -5291,7 +5809,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-18"
+          "airDate": "2026-04-18",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-004",
@@ -5299,7 +5818,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-25"
+          "airDate": "2026-04-25",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-005",
@@ -5307,7 +5827,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-02"
+          "airDate": "2026-05-02",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-006",
@@ -5315,7 +5836,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-09"
+          "airDate": "2026-05-09",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-007",
@@ -5323,7 +5845,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-16"
+          "airDate": "2026-05-16",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-008",
@@ -5331,7 +5854,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-23"
+          "airDate": "2026-05-23",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-009",
@@ -5339,7 +5863,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-30"
+          "airDate": "2026-05-30",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-010",
@@ -5347,7 +5872,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-06"
+          "airDate": "2026-06-06",
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-011",
@@ -5355,7 +5881,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-13"
+          "airDate": "2026-06-13",
+          "videoUrl": null
         }
       ],
       "popularityScore": 78489,
@@ -5391,7 +5918,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-06"
+          "airDate": "2026-04-06",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-036-ep-002",
@@ -5399,7 +5927,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-13"
+          "airDate": "2026-04-13",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-003",
@@ -5407,7 +5936,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-20"
+          "airDate": "2026-04-20",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-004",
@@ -5415,7 +5945,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-27"
+          "airDate": "2026-04-27",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-005",
@@ -5423,7 +5954,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-04"
+          "airDate": "2026-05-04",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-006",
@@ -5431,7 +5963,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-11"
+          "airDate": "2026-05-11",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-007",
@@ -5439,7 +5972,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-18"
+          "airDate": "2026-05-18",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-008",
@@ -5447,7 +5981,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-25"
+          "airDate": "2026-05-25",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-009",
@@ -5455,7 +5990,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-01"
+          "airDate": "2026-06-01",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-010",
@@ -5463,7 +5999,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-08"
+          "airDate": "2026-06-08",
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-011",
@@ -5471,7 +6008,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-15"
+          "airDate": "2026-06-15",
+          "videoUrl": null
         }
       ],
       "popularityScore": 75483,
@@ -5502,7 +6040,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-01"
+          "airDate": "2026-04-01",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-037-ep-002",
@@ -5510,7 +6049,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-08"
+          "airDate": "2026-04-08",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-003",
@@ -5518,7 +6058,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-15"
+          "airDate": "2026-04-15",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-004",
@@ -5526,7 +6067,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-22"
+          "airDate": "2026-04-22",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-005",
@@ -5534,7 +6076,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-29"
+          "airDate": "2026-04-29",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-006",
@@ -5542,7 +6085,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-06"
+          "airDate": "2026-05-06",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-007",
@@ -5550,7 +6094,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-13"
+          "airDate": "2026-05-13",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-008",
@@ -5558,7 +6103,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-20"
+          "airDate": "2026-05-20",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-009",
@@ -5566,7 +6112,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-27"
+          "airDate": "2026-05-27",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-010",
@@ -5574,7 +6121,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-03"
+          "airDate": "2026-06-03",
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-011",
@@ -5582,7 +6130,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-10"
+          "airDate": "2026-06-10",
+          "videoUrl": null
         }
       ],
       "popularityScore": 66738,
@@ -5613,7 +6162,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-04"
+          "airDate": "2026-04-04",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-038-ep-002",
@@ -5621,7 +6171,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-11"
+          "airDate": "2026-04-11",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-003",
@@ -5629,7 +6180,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-18"
+          "airDate": "2026-04-18",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-004",
@@ -5637,7 +6189,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-25"
+          "airDate": "2026-04-25",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-005",
@@ -5645,7 +6198,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-02"
+          "airDate": "2026-05-02",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-006",
@@ -5653,7 +6207,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-09"
+          "airDate": "2026-05-09",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-007",
@@ -5661,7 +6216,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-16"
+          "airDate": "2026-05-16",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-008",
@@ -5669,7 +6225,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-23"
+          "airDate": "2026-05-23",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-009",
@@ -5677,7 +6234,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-30"
+          "airDate": "2026-05-30",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-010",
@@ -5685,7 +6243,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-06"
+          "airDate": "2026-06-06",
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-011",
@@ -5693,7 +6252,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-13"
+          "airDate": "2026-06-13",
+          "videoUrl": null
         }
       ],
       "popularityScore": 61775,
@@ -5724,7 +6284,8 @@
           "title": "Episode 1",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-04"
+          "airDate": "2026-04-04",
+          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         },
         {
           "id": "show-039-ep-002",
@@ -5732,7 +6293,8 @@
           "title": "Episode 2",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-11"
+          "airDate": "2026-04-11",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-003",
@@ -5740,7 +6302,8 @@
           "title": "Episode 3",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-18"
+          "airDate": "2026-04-18",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-004",
@@ -5748,7 +6311,8 @@
           "title": "Episode 4",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-04-25"
+          "airDate": "2026-04-25",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-005",
@@ -5756,7 +6320,8 @@
           "title": "Episode 5",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-02"
+          "airDate": "2026-05-02",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-006",
@@ -5764,7 +6329,8 @@
           "title": "Episode 6",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-09"
+          "airDate": "2026-05-09",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-007",
@@ -5772,7 +6338,8 @@
           "title": "Episode 7",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-16"
+          "airDate": "2026-05-16",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-008",
@@ -5780,7 +6347,8 @@
           "title": "Episode 8",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-23"
+          "airDate": "2026-05-23",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-009",
@@ -5788,7 +6356,8 @@
           "title": "Episode 9",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-05-30"
+          "airDate": "2026-05-30",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-010",
@@ -5796,7 +6365,8 @@
           "title": "Episode 10",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-06"
+          "airDate": "2026-06-06",
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-011",
@@ -5804,7 +6374,8 @@
           "title": "Episode 11",
           "isSubbed": true,
           "isDubbed": false,
-          "airDate": "2026-06-13"
+          "airDate": "2026-06-13",
+          "videoUrl": null
         }
       ],
       "popularityScore": 79008,

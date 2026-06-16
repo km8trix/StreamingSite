@@ -708,3 +708,145 @@ auth-gated), `/forum/thread/[id]` (posts + reply composer auth-gated, lock state
   - **No M1/M2/auth/comments regressions** (catalog/schedule/search/auth/comments read+write paths
     still green on live Supabase). Ran `npx supabase db reset` before the final e2e run; forum content +
     e2e users persist (unique emails/run) — `npx supabase db reset` wipes them (re-seeds 4 categories).
+
+---
+
+# Roadmap groundwork — episode video sources (HLS) — 2026-06-15
+
+- 2026-06-15 — db-video-engineer — **Added `video_url` to episodes (DB + data layer + seed only — NO UI).**
+  Purely additive to the M1 `Episode` contract; no M1/M2/M3 regressions. Built:
+  - **`supabase/migrations/0006_episode_video.sql`**: `alter table public.episodes add column if not
+    exists video_url text` (nullable; holds an HLS `.m3u8` manifest URL). Idempotent. **No new
+    grants/policies** — `episodes` already has public SELECT + grant from 0001, and the column inherits
+    them (verified live via anon REST). Catalog stays read-only from the app.
+  - **Type (additive):** `src/lib/data/types.ts` `Episode` now has `videoUrl: string | null` (HLS
+    `.m3u8` manifest URL, or `null` when no source yet). All other contract types unchanged; re-export
+    via `src/lib/data/index.ts` unchanged.
+  - **Mapper + fallback:** `src/lib/data/shows.ts` — `EpisodeRow` gains `video_url: string | null`;
+    `mapEpisodeRow` maps `video_url → videoUrl` (`?? null`); the live `getShowBySlug` episodes select now
+    fetches `video_url`; the **seed-fallback** `getShowBySlug` normalizes each episode to
+    `videoUrl ?? null` so the field is always present even for any seed row that omits it.
+  - **`src/lib/database.types.ts`:** `episodes` Row/Insert/Update now include `video_url` (Row
+    `string | null`; Insert/Update optional `string | null`).
+  - **Seed (consistent across BOTH files):** `src/lib/data/seed.json` (`episodes[].videoUrl`) AND
+    `supabase/seed/seed.sql` (episodes INSERT column list + a `video_url` literal per row). Assigned the
+    stream to **episode 1 of every one of the 39 shows** (which also covers the 4 single-episode movies:
+    chainsaw-man-the-movie-reze-arc, gintama-the-very-final, one-piece-fan-letter, a-silent-voice);
+    **all later episodes are NULL** so the UI's "coming soon" path is still exercised. Counts: 571
+    episodes total → **39 with a stream, 532 NULL**.
+  - **Stream used (LEGAL public test source):** `https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`
+    (Apple BipBop via Mux — CORS-enabled, reliable). Verified reachable: `curl -sI` → HTTP/2 200,
+    `content-type: audio/mpegurl`; body is a valid `#EXTM3U` master playlist (240p–1080p renditions).
+    The user swaps in licensed sources later by updating `episodes.video_url`.
+  - **Validation:** `npx supabase db reset` applies 0006 + seed cleanly. **Live anon REST check**
+    (`/rest/v1/episodes?select=id,number,video_url`): `video_url` exposed; seeded ep-1 rows return the
+    Mux URL; later episodes return `null`; `Prefer: count=exact` on `video_url=not.is.null` →
+    `Content-Range 0-38/39` (exactly 39 non-null). `npm run typecheck` clean (fixed the one strictly-
+    typed fixture: `src/test/fixtures.ts` `makeEpisode` now defaults `videoUrl: null`). `npm run build`
+    OK (47 routes). `npm run test` **305/305** (no regressions — additive change).
+  - **UI/QA HANDOFF — exact data shape:** `Episode.videoUrl: string | null` (from `@/lib/data`). It is
+    an HLS `.m3u8` manifest URL when present, else `null` → render the existing "coming soon"
+    `PlayerPlaceholder`. **Seeded with a stream:** episode 1 (lowest `number`) of all 39 shows, incl. the
+    4 single-episode movies; every other episode is `null`. **Stream URL:**
+    `https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`. `hls.js@1.6` is already installed for the
+    player work; Safari can play HLS natively, other browsers need hls.js.
+- 2026-06-15 — ui-video-engineer — **Real HLS video player wired into the show detail page (UI only;
+  consumes `Episode.videoUrl` from the data layer — no migration/data/type changes).** Built:
+  - **`src/components/VideoPlayer.tsx`** (`'use client'`): a real HLS player. Native-HLS-first
+    (`video.canPlayType('application/vnd.apple.mpegurl')` → set `video.src` directly for Safari/iOS);
+    otherwise **dynamic** `import('hls.js')` (kept out of the SSR/server bundle), `Hls.isSupported()` →
+    `new Hls()` + `loadSource` + `attachMedia`. Lifecycle in a `useEffect` keyed on `src`: creates the
+    instance, marks ready on `MANIFEST_PARSED` / native `loadedmetadata`, and on cleanup
+    (unmount/source-change) `hls.destroy()` for the MSE path or detaches `src` + `video.load()` for the
+    native path — **no leaks / no lingering requests when switching episodes**. NON-INVASIVE: native
+    `controls`, `playsInline`, **NO autoplay** (click-to-play). Loading overlay (pointer-events-none so
+    it never steals focus) + a friendly error overlay on `Hls.Events.ERROR` *fatal* only (non-fatal
+    blips left to hls.js self-recovery). Accessible: `<video>` with `controls` + `aria-label`, keyboard
+    focus preserved, `role="alert"` on the error state, no-JS `<a>` download fallback. Props: `src`,
+    `poster`, `title`. Testids: `video-player`, `video-player-error`.
+  - **`src/components/WatchSection.tsx`** (`'use client'`): replaced the static `PlayerPlaceholder` on
+    `src/app/shows/[slug]/page.tsx`. Holds the active episode (**default = first episode with a
+    `videoUrl`, else the lowest-numbered episode**). Renders `<VideoPlayer>` (keyed on the source for
+    clean teardown) when the active episode has a stream, else the existing **`PlayerPlaceholder`**
+    ("Streaming coming soon") — so both paths render. Compact episode selector (`role="group"`,
+    `aria-pressed` toggle buttons, play glyph on watchable episodes, sub/dub glyphs) sets the active
+    episode; hidden for single-episode entries (the 4 movies). Both player and placeholder render into a
+    reserved `aspect-video` box → **no layout shift**. Testids: `watch-section`, `episode-select`,
+    `episode-select-option` (+ existing `player-placeholder` reused for the no-source case).
+  - **SSR-safe:** hls.js only ever loads client-side (lazy `import()` inside the `'use client'`
+    component's effect); never imported by a Server Component. `/shows/[slug]` stays `ƒ` dynamic (the
+    M3 header cookie read already opted it dynamic) — no change to that.
+  - **Validation:** `npm run typecheck` clean · `npm run lint` 0 errors (only the pre-existing
+    `ScheduleGrid.test.tsx` unused-var warning remains) · `npm run build` OK (47 routes) ·
+    `npm run test` **305/305** (no M1/M2/M3 regression — `PlayerPlaceholder` unit test still green via
+    the no-video path). Live smoke vs local Supabase: `/shows/frieren-beyond-journeys-end` renders
+    `watch-section` + `video-player` + `episode-select` (ep 1 streams); `/shows/a-silent-voice`
+    (single-episode movie) renders `video-player` with NO selector. Test stream verified reachable
+    (`curl -sI` → HTTP/2 200).
+  - **QA — how to verify:** episode 1 of EVERY one of the 39 shows is seeded with the Mux test stream
+    (`https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`); all later episodes are `null`. Quick path:
+    open **`/shows/frieren-beyond-journeys-end`** (show-001) → the real `<video controls>`
+    (`video-player`) plays episode 1; pick a **higher-numbered** episode in `episode-select` → it swaps
+    to the `player-placeholder` ("Streaming coming soon"). Single-episode movies (e.g. `a-silent-voice`,
+    `gintama-the-very-final`, `one-piece-fan-letter`, `chainsaw-man-the-movie-reze-arc`) play the stream
+    with no selector. Live anon REST count of non-null `video_url` = `Content-Range 0-38/39` (39 streams).
+- 2026-06-15 — qa-video-engineer — **VIDEO PLAYBACK QA complete.** Added unit coverage for the HLS
+  `VideoPlayer` (both render paths) + `WatchSection` branching, plus a dedicated LIVE-Supabase e2e for
+  the watch experience. Only TEST code changed (no product/migration changes). All prior suites kept
+  green on live Supabase. Final (after `npx supabase db reset`): `npm run test` **331/331** (305 prior +
+  **26 new**) · `npm run typecheck` clean · `npm run lint` clean (only the pre-existing `ScheduleGrid.test.tsx`
+  warning) · `npm run test:e2e` **72/72** (71 prior + **1 new**), green on two consecutive runs.
+  - **New unit file `src/components/VideoPlayer.test.tsx` (16 tests):** mocks `hls.js` (`vi.mock` — a
+    controllable `MockHls` class capturing each instance + its `on`/`loadSource`/`attachMedia`/`destroy`),
+    stubs `HTMLMediaElement.prototype.canPlayType` (jsdom returns `''`) and `.load()` (unimplemented in
+    jsdom). **Native-HLS path (Safari/iOS):** when `canPlayType('application/vnd.apple.mpegurl')` is
+    truthy → sets `video.src` to the manifest, constructs NO hls.js instance; unmount removes the `src`
+    attr + calls `load()` (abort the fetch); native `error` event → error overlay; `loadedmetadata` →
+    ready (overlays cleared). **hls.js (MSE) path:** when not native → constructs `Hls`, calls
+    `loadSource(src)` + `attachMedia(video)`, `video.src` stays empty; `MANIFEST_PARSED` → ready;
+    **FATAL** `ERROR` → error overlay while a **non-fatal** error is ignored; **unmount → `hls.destroy()`
+    exactly once (no leak)**; **src change tears down the old instance (destroy) and builds a fresh one
+    pointed at the new source**; `Hls.isSupported()===false` → error overlay, no instance. **Structure/a11y:**
+    real `<video controls playsInline>`, title-aware `aria-label`, NO `autoplay` attribute. Mutation-tested
+    (commenting out `hls.loadSource(src)` turns 2 tests RED) to prove the assertions aren't vacuous.
+  - **New unit file `src/components/WatchSection.test.tsx` (8 tests):** stubs the child `<VideoPlayer>` to
+    echo its `src` so the branching logic is asserted without booting hls.js. Covers: ep-1-with-source →
+    real player wired to the manifest (no placeholder); **default = first episode WITH a stream even when
+    it's not ep 1**; **null/empty-string `videoUrl` → `PlayerPlaceholder`, NOT a broken player**; selector
+    has one option per episode; **selecting a higher sourceless episode swaps player → placeholder**;
+    `data-has-video` + `aria-pressed` markers; single-episode movie hides the selector.
+  - **Data-layer gap closed (reviewer Medium #4):** added 2 tests to `src/lib/data/shows.test.ts` asserting
+    `getShowBySlug` maps every `episodes[].videoUrl` as `string | null` (never `undefined` — guards the
+    `video_url ?? null` mapper) and that at least one seeded `.m3u8` manifest surfaces.
+  - **E2E `e2e/detail.spec.ts` (+1 test, seed-derived for robustness):** the existing first-card test
+    already had the stale `player-placeholder` assertion reconciled to `watch-section` + a
+    `video-player`-or-`player-placeholder` `.or()`. Added a dedicated test: navigate to a multi-episode
+    show whose lowest episode has a stream → `watch-section` mounts, the real `<video>` renders (NOT the
+    placeholder), and the player is wired to the HLS manifest (asserts the `a[href="…m3u8"]` no-JS source
+    anchor inside `<video>`); then select an episode with `data-has-video="false"` → the
+    `player-placeholder` ("streaming coming soon") replaces the player (no broken player). The show is
+    derived from `seed.json` at runtime so it stays correct if the seed changes.
+  - **PRODUCT BUG (HIGH — native-HLS `error` listener leak, NOT patched; confirms reviewer Finding #1):**
+    `src/components/VideoPlayer.tsx:54-56` adds an ANONYMOUS `error` event listener on the `<video>` in the
+    native-HLS branch but the cleanup (lines 57-62) only removes `loadedmetadata` (a named `markReady`).
+    Because the error handler is an inline arrow it has no stable reference to pass to `removeEventListener`,
+    so it can never be removed. The same `<video>` element (held by `videoRef`) persists across episode
+    switches, and each `src` change re-runs the effect and adds another orphaned `error` listener →
+    unbounded accumulation on a long show (only affects Safari/iOS, the native path; Chromium/Firefox use
+    the hls.js path which is cleanly destroyed). The `cancelled` guard prevents stale `setStatus`, so it's a
+    heap/listener leak rather than a visible defect. **Fix (product owner):** name the handler and remove it
+    in cleanup — `function onError(){ if(!cancelled) setStatus('error') }` ; `video.addEventListener('error',
+    onError)` ; cleanup `video.removeEventListener('error', onError)` alongside the `loadedmetadata` removal.
+    (Not assertable in jsdom as a failing test without DOM-internals inspection; documented + reproducible
+    by code review. My native-path tests verify the listener WORKS, not that it's removed.)
+  - **Reviewer Medium #3 (WatchSection keys `<VideoPlayer>` on `active.videoUrl` not `active.id`):** REAL
+    latent bug, NOT patched — harmless today because every seeded stream shares the identical Mux test URL
+    (so distinct episodes with the same URL won't remount the player; the videoUrl→null transition still
+    works because VideoPlayer unmounts entirely). Surfaces only once two different episodes carry the same
+    licensed source URL. Fix: `key={active.id}`. Not a test-suite failure today.
+  - **Reviewer Low #5 (no-JS `<a href={src}>Download the stream</a>` labels an HLS master playlist as a
+    "Download"):** cosmetic copy only, no functional/security impact (the URL is already in the player and
+    is the documented public test stream). The e2e actually leverages this anchor to assert manifest wiring.
+  - **No M1/M2/M3 regressions** — catalog/schedule/search/auth/comments/forum read+write paths all green
+    on live Supabase. Ran `npx supabase db reset` before the full e2e run; e2e users/comments/threads
+    persist (unique emails/run) — `npx supabase db reset` wipes them (re-seeds the catalog + 4 forum cats).

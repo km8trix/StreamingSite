@@ -72,6 +72,7 @@ type EpisodeRow = {
   is_subbed: boolean
   is_dubbed: boolean
   air_date: string | null
+  video_url: string | null
 }
 
 function mapGenreRow(row: Genre): Genre {
@@ -86,6 +87,7 @@ function mapEpisodeRow(row: EpisodeRow): Episode {
     isSubbed: row.is_subbed,
     isDubbed: row.is_dubbed,
     airDate: row.air_date,
+    videoUrl: row.video_url ?? null,
   }
 }
 
@@ -227,7 +229,9 @@ export async function getShowBySlug(slug: string): Promise<ShowDetail | null> {
       synopsis: found.synopsis,
       bannerImage: found.bannerImage,
       genres: found.genres.map(mapGenreRow),
-      episodes: [...found.episodes].sort((a, b) => a.number - b.number),
+      episodes: [...found.episodes]
+        .sort((a, b) => a.number - b.number)
+        .map((e) => ({ ...e, videoUrl: e.videoUrl ?? null })),
       popularityScore: found.popularityScore,
       updatedAt: found.updatedAt,
     }
@@ -241,7 +245,7 @@ export async function getShowBySlug(slug: string): Promise<ShowDetail | null> {
       id, slug, title, cover_image, banner_image, synopsis,
       sub_episodes, dub_episodes, status, year, popularity_score, updated_at,
       show_genres ( genres ( id, name, slug ) ),
-      episodes ( id, number, title, is_subbed, is_dubbed, air_date )
+      episodes ( id, number, title, is_subbed, is_dubbed, air_date, video_url )
     `,
     )
     .eq('slug', slug)

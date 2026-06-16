@@ -28,6 +28,7 @@ export type Episode = {
   isSubbed: boolean
   isDubbed: boolean
   airDate: string | null // ISO date (YYYY-MM-DD) or null
+  videoUrl: string | null // HLS (.m3u8) manifest URL, or null when no source yet
 }
 
 export type ShowDetail = ShowSummary & {

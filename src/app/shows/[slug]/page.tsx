@@ -6,9 +6,9 @@ import { Layers } from 'lucide-react'
 import { getAllShows, getShowBySlug } from '@/lib/data'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
-import { PlayerPlaceholder } from '@/components/PlayerPlaceholder'
 import { StatusBadge } from '@/components/StatusBadge'
 import { SubDubBadges } from '@/components/SubDubBadges'
+import { WatchSection } from '@/components/WatchSection'
 
 type Params = { slug: string }
 
@@ -148,7 +148,11 @@ export default async function ShowDetailPage({
       {/* ---- BODY -------------------------------------------------------- */}
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_22rem] lg:px-8">
         <div className="flex flex-col gap-8">
-          <PlayerPlaceholder title={show.title} />
+          <WatchSection
+            title={show.title}
+            poster={show.bannerImage ?? show.coverImage}
+            episodes={show.episodes}
+          />
 
           {show.synopsis && (
             <section aria-labelledby="synopsis-heading">

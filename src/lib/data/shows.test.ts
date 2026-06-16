@@ -127,6 +127,29 @@ describe('getShowBySlug', () => {
   it('returns null for a missing slug', async () => {
     expect(await getShowBySlug('does-not-exist-xyz')).toBeNull()
   })
+
+  it('maps each episode videoUrl as string | null (HLS source field present)', async () => {
+    const detail = await getShowBySlug(REAL_SLUG)
+    expect(detail!.episodes.length).toBeGreaterThan(0)
+    for (const ep of detail!.episodes) {
+      // The field must always exist on the domain object (the mapper normalises
+      // video_url ?? null), and be either a manifest URL string or null — never
+      // undefined. Guards against an accidental removal of the mapper line.
+      expect(ep).toHaveProperty('videoUrl')
+      expect(
+        ep.videoUrl === null || typeof ep.videoUrl === 'string',
+      ).toBe(true)
+    }
+  })
+
+  it('exposes at least one seeded HLS manifest URL on the catalog', async () => {
+    // The seed assigns the Mux test stream to episode 1 of every show, so any
+    // real show should surface a non-null .m3u8 videoUrl somewhere in its list.
+    const detail = await getShowBySlug(REAL_SLUG)
+    const withStream = detail!.episodes.find((e) => e.videoUrl)
+    expect(withStream).toBeDefined()
+    expect(withStream!.videoUrl).toMatch(/\.m3u8($|\?)/)
+  })
 })
 
 describe('getRandomShow', () => {
