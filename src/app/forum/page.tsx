@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, MessagesSquare } from 'lucide-react'
 import { listCategories, listThreads } from '@/lib/data'
+import { AdSlot } from '@/components/AdSlot'
 
 export const metadata: Metadata = {
   title: 'Forum',
@@ -76,6 +77,11 @@ export default async function ForumPage() {
           })}
         </ul>
       )}
+
+      {/* Non-invasive native-card ad below the categories — reserved height, no CLS. */}
+      <div className="mt-8 flex justify-center">
+        <AdSlot placementKey="grid-native" />
+      </div>
     </div>
   )
 }

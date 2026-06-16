@@ -2,6 +2,7 @@
 // UI imports from '@/lib/data' — never from Supabase directly.
 
 export type {
+  AdPlacement,
   AudioFilter,
   Comment,
   CommentAuthor,
@@ -63,3 +64,5 @@ export {
 } from './forum'
 
 export type { CreateThreadResult, ForumActionResult } from './forum'
+
+export { getAdForPlacement, recordAdClick, recordAdImpression } from './ads'

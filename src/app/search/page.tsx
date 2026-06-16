@@ -10,6 +10,11 @@ import {
 } from '@/lib/data'
 import { ShowGrid } from '@/components/ShowGrid'
 import { FilterPanel, type FilterValues } from '@/components/FilterPanel'
+import { AdSlot } from '@/components/AdSlot'
+
+// The sidebar AdSlot calls getAdForPlacement (weighted-random, non-deterministic).
+// The page already renders dynamically (reads searchParams); make the intent explicit.
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Search',
@@ -135,6 +140,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             query params). It uses the router only for navigation. */}
         <div className="w-full shrink-0 lg:w-60 xl:w-64">
           <FilterPanel genres={genres} years={years} values={filterValues} />
+
+          {/* Non-invasive sidebar ad below the filters — reserved height, no CLS. */}
+          <div className="mt-6">
+            <AdSlot placementKey="sidebar" />
+          </div>
         </div>
 
         {/* Results grid */}

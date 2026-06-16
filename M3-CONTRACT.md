@@ -850,3 +850,186 @@ auth-gated), `/forum/thread/[id]` (posts + reply composer auth-gated, lock state
   - **No M1/M2/M3 regressions** — catalog/schedule/search/auth/comments/forum read+write paths all green
     on live Supabase. Ran `npx supabase db reset` before the full e2e run; e2e users/comments/threads
     persist (unique emails/run) — `npx supabase db reset` wipes them (re-seeds the catalog + 4 forum cats).
+
+- 2026-06-15 — db-ads-engineer — **Roadmap: non-invasive ad slots — data layer complete (NO UI).** Pure
+  data layer; applied the M3 RLS + column-grant + SECURITY-DEFINER-RPC security lessons. Built:
+  - **`supabase/migrations/0007_ads.sql`**: table `public.ad_placements` (`id text pk`, `placement_key
+    text not null` = the slot, `name text`, `image_url text not null`, `target_url text not null`,
+    `alt_text text`, `weight int not null default 1 check (weight > 0)`, `is_active bool not null default
+    true`, `impressions bigint not null default 0`, `clicks bigint not null default 0`, `created_at
+    timestamptz default now()`). Index `ad_placements_key_active_idx (placement_key, is_active)`.
+    **RLS enabled — public read ACTIVE-only:** `SELECT ... to anon, authenticated USING (is_active)`, so
+    inactive/unsold creatives are NEVER exposed to a client (verified live: a direct `id=eq.ad-005` anon
+    query returns `[]`). **NO client INSERT/UPDATE/DELETE** (no write policy, no write grant — ads are
+    managed out-of-band by the service role). `grant select on public.ad_placements to anon,
+    authenticated` (no write grant; anon table grants are byte-identical to the long-approved `shows`
+    baseline — `REFERENCES,SELECT,TRIGGER,TRUNCATE`, all inherited defaults; no INSERT/UPDATE/DELETE).
+  - **Tracking RPCs** `public.record_ad_impression(p_id text)` + `public.record_ad_click(p_id text)`:
+    each `security definer`, `set search_path = ''` (EMPTY, schema-qualified body), `language sql`, body
+    is a single `update public.ad_placements set impressions/clicks = impressions/clicks + 1 where id =
+    p_id and is_active is true`. `revoke all ... from public` then `grant execute ... to anon,
+    authenticated`. This is the ONLY mutation a client can perform — and only +1 on a NAMED, ACTIVE ad;
+    it cannot set image/target/active/weight or write an arbitrary row. (Confirmed: `prosecdef=t`,
+    `proconfig=search_path=""` for both.)
+  - **Seed (~5 HOUSE ads, first-party promos):** appended idempotently (`on conflict (id) do nothing`)
+    to `supabase/seed/seed.sql` (inside the begin/commit, after forum_categories): `ad-001` home-banner →
+    `/forum` (970x90), `ad-002` grid-native → `/random` (300x250), `ad-003` sidebar → `/signup`
+    (weight 2), `ad-004` sidebar → `/schedule`, `ad-005` home-banner → `/signup` **is_active=false** to
+    prove RLS hides it. placehold.co images (already allowlisted). Each of the 3 slots (home-banner /
+    grid-native / sidebar) has ≥1 active ad. Also added a top-level `adPlacements` array (the 4 ACTIVE
+    ads only — fallback mirrors the live active-only contract) to `src/lib/data/seed.json`.
+  - **Types:** `AdPlacement = { id; placementKey; name; imageUrl; targetUrl; altText; weight }` added to
+    `src/lib/data/types.ts` (internal is_active/impressions/clicks NEVER exposed). **`src/lib/data/ads.ts`**:
+    `getAdForPlacement(placementKey): Promise<AdPlacement|null>` (one ACTIVE ad, WEIGHTED random, may vary
+    per request — same non-static caveat as getRandomShow; PUBLIC cookie-free client when live, seed
+    otherwise), `recordAdImpression(id)` + `recordAdClick(id)` (call `supabase.rpc(...)` when live, no-op
+    on seed fallback; best-effort — failures swallowed). Re-exported from `src/lib/data/index.ts`
+    (+ the `AdPlacement` type). **`src/lib/database.types.ts`**: `ad_placements` table (Row/Insert/Update)
+    + the 2 RPCs in `Functions`.
+  - **LIVE validation (vs local Supabase, anon REST):** `npx supabase db reset` applies 0007 + seeds ads
+    cleanly. Anon `SELECT ad_placements` → exactly the **4 active** ads (ad-005 hidden, incl. by direct id).
+    `record_ad_click('ad-002')` → 204, clicks 0→1; `record_ad_impression('ad-001')` → 204, impressions
+    0→1; `record_ad_click('ad-005')` (inactive) → 204 but a **no-op** (verified via psql: ad-005 clicks
+    still 0 — the `and is_active is true` WHERE filters it). Direct anon **UPDATE / INSERT / DELETE** on
+    ad_placements → **REJECTED 42501 "permission denied for table"** (no write grant). `npm run typecheck`
+    clean · `npm run build` OK (47 routes, no new routes — UI is the next workflow) · `npm run test`
+    **331/331** · `npm run test:e2e` **72/72** (no M1/M2/M3/video regression on live Supabase).
+  - **UI HANDOFF — ads API to consume (import from `@/lib/data` only):**
+    - `getAdForPlacement(placementKey): Promise<AdPlacement|null>` — pass a slot key (`'home-banner'`,
+      `'grid-native'`, or `'sidebar'`). Returns ONE active ad (weighted random) or null if the slot is
+      empty. Render in a RESERVED, FIXED-HEIGHT, clearly-"Sponsored"-labelled IN-FLOW box — banner /
+      native-card / sidebar only. **PRODUCT REQUIREMENT: NON-INVASIVE** — NO pop-ups, NO interstitials,
+      NO autoplay, NO layout shift. It is non-deterministic (don't call during static prerender of a
+      cached page). `AdPlacement` carries `imageUrl` (use `next/image` — placehold.co is allowlisted) +
+      `targetUrl` (where a click goes) + `altText`.
+    - `recordAdImpression(id)` / `recordAdClick(id)` — fire-and-forget counter tracking. These read/write
+      server-side; to call from a Client Component, mirror the comments/forum build pattern — a top-level
+      `'use server'` wrapper module with real `async function` declarations delegating to the data layer
+      (do NOT import `@/lib/data/ads` directly into a client component; it pulls server-only Supabase code
+      into the client bundle and fails the build).
+    - **Seeded placement keys / slots:** `home-banner` (→ /forum), `grid-native` (→ /random),
+      `sidebar` (→ /signup + /schedule). 5 ads seeded (4 active + 1 inactive proof). Sign-ups/ads persist;
+      `npx supabase db reset` re-seeds the 5 ads.
+- 2026-06-15 — ui-ads-engineer — **Roadmap: NON-INVASIVE ad slots UI complete.** Consumed the ads API
+  exactly as handed off (read via `@/lib/data#getAdForPlacement`; tracking via a client-safe `'use server'`
+  wrapper — client islands never import `@/lib/data/ads` directly, per the documented build gotcha). No
+  data-layer / migration / schema / type changes. Built (server-rendered ad fetch + tiny client tracker):
+  - **`src/components/AdSlot.tsx`** (async **Server Component**) — `await getAdForPlacement(placementKey)`,
+    renders a RESERVED, FIXED-SIZE box (`max-width` + `aspect-ratio` per placement, so the footprint is
+    IDENTICAL whether or not an ad is served → **zero CLS**), a clearly-visible **"Sponsored"** disclosure
+    label, and a single static `next/image` wrapped in a normal `<a>` to `targetUrl`. **NON-INVASIVE: no
+    popup / modal / interstitial / autoplay / `target="_blank"`** (verified absent in the rendered HTML).
+    No ad for a slot → renders the empty reserved box (`data-ad-empty`, `aria-hidden`) so the layout still
+    never shifts. Reserved sizes: home-banner 970×90, grid-native & sidebar 300×250 (match the seeded
+    creatives). The ad image is `unoptimized` (placehold.co house ads return `image/svg+xml`; next/image
+    rejects SVG through the optimizer unless `dangerouslyAllowSVG` is on — deliberately NOT enabled
+    site-wide for security; `unoptimized` renders the small fixed banner without weakening the global
+    image policy). `rel="nofollow sponsored"` on the link. Testids: `ad-slot`, `ad-slot-link`,
+    `ad-sponsored-label` (+ `data-placement`, `data-ad-empty`).
+  - **`src/components/AdSlotTracker.tsx`** (**client** island, wraps only the server-rendered creative) —
+    IMPRESSION recorded **lazily + ONCE** via `IntersectionObserver` (threshold 0.5; ads below the fold
+    aren't counted until seen; immediate-once fallback when IO is unavailable). CLICK recorded on
+    `onClickCapture` then native navigation proceeds (**never `preventDefault`** → no broken link, no
+    popup). Both fire-and-forget; failures swallowed in the data layer. It does NOT fetch or render the
+    ad — the markup + reserved height ship in the initial server HTML.
+  - **`src/lib/ads/actions.ts`** (top-level `'use server'`) — real `async function` wrappers
+    `recordAdImpression`/`recordAdClick` delegating to `@/lib/data/ads`, mirroring
+    `src/lib/comments/actions.ts` so the client tracker doesn't drag server-only Supabase code into the
+    bundle.
+  - **Placements wired (3 distinct, all tasteful + in-flow, none over content / modal / auto-popping):**
+    `home-banner` on **`/`** (between the Popular and Recommended rails, full-width short leaderboard);
+    `sidebar` on **`/search`** (below the FilterPanel in the existing left sidebar); `grid-native` on
+    **`/forum`** (native card centered below the category grid). Added `export const dynamic =
+    'force-dynamic'` to `/` and `/search` (forum was already dynamic) since `getAdForPlacement` is
+    weighted-random / non-deterministic and must not run during static prerender.
+  - **Dark-theme + a11y:** uses existing theme tokens (border/card/accent), "Sponsored" label is
+    high-contrast white-on-black-blur (clear disclosure), focus-visible ring on the link preserved,
+    hover/transition gated behind `motion-safe:` (respects reduced-motion), `aria-label="Advertisement"`.
+  - **Validation:** `npm run typecheck` clean · `npm run lint` 0 errors (only the pre-existing
+    `ScheduleGrid.test.tsx` warning) · `npm run build` OK (45 pages; `/`, `/search`, `/forum` are `ƒ`
+    dynamic) · `npm run test` **331/331** (no M1/M2/M3/video regression) · `npm run test:e2e` **72/72**
+    (no regression; zero SVG-optimizer errors after the `unoptimized` fix). Live smoke vs local Supabase:
+    all 3 pages render `ad-slot`+`ad-slot-link`+`ad-sponsored-label` with the correct `data-placement`;
+    home-banner box renders `style="max-width:970px;aspect-ratio:970 / 90"` (reserved, no CLS); link
+    targets the house creative's URL; image src is the direct placehold.co URL; no autoplay/interstitial/
+    dialog/`target="_blank"` anywhere; the `record_ad_impression` + `record_ad_click` RPCs return HTTP
+    204 against live Supabase.
+  - **QA — how to verify (no popups, reserved space):** open `/`, `/search`, `/forum` → each shows ONE
+    in-flow "Sponsored"-labelled banner/card; nothing pops up, overlays content, autoplays, or opens a
+    new tab. Reserved space / no-CLS: the `[data-testid="ad-slot"]` box has a fixed `max-width` +
+    `aspect-ratio` and holds its height even with images disabled or an empty slot (`data-ad-empty`).
+    Impression: scroll the slot into view → one `record_ad_impression` RPC (lazy + once). Click: clicking
+    the ad fires `record_ad_click` then navigates normally to `targetUrl`. Counters live on
+    `ad_placements.impressions/clicks` (service-role/Studio to inspect). `npx supabase db reset` re-seeds
+    the 4 active house ads.
+- 2026-06-15 — qa-ads-engineer — **Roadmap: NON-INVASIVE ad slots QA complete.** Added unit coverage for
+  the ads data layer + AdSlot rendering, an e2e for the wired non-invasive slots, and an ADVERSARIAL
+  PostgREST security e2e. Only TEST code changed (no product/migration changes). All prior suites kept
+  green on live Supabase. Final: `npm run test` **367/367** (331 prior + **36 new**) · `npm run typecheck`
+  clean · `npm run lint` clean (new files) · `npm run test:e2e` **91/91** (72 prior + **19 new**), green on
+  two consecutive full runs.
+  - **New unit file `src/lib/data/ads.test.ts` (16 tests):** mocks `isSupabaseConfigured` + the Supabase
+    PUBLIC client (no live DB). Covers BOTH branches of `getAdForPlacement`: **seed-fallback** (returns an
+    active seed ad for a slot / null for an empty slot; never builds a client; AdPlacement domain shape with
+    NO internal columns leaked — is_active/impressions/clicks) AND **live** (query scoped to `placement_key`
+    AND `is_active=true`; selects only public columns; row→camelCase map; null/empty → null; error rethrown;
+    no raw snake_case keys leak). **Weighted pick** is pinned deterministic via a stubbed `Math.random`:
+    single-candidate, low-random→heavier ad, high-random→lighter ad, and a full sweep proving weight 3 vs 1
+    wins exactly 75% of the [0,1) range. **Tracking RPCs**: no-op (no client, no RPC) on seed fallback;
+    `record_ad_impression`/`record_ad_click` called with `{ p_id }` when configured; return void.
+  - **New unit file `src/components/AdSlot.test.tsx` (20 tests):** awaits the async Server Component, renders
+    the returned tree (`getAdForPlacement` mocked, `AdSlotTracker` stubbed to a passthrough). With an ad:
+    `ad-slot` box + correct `data-placement`; a clearly-visible **"Sponsored"** label; a single `<a>` to
+    `targetUrl`; the creative `<img>` with the ad alt (and name/generic fallback); reserved footprint
+    (`aspect-ratio` + `max-width` per placement). **NON-INVASIVE guarantees asserted on the output:** NO
+    `role="dialog"`/`alertdialog`, NO `aria-modal`; NO `target="_blank"` (rel includes `sponsored`); NO
+    `<video>`/`<audio>`/`[autoplay]`; exactly ONE link. No-ad case: the reserved box still renders
+    (`data-ad-empty`, `aria-hidden`) with no link/label/image — so the layout never shifts and nothing
+    invasive appears.
+  - **New e2e `e2e/ads.spec.ts` (10 tests, LIVE Supabase):** for each wired page (`/` home-banner, `/forum`
+    grid-native, `/search` sidebar): exactly one in-flow `ad-slot`; a visible **"Sponsored"** label; a single
+    `ad-slot-link` to a same-origin in-app target; **NO popup/modal/interstitial** (`dialog`/`alertdialog`/
+    `aria-modal` count 0 page-wide), **NO new tab** (no `target="_blank"`), **NO autoplay** (no `video`/`audio`
+    `[autoplay]`); **page stays interactive** (header + Home nav visible/enabled — not covered by an overlay);
+    **NO layout shift** (the slot reserves a non-zero `aspect-ratio` height that is stable before/after
+    `networkidle`, CLS≈0). Plus the home-banner navigation contract (`href=/forum`, relative, not a new tab,
+    target route resolves <400).
+  - **New ADVERSARIAL e2e `e2e/ads-adversarial.spec.ts` (9 tests, LIVE Supabase, hits PostgREST DIRECTLY with
+    the anon key; loads `.env.local` itself — zero new deps, mirroring the comments/forum adversarial specs):**
+    **(1) anon CANNOT read an inactive ad** — `ad-005` (is_active=false) is absent from the list AND returns
+    `[]` when queried by exact id AND via `is_active=eq.false` (no image_url/target_url leak). **(2) anon
+    CANNOT write `ad_placements` directly** — INSERT / UPDATE (flip is_active / change target) / DELETE each
+    rejected **HTTP 401 code 42501 "permission denied for table"** (no write grant), with the target ad
+    verifiably unchanged + still visible. **(3) the ONLY allowed mutation is the +1 counter RPC** —
+    `record_ad_click`/`record_ad_impression` on an ACTIVE ad → 204; the same RPC against the INACTIVE ad is a
+    silent NO-OP that leaks nothing; passing extra "columns" to the RPC is rejected (cannot set
+    image/target/active/weight). (Confirmed out-of-band via `docker exec … psql`: the RPC bumped ad-002's
+    counters while ad-005 stayed 0/0 — the `and is_active is true` filter holds.)
+  - **PRODUCT BUG (MEDIUM — ad CREATIVE collapses to height 0; NOT patched).** `src/components/AdSlot.tsx`
+    reserves the slot footprint on the `<aside>` via `aspect-ratio` (so there is genuinely **no layout shift**
+    — verified), but the inner `AdSlotTracker` wrapper `<div>` (`src/components/AdSlotTracker.tsx:68-78`)
+    carries no `h-full w-full`, so the `h-full` chain the `fill` `<img>` depends on (`AdSlot.tsx:92` →
+    `:101` `<a class="block h-full w-full">` → `:109` `<Image fill>`) resolves against a **0-height** box.
+    Result on all 3 live pages: the `<aside>` is correct (970×90 / 300×250) but the inner div is ~2px and the
+    `<a>`+`<img>` render at **0px tall** — the absolutely-positioned "Sponsored" label still shows, but the
+    clickable creative is effectively invisible and **NOT clickable by a real user** (a normal Playwright
+    `.click()` times out as non-actionable; a forced click reports "outside of the viewport"). Two
+    consequences: (a) the house ad image is never actually visible, (b) the IntersectionObserver-based
+    impression never reliably fires (it observes the ~2px collapsed wrapper). **Suggested fix (product owner):**
+    add `h-full w-full` (e.g. `className="block h-full w-full"`) to the `AdSlotTracker` wrapper `<div>` so the
+    height chain reaches the `fill` image. The non-invasive contract (label, no popup/autoplay/new-tab,
+    reserved space / no-CLS) is unaffected and fully covered; only the creative's render height is broken.
+    Because of this bug the e2e asserts the navigation CONTRACT at the DOM level (link presence + correct
+    same-origin href + not-a-new-tab + the target route resolves) rather than performing a pointer click the
+    bug makes non-actionable.
+  - **NOTE on impression/click e2e:** `recordAdImpression`/`recordAdClick` run via a top-level `'use server'`
+    action (`src/lib/ads/actions.ts`), so the browser POSTs to the Next server and the Supabase `/rpc/…` call
+    happens server-side — it is NOT visible as a browser request, so browser-side RPC sniffing can't assert it
+    at e2e. The RPC behavior (success on active, no-op on inactive, no arbitrary write) is instead proven
+    DIRECTLY in `ads-adversarial.spec.ts`, and the data-layer wiring (`supabase.rpc('record_ad_*',{p_id})`,
+    no-op on seed fallback) is unit-tested.
+  - **No M1/M2/M3/video regressions** (catalog/schedule/search/auth/comments/forum/video read+write paths all
+    green on live Supabase). The forum lifecycle e2e flaked once under full-parallel load on the FIRST baseline
+    run (`page.goBack()` navigation timing on live Supabase) but passed in isolation and on both subsequent
+    full runs — pre-existing forum-suite flakiness, unrelated to ads, no product/test change made for it. Ads
+    rows persist; `npx supabase db reset` re-seeds the 4 active house ads (+ the 1 inactive proof row).

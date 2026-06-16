@@ -182,3 +182,23 @@ export type ForumPost = {
 export type ForumThreadWithPosts = ForumThread & {
   posts: ForumPost[]
 }
+
+// ---------------------------------------------------------------------------
+// Roadmap — non-invasive advertising (ad placements)
+// ---------------------------------------------------------------------------
+
+// One ad creative as the UI consumes it. `placementKey` is the slot it belongs
+// to (e.g. 'home-banner', 'grid-native', 'sidebar'). The UI renders it in a
+// reserved, fixed-height, clearly-"Sponsored"-labelled in-flow box (no pop-ups /
+// interstitials / autoplay / layout shift). The internal counters (impressions /
+// clicks / is_active) are NOT exposed to the UI — getAdForPlacement only ever
+// returns ACTIVE ads, and tracking goes through recordAdImpression/recordAdClick.
+export type AdPlacement = {
+  id: string
+  placementKey: string
+  name: string | null
+  imageUrl: string // absolute URL or app-relative
+  targetUrl: string // where a click navigates
+  altText: string | null
+  weight: number // relative selection weight within the slot (> 0)
+}

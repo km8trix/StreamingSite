@@ -393,9 +393,60 @@ export type Database = {
           },
         ]
       }
+      ad_placements: {
+        Row: {
+          id: string
+          placement_key: string
+          name: string | null
+          image_url: string
+          target_url: string
+          alt_text: string | null
+          weight: number
+          is_active: boolean
+          impressions: number
+          clicks: number
+          created_at: string
+        }
+        Insert: {
+          id: string
+          placement_key: string
+          name?: string | null
+          image_url: string
+          target_url: string
+          alt_text?: string | null
+          weight?: number
+          is_active?: boolean
+          impressions?: number
+          clicks?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          placement_key?: string
+          name?: string | null
+          image_url?: string
+          target_url?: string
+          alt_text?: string | null
+          weight?: number
+          is_active?: boolean
+          impressions?: number
+          clicks?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: Record<never, never>
-    Functions: Record<never, never>
+    Functions: {
+      record_ad_impression: {
+        Args: { p_id: string }
+        Returns: undefined
+      }
+      record_ad_click: {
+        Args: { p_id: string }
+        Returns: undefined
+      }
+    }
     Enums: Record<never, never>
     CompositeTypes: Record<never, never>
   }

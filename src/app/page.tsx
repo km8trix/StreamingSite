@@ -5,6 +5,11 @@ import {
 } from '@/lib/data'
 import { FeaturedHero } from '@/components/FeaturedHero'
 import { ShowCarousel } from '@/components/ShowCarousel'
+import { AdSlot } from '@/components/AdSlot'
+
+// The home-banner AdSlot calls getAdForPlacement (weighted-random, non-deterministic),
+// so the page must render dynamically rather than be statically prerendered.
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const [recentlyUpdated, popular, recommended] = await Promise.all([
@@ -42,6 +47,10 @@ export default async function HomePage() {
             priorityFirst={!featured}
           />
           <ShowCarousel title="Popular" shows={popularRail} />
+
+          {/* Non-invasive in-flow banner between rails — reserved height, no CLS. */}
+          <AdSlot placementKey="home-banner" />
+
           <ShowCarousel title="Recommended For You" shows={recommended} />
         </div>
       )}
