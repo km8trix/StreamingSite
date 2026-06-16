@@ -7,6 +7,7 @@ export type {
   Comment,
   CommentAuthor,
   CommentThread,
+  ContinueWatchingItem,
   CurrentUser,
   DayOfWeek,
   Episode,
@@ -47,6 +48,8 @@ export {
 } from './search'
 
 export { getCurrentUser, getProfile, getProfileByUsername } from './profiles'
+
+export { getContinueWatching } from './watch-progress'
 
 export {
   addComment,

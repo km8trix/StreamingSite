@@ -1,8 +1,10 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Captions, Mic, Play } from 'lucide-react'
 import type { Episode } from '@/lib/data'
+import { recordWatchProgress } from '@/lib/watch/actions'
+import { recordGuestProgress } from '@/lib/watch/guest-store'
 import { PlayerPlaceholder } from './PlayerPlaceholder'
 import { VideoPlayer } from './VideoPlayer'
 import { cn } from '@/lib/utils'
@@ -15,31 +17,82 @@ import { cn } from '@/lib/utils'
  * "Streaming coming soon" <PlayerPlaceholder> so both paths are always exercised
  * (most episodes are not seeded with a stream yet).
  *
- * The selector lets the viewer pick any episode. Episodes with a stream get a
- * play glyph; the rest are still selectable (they just show the placeholder),
- * which keeps the picker honest about which episodes are watchable.
+ * Continue Watching: the player reports progress (throttled), which we persist —
+ * to the DB via a server action when signed in, else to localStorage for guests.
+ * When arrived at via a Continue Watching card (initialEpisodeId/Seconds), we
+ * pre-select that episode and seek the player to the saved position.
  */
 export function WatchSection({
+  showId,
+  slug,
   title,
   poster,
+  coverImage,
   episodes,
+  isSignedIn,
+  initialEpisodeId,
+  initialStartSeconds = 0,
 }: {
+  showId: string
+  slug: string
   title: string
   poster?: string | null
+  coverImage: string
   episodes: Episode[]
+  isSignedIn: boolean
+  initialEpisodeId?: string | null
+  initialStartSeconds?: number
 }) {
-  // Default to the first episode that actually has a stream; fall back to the
-  // lowest-numbered episode (already sorted by the data layer) so there is
-  // always an active selection even when nothing is seeded.
+  // Prefer the deep-linked resume episode, but only if it actually has a stream;
+  // otherwise fall back to the first playable episode so a resume never lands on
+  // the "streaming coming soon" placeholder. Last resort: the resume episode (so
+  // a single sourceless show still selects something), else the first episode.
   const defaultId = useMemo(() => {
+    const target = initialEpisodeId
+      ? episodes.find((e) => e.id === initialEpisodeId)
+      : undefined
+    if (target?.videoUrl) return target.id
     const withVideo = episodes.find((e) => e.videoUrl)
-    return withVideo?.id ?? episodes[0]?.id ?? null
-  }, [episodes])
+    return withVideo?.id ?? target?.id ?? episodes[0]?.id ?? null
+  }, [episodes, initialEpisodeId])
 
   const [activeId, setActiveId] = useState<string | null>(defaultId)
 
   const active =
     episodes.find((e) => e.id === activeId) ?? episodes[0] ?? null
+
+  // Only seek for the episode we were deep-linked to resume; manual switches and
+  // the auto-advanced "next episode" start at 0.
+  const startSeconds =
+    active && active.id === initialEpisodeId ? initialStartSeconds : 0
+
+  const recordProgress = useCallback(
+    (positionSeconds: number, durationSeconds: number) => {
+      if (!active) return
+      if (isSignedIn) {
+        // Fire-and-forget: tracking must never block or break playback.
+        recordWatchProgress(
+          showId,
+          active.id,
+          positionSeconds,
+          durationSeconds,
+        ).catch(() => {})
+      } else {
+        recordGuestProgress({
+          show: { id: showId, slug, title, coverImage },
+          episode: { id: active.id, number: active.number, title: active.title },
+          positionSeconds,
+          durationSeconds,
+          episodes: episodes.map((e) => ({
+            id: e.id,
+            number: e.number,
+            title: e.title,
+          })),
+        })
+      }
+    },
+    [active, isSignedIn, showId, slug, title, coverImage, episodes],
+  )
 
   return (
     <section aria-label="Watch" data-testid="watch-section">
@@ -54,6 +107,8 @@ export function WatchSection({
           src={active.videoUrl}
           poster={poster}
           title={`${title} — Episode ${active.number}`}
+          startSeconds={startSeconds}
+          onProgress={recordProgress}
         />
       ) : (
         <PlayerPlaceholder title={title} />

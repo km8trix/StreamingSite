@@ -435,6 +435,55 @@ export type Database = {
         }
         Relationships: []
       }
+      watch_progress: {
+        Row: {
+          user_id: string
+          show_id: string
+          episode_id: string
+          position_seconds: number
+          duration_seconds: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          show_id: string
+          episode_id: string
+          position_seconds?: number
+          duration_seconds?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          show_id?: string
+          episode_id?: string
+          position_seconds?: number
+          duration_seconds?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'watch_progress_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'watch_progress_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'watch_progress_episode_id_fkey'
+            columns: ['episode_id']
+            referencedRelation: 'episodes'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: {
@@ -444,6 +493,15 @@ export type Database = {
       }
       record_ad_click: {
         Args: { p_id: string }
+        Returns: undefined
+      }
+      record_watch_progress: {
+        Args: {
+          p_show_id: string
+          p_episode_id: string
+          p_position_seconds: number
+          p_duration_seconds: number
+        }
         Returns: undefined
       }
     }

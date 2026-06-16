@@ -1,10 +1,14 @@
 import {
+  getContinueWatching,
+  getCurrentUser,
   getPopularShows,
   getRecentlyUpdatedShows,
   getRecommendedShows,
 } from '@/lib/data'
 import { FeaturedHero } from '@/components/FeaturedHero'
 import { ShowCarousel } from '@/components/ShowCarousel'
+import { ContinueWatchingRail } from '@/components/ContinueWatchingRail'
+import { GuestProgressSync } from '@/components/GuestProgressSync'
 import { AdSlot } from '@/components/AdSlot'
 
 // The home-banner AdSlot calls getAdForPlacement (weighted-random, non-deterministic),
@@ -12,12 +16,16 @@ import { AdSlot } from '@/components/AdSlot'
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const [recentlyUpdated, popular, recommended] = await Promise.all([
-    getRecentlyUpdatedShows(),
-    getPopularShows(),
-    getRecommendedShows(),
-  ])
+  const [recentlyUpdated, popular, recommended, continueWatching, user] =
+    await Promise.all([
+      getRecentlyUpdatedShows(),
+      getPopularShows(),
+      getRecommendedShows(),
+      getContinueWatching(),
+      getCurrentUser(),
+    ])
 
+  const isSignedIn = Boolean(user)
   const featured = popular[0] ?? recommended[0] ?? recentlyUpdated[0] ?? null
   // Avoid repeating the featured title as the first popular card.
   const popularRail = featured
@@ -29,6 +37,13 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      {/* Flush guest localStorage progress into the DB once after sign-in. */}
+      <GuestProgressSync isSignedIn={isSignedIn} />
+
+      {/* Continue Watching — pinned to the top for returning viewers; renders
+          nothing when there's no progress (guests resolve it client-side). */}
+      <ContinueWatchingRail items={continueWatching} isSignedIn={isSignedIn} />
+
       {featured && (
         <div className="mb-10">
           <FeaturedHero show={featured} />

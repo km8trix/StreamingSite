@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
-import { getShowBySlug } from '@/lib/data'
+import { getCurrentUser, getShowBySlug } from '@/lib/data'
 import seed from '@/lib/data/seed.json'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
@@ -61,12 +61,20 @@ export async function generateMetadata({
 
 export default async function ShowDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<Params>
+  // Continue Watching deep-link: ?ep=<episodeId>&t=<seconds> resumes playback.
+  searchParams: Promise<{ ep?: string | string[]; t?: string | string[] }>
 }) {
   const { slug } = await params
   const show = await getShowBySlug(slug)
   if (!show) notFound()
+
+  const [{ ep, t }, user] = await Promise.all([searchParams, getCurrentUser()])
+  const resumeEpisodeId = (Array.isArray(ep) ? ep[0] : ep) ?? null
+  const rawT = Array.isArray(t) ? t[0] : t
+  const resumeSeconds = rawT ? Math.max(0, Math.floor(Number(rawT)) || 0) : 0
 
   return (
     <article className="pb-8">
@@ -154,9 +162,15 @@ export default async function ShowDetailPage({
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_22rem] lg:px-8">
         <div className="flex flex-col gap-8">
           <WatchSection
+            showId={show.id}
+            slug={show.slug}
             title={show.title}
             poster={show.bannerImage ?? show.coverImage}
+            coverImage={show.coverImage}
             episodes={show.episodes}
+            isSignedIn={Boolean(user)}
+            initialEpisodeId={resumeEpisodeId}
+            initialStartSeconds={resumeSeconds}
           />
 
           {show.synopsis && (
