@@ -14,27 +14,41 @@ import { cn } from '@/lib/utils'
  *   isoDay = (jsDay + 6) % 7   (Sun→6, Mon→0, …, Sat→5) ✓
  */
 
-const DAY_NAMES: Record<DayOfWeek, string> = {
-  0: 'Monday',
-  1: 'Tuesday',
-  2: 'Wednesday',
-  3: 'Thursday',
-  4: 'Friday',
-  5: 'Saturday',
-  6: 'Sunday',
-}
-
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  0: 'Mon',
-  1: 'Tue',
-  2: 'Wed',
-  3: 'Thu',
-  4: 'Fri',
-  5: 'Sat',
-  6: 'Sun',
-}
-
 const ALL_DAYS: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6]
+
+// A column in the rolling schedule: an actual upcoming calendar date plus the
+// ISO weekday it falls on (used to map entries, which are keyed by dayOfWeek).
+type RollingDay = {
+  isoDay: DayOfWeek // 0=Mon … 6=Sun — used for data-day + entry grouping
+  isToday: boolean
+  monthDay: string // "Jun 17"
+  weekdayShort: string // "Wed"
+  weekdayLong: string // "Wednesday"
+}
+
+/**
+ * Build a rolling window of `count` days starting today (viewer-local), each
+ * carrying its real date labels. 7 consecutive days cover every ISO weekday
+ * exactly once, so the schedule shows real dates ("Jun 17 · Wed") rolling
+ * forward from today instead of a fixed Monday→Sunday week.
+ */
+function buildRollingDays(count = 7): RollingDay[] {
+  const now = new Date()
+  const base = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const out: RollingDay[] = []
+  for (let i = 0; i < count; i++) {
+    const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i)
+    const isoDay = (((d.getDay() + 6) % 7) as DayOfWeek) // Sun→6, Mon→0, …
+    out.push({
+      isoDay,
+      isToday: i === 0,
+      monthDay: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      weekdayShort: d.toLocaleDateString('en-US', { weekday: 'short' }),
+      weekdayLong: d.toLocaleDateString('en-US', { weekday: 'long' }),
+    })
+  }
+  return out
+}
 
 /** Convert a JST 'HH:MM' string + IANA timezone to viewer-local HH:MM display. */
 function jstToLocalTime(airTime: string, sourceTimezone: string): string {
@@ -93,14 +107,8 @@ function jstToLocalTime(airTime: string, sourceTimezone: string): string {
   return localFormatter.format(airDate)
 }
 
-/** Get today's day as ISO DayOfWeek (0=Mon … 6=Sun). */
-function getTodayIsoDay(): DayOfWeek {
-  const jsDay = new Date().getDay() // 0=Sun … 6=Sat
-  return ((jsDay + 6) % 7) as DayOfWeek
-}
-
 export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
-  const todayIso = getTodayIsoDay()
+  const rollingDays = buildRollingDays()
 
   // Group entries by dayOfWeek
   const byDay = new Map<DayOfWeek, ScheduleEntry[]>()
@@ -127,61 +135,50 @@ export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
         Times shown in your local timezone. Source times are JST (Asia/Tokyo).
       </p>
 
-      {/* Desktop: 7-column grid (Mon → Sun) */}
+      {/* Desktop: 7-column grid, rolling from today */}
       <div className="hidden lg:grid lg:grid-cols-7 lg:gap-3">
-        {ALL_DAYS.map((day) => {
-          const isToday = day === todayIso
-          const dayEntries = byDay.get(day)!
-          return (
-            <DayColumn
-              key={day}
-              day={day}
-              entries={dayEntries}
-              isToday={isToday}
-              convertTime={jstToLocalTime}
-            />
-          )
-        })}
+        {rollingDays.map((rd) => (
+          <DayColumn
+            key={rd.isoDay}
+            rollingDay={rd}
+            entries={byDay.get(rd.isoDay)!}
+            convertTime={jstToLocalTime}
+          />
+        ))}
       </div>
 
       {/* Mobile/tablet: stacked list */}
       <div className="flex flex-col gap-4 lg:hidden">
-        {ALL_DAYS.map((day) => {
-          const isToday = day === todayIso
-          const dayEntries = byDay.get(day)!
-          return (
-            <DayColumn
-              key={day}
-              day={day}
-              entries={dayEntries}
-              isToday={isToday}
-              convertTime={jstToLocalTime}
-              stacked
-            />
-          )
-        })}
+        {rollingDays.map((rd) => (
+          <DayColumn
+            key={rd.isoDay}
+            rollingDay={rd}
+            entries={byDay.get(rd.isoDay)!}
+            convertTime={jstToLocalTime}
+            stacked
+          />
+        ))}
       </div>
     </div>
   )
 }
 
 function DayColumn({
-  day,
+  rollingDay,
   entries,
-  isToday,
   convertTime,
   stacked = false,
 }: {
-  day: DayOfWeek
+  rollingDay: RollingDay
   entries: ScheduleEntry[]
-  isToday: boolean
   convertTime: (airTime: string, tz: string) => string
   stacked?: boolean
 }) {
+  const { isoDay, isToday, monthDay, weekdayShort, weekdayLong } = rollingDay
   return (
     <div
       data-testid="schedule-day"
-      data-day={day}
+      data-day={isoDay}
       className={cn(
         'flex flex-col rounded-card border transition-colors',
         isToday
@@ -189,20 +186,30 @@ function DayColumn({
           : 'border-border bg-card/30',
       )}
     >
-      {/* Day header */}
+      {/* Day header — abbreviated month + day on top, weekday below (rolling). */}
       <div
         className={cn(
           'flex items-center justify-between gap-2 rounded-t-card px-3 py-2.5',
           isToday ? 'bg-accent/15' : 'bg-surface/60',
         )}
       >
-        <span
-          className={cn(
-            'text-xs font-bold uppercase tracking-widest',
-            isToday ? 'text-accent-strong' : 'text-muted',
-          )}
-        >
-          {stacked ? DAY_NAMES[day] : DAY_SHORT[day]}
+        <span className="flex flex-col leading-tight">
+          <span
+            className={cn(
+              'text-[0.625rem] font-semibold uppercase tracking-wider tabular-nums',
+              isToday ? 'text-accent-strong/80' : 'text-subtle',
+            )}
+          >
+            {monthDay}
+          </span>
+          <span
+            className={cn(
+              'text-xs font-bold uppercase tracking-widest',
+              isToday ? 'text-accent-strong' : 'text-muted',
+            )}
+          >
+            {stacked ? weekdayLong : weekdayShort}
+          </span>
         </span>
         {isToday && (
           <span className="inline-flex items-center gap-1 rounded-full bg-accent/20 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-accent-strong">
