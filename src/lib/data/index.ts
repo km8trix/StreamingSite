@@ -35,6 +35,7 @@ export {
   getPopularShows,
   getRandomShow,
   getRecentlyUpdatedShows,
+  getRecommendedForYou,
   getRecommendedShows,
   getShowBySlug,
   listGenres,

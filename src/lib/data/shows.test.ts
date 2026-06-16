@@ -8,6 +8,7 @@ import {
   getPopularShows,
   getRandomShow,
   getRecentlyUpdatedShows,
+  getRecommendedForYou,
   getRecommendedShows,
   getShowBySlug,
   listGenres,
@@ -91,6 +92,40 @@ describe('getRecommendedShows', () => {
     if (lastAiring !== -1 && firstNonAiring !== -1) {
       expect(lastAiring).toBeLessThan(firstNonAiring)
     }
+  })
+})
+
+describe('getRecommendedForYou', () => {
+  // Pick a watched show that actually carries at least one genre so overlap
+  // scoring has something to work with.
+  const watchedShow = seed.shows.find((s) => s.genres.length > 0)!
+
+  it('with no watch history returns the generic recommendations', async () => {
+    const personalized = await getRecommendedForYou([])
+    const generic = await getRecommendedShows()
+    expect(personalized).toEqual(generic)
+  })
+
+  it('never recommends an already-watched show', async () => {
+    const recs = await getRecommendedForYou([watchedShow.id], SEED_SHOW_COUNT)
+    expect(recs.some((s) => s.id === watchedShow.id)).toBe(false)
+  })
+
+  it('ranks a genre-overlapping show first', async () => {
+    const watchedGenreIds = new Set(watchedShow.genres.map((g) => g.id))
+    const recs = await getRecommendedForYou([watchedShow.id], SEED_SHOW_COUNT)
+    const topDetail = seed.shows.find((d) => d.id === recs[0].id)!
+    expect(topDetail.genres.some((g) => watchedGenreIds.has(g.id))).toBe(true)
+  })
+
+  it('returns ShowSummary shape, default-capped at 12', async () => {
+    const recs = await getRecommendedForYou([watchedShow.id])
+    expect(recs.length).toBeGreaterThan(0)
+    expect(recs.length).toBeLessThanOrEqual(12)
+    expect(recs[0]).not.toHaveProperty('episodes')
+    expect(recs[0]).toEqual(
+      expect.objectContaining({ id: expect.any(String), slug: expect.any(String) }),
+    )
   })
 })
 

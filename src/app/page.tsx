@@ -3,11 +3,13 @@ import {
   getCurrentUser,
   getPopularShows,
   getRecentlyUpdatedShows,
+  getRecommendedForYou,
   getRecommendedShows,
 } from '@/lib/data'
 import { FeaturedHero } from '@/components/FeaturedHero'
 import { ShowCarousel } from '@/components/ShowCarousel'
 import { ContinueWatchingRail } from '@/components/ContinueWatchingRail'
+import { RecommendedForYouRail } from '@/components/RecommendedForYouRail'
 import { GuestProgressSync } from '@/components/GuestProgressSync'
 import { AdSlot } from '@/components/AdSlot'
 
@@ -26,6 +28,15 @@ export default async function HomePage() {
     ])
 
   const isSignedIn = Boolean(user)
+
+  // Personalized "Recommended For You" from watch history. Signed-in users are
+  // resolved server-side off their Continue Watching shows; guests get the
+  // generic list as a baseline here and the rail upgrades it client-side from
+  // localStorage. getRecommendedForYou falls back to generic for empty history.
+  const recommendedForYou = isSignedIn
+    ? await getRecommendedForYou(continueWatching.map((i) => i.showId))
+    : recommended
+
   const featured = popular[0] ?? recommended[0] ?? recentlyUpdated[0] ?? null
   // Avoid repeating the featured title as the first popular card.
   const popularRail = featured
@@ -43,6 +54,15 @@ export default async function HomePage() {
       {/* Continue Watching — pinned to the top for returning viewers; renders
           nothing when there's no progress (guests resolve it client-side). */}
       <ContinueWatchingRail items={continueWatching} isSignedIn={isSignedIn} />
+
+      {/* Personalized Recommended For You, directly under Continue Watching
+          (replaces the old generic rail; falls back to generic with no history). */}
+      <div className="mb-10">
+        <RecommendedForYouRail
+          shows={recommendedForYou}
+          isSignedIn={isSignedIn}
+        />
+      </div>
 
       {featured && (
         <div className="mb-10">
@@ -65,8 +85,6 @@ export default async function HomePage() {
 
           {/* Non-invasive in-flow banner between rails — reserved height, no CLS. */}
           <AdSlot placementKey="home-banner" />
-
-          <ShowCarousel title="Recommended For You" shows={recommended} />
         </div>
       )}
     </div>

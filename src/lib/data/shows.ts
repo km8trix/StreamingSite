@@ -160,6 +160,57 @@ function seedRecommendedShows(limit: number): ShowSummary[] {
     .map(toSummary)
 }
 
+// Personalized recs from the seed: weight each genre by how many WATCHED shows
+// carry it, score unwatched shows by their genre overlap (tiebreak popularity),
+// and pad with the generic list so the rail is always full.
+function seedRecommendedForYou(watched: string[], limit: number): ShowSummary[] {
+  const watchedSet = new Set(watched)
+  const watchedShows = SEED_SHOWS.filter((s) => watchedSet.has(s.id))
+  if (watchedShows.length === 0) return seedRecommendedShows(limit)
+
+  const genreWeight = new Map<string, number>()
+  for (const s of watchedShows) {
+    for (const g of s.genres) {
+      genreWeight.set(g.id, (genreWeight.get(g.id) ?? 0) + 1)
+    }
+  }
+
+  const ranked = SEED_SHOWS.filter((s) => !watchedSet.has(s.id))
+    .map((s) => ({
+      show: s,
+      score: s.genres.reduce((acc, g) => acc + (genreWeight.get(g.id) ?? 0), 0),
+    }))
+    .filter((x) => x.score > 0)
+    .sort(
+      (a, b) =>
+        b.score - a.score || b.show.popularityScore - a.show.popularityScore,
+    )
+    .slice(0, limit)
+    .map((x) => toSummary(x.show))
+
+  return padWithGeneric(ranked, watchedSet, limit, seedRecommendedShows(limit))
+}
+
+// Append generic recommendations (skipping already-watched / already-included)
+// until we hit `limit`.
+function padWithGeneric(
+  recs: ShowSummary[],
+  watchedSet: Set<string>,
+  limit: number,
+  generic: ShowSummary[],
+): ShowSummary[] {
+  if (recs.length >= limit) return recs
+  const have = new Set([...recs.map((s) => s.id), ...watchedSet])
+  for (const g of generic) {
+    if (recs.length >= limit) break
+    if (!have.has(g.id)) {
+      recs.push(g)
+      have.add(g.id)
+    }
+  }
+  return recs
+}
+
 function seedAllShows(): ShowSummary[] {
   return [...SEED_SHOWS]
     .sort((a, b) => a.title.localeCompare(b.title))
@@ -265,6 +316,102 @@ export async function getRecommendedShows(
       err,
     )
     return seedRecommendedShows(limit)
+  }
+}
+
+/**
+ * Personalized "Recommended For You" — genre-overlap recommendations derived from
+ * the shows the caller has watched (`watchedShowIds` is passed in; this function
+ * is NOT session-aware, so it works for both the signed-in path and the guest
+ * API route). Weights each genre by how many watched shows carry it, scores
+ * unwatched shows by that overlap (tiebreak popularity), excludes already-watched
+ * shows, and pads with / falls back to the generic recommendations so the rail is
+ * always populated. Empty history => the generic recommendations.
+ */
+export async function getRecommendedForYou(
+  watchedShowIds: string[],
+  limit: number = DEFAULT_LIMIT,
+): Promise<ShowSummary[]> {
+  const watched = [...new Set(watchedShowIds.filter(Boolean))].slice(0, 200)
+  if (watched.length === 0) return getRecommendedShows(limit)
+
+  if (!isSupabaseConfigured()) return seedRecommendedForYou(watched, limit)
+
+  try {
+    const supabase = await getPublicClient()
+
+    // 1) Genres of the watched shows, weighted by how often they appear.
+    const { data: watchedGenreRows, error: e1 } = await supabase
+      .from('show_genres')
+      .select('genre_id')
+      .in('show_id', watched)
+    if (e1) throw e1
+
+    const genreWeight = new Map<string, number>()
+    for (const r of (watchedGenreRows ?? []) as { genre_id: string }[]) {
+      genreWeight.set(r.genre_id, (genreWeight.get(r.genre_id) ?? 0) + 1)
+    }
+    if (genreWeight.size === 0) return getRecommendedShows(limit)
+
+    // 2) Candidate shows sharing those genres (excluding already-watched),
+    //    scored by summed genre weight.
+    const { data: candRows, error: e2 } = await supabase
+      .from('show_genres')
+      .select('show_id, genre_id')
+      .in('genre_id', [...genreWeight.keys()])
+    if (e2) throw e2
+
+    const watchedSet = new Set(watched)
+    const score = new Map<string, number>()
+    for (const r of (candRows ?? []) as { show_id: string; genre_id: string }[]) {
+      if (watchedSet.has(r.show_id)) continue
+      score.set(
+        r.show_id,
+        (score.get(r.show_id) ?? 0) + (genreWeight.get(r.genre_id) ?? 0),
+      )
+    }
+    if (score.size === 0) return getRecommendedShows(limit)
+
+    const topIds = [...score.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limit * 3)
+      .map(([id]) => id)
+
+    // 3) Fetch summaries for the top candidates, then order by score
+    //    (tiebreak popularity).
+    const { data: showRows, error: e3 } = await supabase
+      .from('shows')
+      .select(`${SHOW_SUMMARY_COLUMNS}, popularity_score`)
+      .in('id', topIds)
+    if (e3) throw e3
+
+    const byId = new Map(
+      (showRows ?? []).map((r) => [(r as ShowRow).id, r as ShowRow]),
+    )
+    const ranked = topIds
+      .map((id) => byId.get(id))
+      .filter((r): r is ShowRow => Boolean(r))
+      .sort(
+        (a, b) =>
+          (score.get(b.id) ?? 0) - (score.get(a.id) ?? 0) ||
+          b.popularity_score - a.popularity_score,
+      )
+      .slice(0, limit)
+      .map((r) => mapShowRowToSummary(r))
+
+    if (ranked.length >= limit) return ranked
+    return padWithGeneric(
+      ranked,
+      watchedSet,
+      limit,
+      await getRecommendedShows(limit),
+    )
+  } catch (err) {
+    console.warn(
+      '[data] getRecommendedForYou live query failed, falling back:',
+      err,
+    )
+    return seedRecommendedForYou(watched, limit)
   }
 }
 

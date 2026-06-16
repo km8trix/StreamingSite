@@ -199,6 +199,11 @@ export function getGuestProgressServerSnapshot(): ContinueWatchingItem[] {
   return EMPTY_GUEST_LIST
 }
 
+/** The show ids a guest has watched — the signal for personalized recs. */
+export function readGuestWatchedShowIds(): string[] {
+  return readGuestProgress().map((i) => i.showId)
+}
+
 /** Minimal entries to flush to the DB on sign-in. */
 export function readGuestMergeEntries(): Array<{
   showId: string
