@@ -353,3 +353,13 @@ export async function listGenres(): Promise<Genre[]> {
     return seedGenres()
   }
 }
+
+/**
+ * Resolve a single genre by slug (for the /genre/[slug] landing page heading
+ * and metadata). Derived from listGenres() so it inherits the same seed-fallback
+ * resilience — returns null for an unknown slug (the page then 404s).
+ */
+export async function getGenreBySlug(slug: string): Promise<Genre | null> {
+  const genres = await listGenres()
+  return genres.find((g) => g.slug === slug) ?? null
+}

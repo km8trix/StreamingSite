@@ -31,6 +31,7 @@ export type {
 
 export {
   getAllShows,
+  getGenreBySlug,
   getPopularShows,
   getRandomShow,
   getRecentlyUpdatedShows,

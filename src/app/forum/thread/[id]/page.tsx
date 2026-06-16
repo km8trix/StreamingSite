@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Lock, Pin } from 'lucide-react'
-import { getCurrentUser, getThread } from '@/lib/data'
+import { getCurrentUser, getThread, listCategories } from '@/lib/data'
 import { PostItem } from '@/components/forum/PostItem'
 import { ReplyComposer } from '@/components/forum/ReplyComposer'
 import { ThreadModControls } from '@/components/forum/ThreadModControls'
@@ -30,8 +30,15 @@ export default async function ThreadPage({
 }) {
   const { id } = await params
 
-  const [thread, user] = await Promise.all([getThread(id), getCurrentUser()])
+  const [thread, user, categories] = await Promise.all([
+    getThread(id),
+    getCurrentUser(),
+    listCategories(),
+  ])
   if (!thread) notFound()
+
+  // Resolve the thread's category for the breadcrumb (slug-linked back-path).
+  const category = categories.find((c) => c.id === thread.categoryId) ?? null
 
   const currentUserId = user?.userId ?? null
   const isSignedIn = currentUserId !== null
@@ -43,10 +50,35 @@ export default async function ThreadPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
-      <nav aria-label="Breadcrumb" className="mb-3 text-xs text-subtle">
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-3 flex items-center text-xs text-subtle"
+      >
         <Link href="/forum" className="hover:text-foreground">
           Forum
         </Link>
+        {category && (
+          <>
+            <span className="mx-1.5" aria-hidden>
+              /
+            </span>
+            <Link
+              href={`/forum/${category.slug}`}
+              className="hover:text-foreground"
+            >
+              {category.name}
+            </Link>
+          </>
+        )}
+        <span className="mx-1.5" aria-hidden>
+          /
+        </span>
+        <span
+          className="max-w-[55vw] truncate text-muted sm:max-w-md"
+          aria-current="page"
+        >
+          {thread.title}
+        </span>
       </nav>
 
       <header className="mb-5 flex flex-col gap-3">

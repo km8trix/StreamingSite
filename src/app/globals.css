@@ -72,6 +72,9 @@
 /* Always render dark — this is a dark-first product. */
 html {
   color-scheme: dark;
+  /* Offset anchor/skip-link jumps by the height of the sticky header (h-16 =
+     4rem) so the target lands below the header instead of under it. */
+  scroll-padding-top: 4rem;
 }
 
 body {

@@ -23,9 +23,9 @@ export interface FilterValues {
 }
 
 /**
- * FilterPanel — URL-synced filter controls for the /search page.
- * All state lives in the URL query string; changing any control calls
- * router.push() with the updated params, which re-renders the server page.
+ * FilterPanel — URL-synced filter controls for the catalog pages (/shows and
+ * /genre/[slug]). All state lives in the URL query string; changing any control
+ * calls router.push() with the updated params, which re-renders the server page.
  *
  * The current selections come in as `values` (parsed on the server) and the
  * router is used purely for navigation — the component never reads
@@ -52,18 +52,18 @@ export function FilterPanel({
   const currentSort = values.sort
 
   /**
-   * Navigate to a filtered URL on the same /search route.
+   * Navigate to a filtered URL on the current catalog route (pathname is
+   * whichever page mounted the panel — /shows or /genre/[slug]).
    *
-   * Why the empty `?` suffix: this page is a dynamic route that is also
-   * prefetched as a bare static entry (`/search`). Under the App Router, a
-   * `router.push('/search')` from a deep-linked URL (e.g. `/search?audio=dub`)
-   * is deduped against that prefetched bare entry and silently no-ops — the
-   * Clear button and "reset to defaults" cases would do nothing. Pushing
-   * `/search?` instead makes the destination href distinct from the cached
-   * entry, so the navigation commits and the server re-renders with the new
-   * (empty) search params. Next normalizes the trailing `?` out of the visible
-   * URL, so the address bar still reads `/search`. URLs that already carry a
-   * query string navigate normally and are pushed unchanged.
+   * Why the empty `?` suffix: these dynamic routes are also prefetched as a bare
+   * static entry (e.g. `/shows`). Under the App Router, a `router.push('/shows')`
+   * from a deep-linked URL (e.g. `/shows?audio=dub`) is deduped against that
+   * prefetched bare entry and silently no-ops — the Clear button and "reset to
+   * defaults" cases would do nothing. Pushing `/shows?` instead makes the
+   * destination href distinct from the cached entry, so the navigation commits
+   * and the server re-renders with the new (empty) search params. Next normalizes
+   * the trailing `?` out of the visible URL. URLs that already carry a query
+   * string navigate normally and are pushed unchanged.
    */
   const navigate = useCallback(
     (target: string) => {
@@ -170,7 +170,7 @@ export function FilterPanel({
             <label
               key={value}
               className={cn(
-                'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
+                'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-background',
                 currentSort === value
                   ? 'bg-accent/10 text-accent-strong'
                   : 'text-muted hover:bg-card hover:text-foreground',
@@ -182,7 +182,7 @@ export function FilterPanel({
                 value={value}
                 checked={currentSort === value}
                 onChange={() => push({ sort: value })}
-                className="sr-only"
+                className="peer sr-only"
               />
               <span
                 className={cn(
@@ -223,11 +223,11 @@ export function FilterPanel({
                 value={value}
                 checked={currentAudio === value}
                 onChange={() => push({ audio: value })}
-                className="sr-only"
+                className="peer sr-only"
               />
               <span
                 className={cn(
-                  'inline-flex cursor-pointer select-none items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors',
+                  'inline-flex cursor-pointer select-none items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-accent peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background',
                   currentAudio === value
                     ? value === 'sub'
                       ? 'border-sub bg-sub text-sub-foreground'
@@ -261,7 +261,7 @@ export function FilterPanel({
             <label
               key={value || 'all'}
               className={cn(
-                'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
+                'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-background',
                 currentStatus === value
                   ? 'bg-accent/10 text-accent-strong'
                   : 'text-muted hover:bg-card hover:text-foreground',
@@ -273,7 +273,7 @@ export function FilterPanel({
                 value={value}
                 checked={currentStatus === value}
                 onChange={() => push({ status: value || null })}
-                className="sr-only"
+                className="peer sr-only"
               />
               <span
                 className={cn(
@@ -342,11 +342,11 @@ export function FilterPanel({
                     value={genre.slug}
                     checked={active}
                     onChange={() => toggleGenre(genre.slug)}
-                    className="sr-only"
+                    className="peer sr-only"
                   />
                   <span
                     className={cn(
-                      'inline-flex cursor-pointer select-none items-center rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
+                      'inline-flex cursor-pointer select-none items-center rounded-full border px-2.5 py-1 text-xs font-medium transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-accent peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background',
                       active
                         ? 'border-accent/60 bg-accent/15 text-accent-strong'
                         : 'border-border text-muted hover:border-border-strong hover:text-foreground',

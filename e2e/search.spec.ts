@@ -9,19 +9,19 @@ const SEED_AIRING = SEED_SHOWS.filter((s) => s.status === 'airing').length // cu
 const SEED_SUBBED = SEED_SHOWS.filter((s) => s.subEpisodes > 0).length // currently 39
 const SEED_DUBBED = SEED_SHOWS.filter((s) => s.dubEpisodes > 0).length // currently 21
 
-test.describe('Search page (/search)', () => {
+test.describe('Catalog page (/shows — browse + search)', () => {
   // ---------------------------------------------------------------------------
   // Basic page render
   // ---------------------------------------------------------------------------
 
   test('search page renders with filter panel and results area', async ({ page }) => {
-    await page.goto('/search')
+    await page.goto('/shows')
     await expect(page.getByTestId('filter-panel')).toBeVisible()
-    await expect(page.getByTestId('search-results')).toBeVisible()
+    await expect(page.getByTestId('browse-results')).toBeVisible()
   })
 
-  test('visiting /search with no query shows all shows (default: show everything)', async ({ page }) => {
-    await page.goto('/search')
+  test('visiting /shows with no query shows all shows (default: show everything)', async ({ page }) => {
+    await page.goto('/shows')
     // The search page defaults to showing the full catalog when no query/filter is active.
     // result-count shows "N shows found" and the count must equal the seed total.
     await expect(page.getByTestId('result-count')).toContainText(
@@ -37,7 +37,7 @@ test.describe('Search page (/search)', () => {
 
   test('?q= matching a seed title shows results (result-count > 0)', async ({ page }) => {
     // 'frieren' matches exactly 1 seed show
-    await page.goto('/search?q=frieren')
+    await page.goto('/shows?q=frieren')
     const countEl = page.getByTestId('result-count')
     await expect(countEl).toBeVisible()
     // Should show "1 show found"
@@ -48,7 +48,7 @@ test.describe('Search page (/search)', () => {
 
   test('?q= matching multiple titles shows >1 card', async ({ page }) => {
     // 'gintama' matches multiple Gintama shows in the seed
-    await page.goto('/search?q=gintama')
+    await page.goto('/shows?q=gintama')
     const countEl = page.getByTestId('result-count')
     await expect(countEl).toBeVisible()
     await expect(countEl).toContainText(/shows? found/i)
@@ -57,7 +57,7 @@ test.describe('Search page (/search)', () => {
   })
 
   test('?q= nonsense query shows empty-state message', async ({ page }) => {
-    await page.goto('/search?q=xyzzy__no_show_has_this_title__42')
+    await page.goto('/shows?q=xyzzy__no_show_has_this_title__42')
     const countEl = page.getByTestId('result-count')
     await expect(countEl).toBeVisible()
     await expect(countEl).toContainText(/no shows match/i)
@@ -67,7 +67,7 @@ test.describe('Search page (/search)', () => {
   })
 
   test('results heading reflects the search query', async ({ page }) => {
-    await page.goto('/search?q=frieren')
+    await page.goto('/shows?q=frieren')
     // The heading contains the quoted query
     await expect(page.getByRole('heading', { level: 1 })).toContainText('frieren')
   })
@@ -77,7 +77,7 @@ test.describe('Search page (/search)', () => {
   // ---------------------------------------------------------------------------
 
   test('?genres=action filters to action shows only', async ({ page }) => {
-    await page.goto('/search?genres=action')
+    await page.goto('/shows?genres=action')
     const countEl = page.getByTestId('result-count')
     await expect(countEl).toBeVisible()
     // Should show some results but fewer than the full catalog (narrowed).
@@ -92,7 +92,7 @@ test.describe('Search page (/search)', () => {
   // ---------------------------------------------------------------------------
 
   test('?audio=dub filters to dubbed shows', async ({ page }) => {
-    await page.goto('/search?audio=dub')
+    await page.goto('/shows?audio=dub')
     const countEl = page.getByTestId('result-count')
     await expect(countEl).toBeVisible()
     await expect(countEl).toContainText(/shows? found/i)
@@ -104,7 +104,7 @@ test.describe('Search page (/search)', () => {
   })
 
   test('?audio=sub filters to subbed shows (all seed shows are subbed)', async ({ page }) => {
-    await page.goto('/search?audio=sub')
+    await page.goto('/shows?audio=sub')
     const countEl = page.getByTestId('result-count')
     // Every seed show has sub episodes, so this equals the full subbed count.
     await expect(countEl).toContainText(
@@ -119,7 +119,7 @@ test.describe('Search page (/search)', () => {
   // ---------------------------------------------------------------------------
 
   test('?status=airing shows only airing shows (seed-derived count)', async ({ page }) => {
-    await page.goto('/search?status=airing')
+    await page.goto('/shows?status=airing')
     const countEl = page.getByTestId('result-count')
     await expect(countEl).toBeVisible()
     // Count must equal the number of airing shows in the seed (currently 17).
@@ -137,7 +137,7 @@ test.describe('Search page (/search)', () => {
   // ---------------------------------------------------------------------------
 
   test('clicking a genre in FilterPanel updates the URL and narrows results', async ({ page }) => {
-    await page.goto('/search')
+    await page.goto('/shows')
 
     // Click the Action genre checkbox in the FilterPanel
     const filterPanel = page.getByTestId('filter-panel')
@@ -157,7 +157,7 @@ test.describe('Search page (/search)', () => {
   })
 
   test('clicking an audio filter changes URL and updates results', async ({ page }) => {
-    await page.goto('/search')
+    await page.goto('/shows')
 
     // Click the DUB audio radio
     const filterPanel = page.getByTestId('filter-panel')
@@ -177,10 +177,10 @@ test.describe('Search page (/search)', () => {
   })
 
   // ---------------------------------------------------------------------------
-  // Header search submits to /search?q=
+  // Header search submits to /shows?q=
   // ---------------------------------------------------------------------------
 
-  test('typing in the header search-input and submitting lands on /search with results', async ({
+  test('typing in the header search-input and submitting lands on /shows with results', async ({
     page,
   }) => {
     await page.goto('/')
@@ -193,24 +193,24 @@ test.describe('Search page (/search)', () => {
     await searchInput.fill('frieren')
     await searchInput.press('Enter')
 
-    // Should navigate to /search?q=frieren
-    await page.waitForURL(/\/search\?q=/)
-    expect(page.url()).toContain('/search')
+    // Should navigate to /shows?q=frieren (the unified catalog surface).
+    await page.waitForURL(/\/shows\?q=/)
+    expect(page.url()).toContain('/shows')
     expect(page.url()).toContain('q=frieren')
 
     // Results should show at least 1 card
     await expect(page.getByTestId('show-card').first()).toBeVisible()
   })
 
-  test('submitting empty header search navigates to bare /search', async ({ page }) => {
+  test('submitting empty header search navigates to bare /shows', async ({ page }) => {
     await page.goto('/')
     const searchInput = page.getByTestId('search-input').first()
     await expect(searchInput).toBeVisible()
 
     // Submit with empty input
     await searchInput.press('Enter')
-    await page.waitForURL(/\/search/)
-    expect(page.url()).toContain('/search')
+    await page.waitForURL(/\/shows/)
+    expect(page.url()).toContain('/shows')
   })
 
   // ---------------------------------------------------------------------------
@@ -219,7 +219,7 @@ test.describe('Search page (/search)', () => {
 
   test('Clear button in FilterPanel resets filters and URL', async ({ page }) => {
     // Start with a filter active
-    await page.goto('/search?audio=dub&sort=title')
+    await page.goto('/shows?audio=dub&sort=title')
 
     const clearBtn = page.getByRole('button', { name: /clear/i })
     await expect(clearBtn).toBeVisible()

@@ -32,8 +32,8 @@ export function SiteFooter() {
 
       <div className="border-t border-border">
         <p className="mx-auto max-w-7xl px-4 py-4 text-xs text-subtle sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} Senpai. Built for Milestone 1 — search,
-          accounts, and playback arrive later.
+          © {new Date().getFullYear()} Senpai. A non-commercial demo — not
+          affiliated with any streaming service.
         </p>
       </div>
     </footer>
