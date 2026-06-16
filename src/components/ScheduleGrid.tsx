@@ -1,278 +1,348 @@
 'use client'
 
+import {
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import type { ScheduleEntry, DayOfWeek } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
 /**
- * ScheduleGrid — client component because it does viewer-local TZ conversion
- * and "today" detection (both are client-specific, unavailable on the server).
+ * ScheduleGrid — the Release Schedule day-PICKER.
  *
- * DayOfWeek convention (from data layer): 0=Monday … 6=Sunday (ISO week).
- * JS Date.getDay() uses 0=Sunday … 6=Saturday, so we map:
- *   isoDay = (jsDay + 6) % 7   (Sun→6, Mon→0, …, Sat→5) ✓
+ * A rolling strip of day tabs (abbreviated month+day on top, weekday below)
+ * with ‹ › week paging and a live "Now" clock; selecting a day shows that day's
+ * releases as a list (time · title · estimated "Episode N" play pill) with a
+ * Show-more toggle. Replaces the old fixed Mon→Sun 7-column grid.
+ *
+ * Client-only date/clock: rendered behind a mount gate (useSyncExternalStore so
+ * the server snapshot is "not mounted") — SSR shows a skeleton and the real,
+ * viewer-local schedule fills in after hydration, avoiding date/clock hydration
+ * mismatches. DayOfWeek convention: 0=Monday … 6=Sunday (ISO week).
  */
 
-const DAY_NAMES: Record<DayOfWeek, string> = {
-  0: 'Monday',
-  1: 'Tuesday',
-  2: 'Wednesday',
-  3: 'Thursday',
-  4: 'Friday',
-  5: 'Saturday',
-  6: 'Sunday',
-}
-
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  0: 'Mon',
-  1: 'Tue',
-  2: 'Wed',
-  3: 'Thu',
-  4: 'Fri',
-  5: 'Sat',
-  6: 'Sun',
-}
-
 const ALL_DAYS: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6]
+const VISIBLE_DAYS = 7 // tabs shown per page
+const MAX_WEEKS_AHEAD = 4 // how far forward ‹ › can page
+const LIST_LIMIT = 8 // rows before "Show more"
 
-/** Convert a JST 'HH:MM' string + IANA timezone to viewer-local HH:MM display. */
+/** Convert a JST 'HH:MM' string + IANA timezone to viewer-local time display. */
 function jstToLocalTime(airTime: string, sourceTimezone: string): string {
   const [hStr, mStr] = airTime.split(':')
   const hours = parseInt(hStr, 10)
   const minutes = parseInt(mStr, 10)
 
-  // Build a reference date (today) so DST offsets are current.
   const now = new Date()
   const year = now.getFullYear()
   const month = now.getMonth() + 1
   const day = now.getDate()
 
-  // Format YYYY-MM-DDTHH:MM:00 in the source timezone using Intl to obtain
-  // the UTC equivalent, then re-format in the viewer's local timezone.
-  //
-  // Strategy: use a known UTC time and offset it. We construct a Date whose
-  // wall-clock in `sourceTimezone` matches the supplied airTime on today's
-  // date. We do this by parsing the ISO string in that TZ via DateTimeFormat
-  // trickery: format "today" in the source TZ to get its UTC offset, then
-  // apply.
   const srcFormatter = new Intl.DateTimeFormat('en-US', {
     timeZone: sourceTimezone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   })
 
-  // Find the UTC offset for today in the source timezone by constructing a
-  // Date at midnight UTC and seeing what the source timezone says the hour is.
   const utcMidnight = Date.UTC(year, month - 1, day, hours, minutes, 0)
   const testDate = new Date(utcMidnight)
-
-  // Parse what the source timezone sees this UTC moment as.
   const parts = srcFormatter.formatToParts(testDate)
   const srcHour = parseInt(parts.find((p) => p.type === 'hour')!.value, 10)
   const srcMin = parseInt(parts.find((p) => p.type === 'minute')!.value, 10)
 
-  // Compute the delta between what we want (hours:minutes) and what UTC maps to.
   const wantMinutes = hours * 60 + minutes
   const gotMinutes = srcHour * 60 + srcMin
   const deltaMs = (wantMinutes - gotMinutes) * 60 * 1000
-
-  // Adjust testDate so it shows the correct airTime in sourceTimezone.
   const airDate = new Date(testDate.getTime() + deltaMs)
 
-  // Now format in the viewer's local timezone (default, no timeZone specified).
-  const localFormatter = new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
-  })
-  return localFormatter.format(airDate)
+  }).format(airDate)
 }
 
-/** Get today's day as ISO DayOfWeek (0=Mon … 6=Sun). */
-function getTodayIsoDay(): DayOfWeek {
-  const jsDay = new Date().getDay() // 0=Sun … 6=Sat
-  return ((jsDay + 6) % 7) as DayOfWeek
+// --- mount gate: false on the server, true on the client (no setState/effect) -
+const subscribeNoop = () => () => {}
+const getMountedSnapshot = () => true
+const getMountedServerSnapshot = () => false
+function useMounted(): boolean {
+  return useSyncExternalStore(
+    subscribeNoop,
+    getMountedSnapshot,
+    getMountedServerSnapshot,
+  )
+}
+
+type DayInfo = {
+  key: string
+  isoDay: DayOfWeek
+  monthDay: string // "Jun 17"
+  weekdayShort: string // "Wed"
+  isToday: boolean
+}
+
+/** A page of `count` consecutive days starting `offsetDays` from today. */
+function buildDays(offsetDays: number, count: number): DayInfo[] {
+  const now = new Date()
+  const base = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const out: DayInfo[] = []
+  for (let i = 0; i < count; i++) {
+    const d = new Date(
+      base.getFullYear(),
+      base.getMonth(),
+      base.getDate() + offsetDays + i,
+    )
+    out.push({
+      key: d.toISOString().slice(0, 10),
+      isoDay: (((d.getDay() + 6) % 7) as DayOfWeek),
+      monthDay: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      weekdayShort: d.toLocaleDateString('en-US', { weekday: 'short' }),
+      isToday: offsetDays + i === 0,
+    })
+  }
+  return out
 }
 
 export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
-  const todayIso = getTodayIsoDay()
+  const mounted = useMounted()
+  const [weekOffset, setWeekOffset] = useState(0) // 0 … MAX_WEEKS_AHEAD
+  const [selected, setSelected] = useState(0) // index within the visible week
 
-  // Group entries by dayOfWeek
-  const byDay = new Map<DayOfWeek, ScheduleEntry[]>()
-  for (const day of ALL_DAYS) byDay.set(day, [])
-  for (const entry of entries) {
-    byDay.get(entry.dayOfWeek)!.push(entry)
+  // Live clock (client-only; suppressHydrationWarning covers the SSR snapshot).
+  const [now, setNow] = useState(() => new Date())
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  // Group entries by ISO weekday, each sorted by source air time (chronological).
+  const byDay = useMemo(() => {
+    const m = new Map<DayOfWeek, ScheduleEntry[]>()
+    for (const d of ALL_DAYS) m.set(d, [])
+    for (const e of entries) m.get(e.dayOfWeek)?.push(e)
+    for (const [d, list] of m) {
+      m.set(d, [...list].sort((a, b) => a.airTime.localeCompare(b.airTime)))
+    }
+    return m
+  }, [entries])
+
+  if (!mounted) return <ScheduleSkeleton />
+
+  const days = buildDays(weekOffset * VISIBLE_DAYS, VISIBLE_DAYS)
+  const selectedDay = days[Math.min(selected, days.length - 1)] ?? days[0]
+  const dayEntries = byDay.get(selectedDay.isoDay) ?? []
+
+  const pageDays = (delta: number) => {
+    setWeekOffset((o) => Math.min(MAX_WEEKS_AHEAD, Math.max(0, o + delta)))
+    setSelected(0)
   }
 
-  // Sort each day's entries by local air time
-  for (const [day, dayEntries] of byDay.entries()) {
-    byDay.set(
-      day,
-      // Sort by source air time (HH:MM, 24h) — already chronological. JST has no
-      // DST so source order equals viewer-local order; comparing the 12h display
-      // strings (e.g. "11:00 PM" vs "1:00 AM") would order them wrong.
-      dayEntries.sort((a, b) => a.airTime.localeCompare(b.airTime)),
-    )
-  }
-
-  return (
-    <div data-testid="schedule-grid">
-      {/* Timezone note */}
-      <p className="mb-4 text-xs text-subtle">
-        Times shown in your local timezone. Source times are JST (Asia/Tokyo).
-      </p>
-
-      {/* Desktop: 7-column grid (Mon → Sun) */}
-      <div className="hidden lg:grid lg:grid-cols-7 lg:gap-3">
-        {ALL_DAYS.map((day) => {
-          const isToday = day === todayIso
-          const dayEntries = byDay.get(day)!
-          return (
-            <DayColumn
-              key={day}
-              day={day}
-              entries={dayEntries}
-              isToday={isToday}
-              convertTime={jstToLocalTime}
-            />
-          )
-        })}
-      </div>
-
-      {/* Mobile/tablet: stacked list */}
-      <div className="flex flex-col gap-4 lg:hidden">
-        {ALL_DAYS.map((day) => {
-          const isToday = day === todayIso
-          const dayEntries = byDay.get(day)!
-          return (
-            <DayColumn
-              key={day}
-              day={day}
-              entries={dayEntries}
-              isToday={isToday}
-              convertTime={jstToLocalTime}
-              stacked
-            />
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function DayColumn({
-  day,
-  entries,
-  isToday,
-  convertTime,
-  stacked = false,
-}: {
-  day: DayOfWeek
-  entries: ScheduleEntry[]
-  isToday: boolean
-  convertTime: (airTime: string, tz: string) => string
-  stacked?: boolean
-}) {
   return (
     <div
-      data-testid="schedule-day"
-      data-day={day}
-      className={cn(
-        'flex flex-col rounded-card border transition-colors',
-        isToday
-          ? 'border-accent/60 bg-accent/5'
-          : 'border-border bg-card/30',
-      )}
+      data-testid="schedule-grid"
+      className="overflow-hidden rounded-card border border-border bg-card/30"
     >
-      {/* Day header */}
-      <div
-        className={cn(
-          'flex items-center justify-between gap-2 rounded-t-card px-3 py-2.5',
-          isToday ? 'bg-accent/15' : 'bg-surface/60',
-        )}
-      >
-        <span
-          className={cn(
-            'text-xs font-bold uppercase tracking-widest',
-            isToday ? 'text-accent-strong' : 'text-muted',
-          )}
-        >
-          {stacked ? DAY_NAMES[day] : DAY_SHORT[day]}
+      {/* Header: live clock + timezone note */}
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-border px-4 py-3">
+        <span className="text-xs text-subtle">
+          Times shown in your local timezone (source: JST).
         </span>
-        {isToday && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-accent/20 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-accent-strong">
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-accent" />
-            </span>
-            Today
-          </span>
-        )}
+        <span className="text-xs tabular-nums text-muted" suppressHydrationWarning>
+          Now: {now.toLocaleDateString('en-US')}{' '}
+          {now.toLocaleTimeString('en-US')}
+        </span>
       </div>
 
-      {/* Entries */}
-      <div className="flex flex-col gap-2 p-2">
-        {entries.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center py-6 text-center">
-            <span className="text-xs text-subtle">No releases</span>
-          </div>
-        ) : (
-          entries.map((entry) => (
-            <ScheduleCard
-              key={`${entry.show.id}-${entry.dayOfWeek}`}
-              entry={entry}
-              localTime={convertTime(entry.airTime, entry.timezone)}
-            />
-          ))
-        )}
-      </div>
-    </div>
-  )
-}
-
-function ScheduleCard({
-  entry,
-  localTime,
-}: {
-  entry: ScheduleEntry
-  localTime: string
-}) {
-  const { show } = entry
-  return (
-    <Link
-      href={`/shows/${show.slug}`}
-      data-testid="schedule-entry"
-      className={cn(
-        'group flex items-center gap-2.5 rounded-md border border-border/60 bg-card p-2 transition-all duration-150',
-        'hover:-translate-y-0.5 hover:border-accent/50 hover:bg-card-hover hover:shadow-[0_4px_16px_-6px_rgba(139,92,246,0.35)]',
-        'focus-visible:-translate-y-0.5 focus-visible:border-accent',
-      )}
-    >
-      {/* Cover thumbnail */}
-      <div className="relative size-10 shrink-0 overflow-hidden rounded-md bg-surface">
-        <Image
-          src={show.coverImage}
-          alt={`${show.title} cover`}
-          fill
-          sizes="40px"
-          className="object-cover transition-transform duration-200 group-hover:scale-105"
+      {/* Day picker: ‹ tabs › */}
+      <div className="flex items-stretch gap-1 border-b border-border p-2">
+        <ArrowButton
+          dir="left"
+          disabled={weekOffset === 0}
+          onClick={() => pageDays(-1)}
+        />
+        <div
+          role="tablist"
+          aria-label="Schedule day"
+          className="no-scrollbar flex flex-1 gap-1 overflow-x-auto"
+        >
+          {days.map((d, i) => {
+            const isSelected = i === selected
+            return (
+              <button
+                key={d.key}
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                data-testid="schedule-day-tab"
+                data-day={d.isoDay}
+                onClick={() => setSelected(i)}
+                className={cn(
+                  'flex min-w-[3.25rem] flex-1 flex-col items-center rounded-md px-2 py-2 transition-colors',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+                  isSelected ? 'bg-accent/15' : 'hover:bg-card-hover',
+                )}
+              >
+                <span
+                  className={cn(
+                    'text-[0.625rem] font-semibold uppercase tracking-wider tabular-nums',
+                    isSelected ? 'text-accent-strong/80' : 'text-subtle',
+                  )}
+                >
+                  {d.monthDay}
+                </span>
+                <span
+                  className={cn(
+                    'text-sm font-extrabold uppercase tracking-wide',
+                    isSelected ? 'text-accent-strong' : 'text-muted',
+                  )}
+                >
+                  {d.weekdayShort}
+                </span>
+                <span
+                  className={cn(
+                    'mt-1 h-1 w-1 rounded-full',
+                    d.isToday ? 'bg-accent' : 'bg-transparent',
+                  )}
+                  aria-hidden
+                />
+              </button>
+            )
+          })}
+        </div>
+        <ArrowButton
+          dir="right"
+          disabled={weekOffset >= MAX_WEEKS_AHEAD}
+          onClick={() => pageDays(1)}
         />
       </div>
 
-      {/* Info */}
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-xs font-semibold leading-tight text-foreground group-hover:text-accent-strong">
-          {show.title}
-        </p>
-        <p className="mt-0.5 text-[0.65rem] tabular-nums text-subtle">
+      {/* Selected day's releases (keyed so Show-more resets per day) */}
+      <DayList key={`${weekOffset}-${selectedDay.key}`} entries={dayEntries} />
+    </div>
+  )
+}
+
+function DayList({ entries }: { entries: ScheduleEntry[] }) {
+  const [expanded, setExpanded] = useState(false)
+
+  if (entries.length === 0) {
+    return (
+      <p
+        data-testid="schedule-empty"
+        className="px-4 py-12 text-center text-sm text-subtle"
+      >
+        No releases scheduled for this day.
+      </p>
+    )
+  }
+
+  const shown = expanded ? entries : entries.slice(0, LIST_LIMIT)
+
+  return (
+    <div>
+      <ul className="divide-y divide-border/50">
+        {shown.map((entry) => (
+          <ScheduleRow
+            key={`${entry.show.id}-${entry.dayOfWeek}`}
+            entry={entry}
+          />
+        ))}
+      </ul>
+      {entries.length > LIST_LIMIT && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="w-full border-t border-border px-4 py-3 text-center text-sm font-medium text-muted transition-colors hover:bg-card-hover hover:text-foreground"
+        >
+          {expanded ? 'Show less' : 'Show more'}
+        </button>
+      )}
+    </div>
+  )
+}
+
+function ScheduleRow({ entry }: { entry: ScheduleEntry }) {
+  const { show } = entry
+  const localTime = jstToLocalTime(entry.airTime, entry.timezone)
+  // Estimated next episode = released count + 1 (this is an estimated schedule).
+  const episode = Math.max(show.subEpisodes, show.dubEpisodes) + 1
+
+  return (
+    <li>
+      <Link
+        href={`/shows/${show.slug}`}
+        data-testid="schedule-entry"
+        className="group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-card-hover sm:gap-4"
+      >
+        <span className="w-16 shrink-0 text-sm font-bold tabular-nums text-foreground">
           {localTime}
-        </p>
+        </span>
+        <span className="min-w-0 flex-1 truncate text-sm font-medium text-foreground group-hover:text-accent-strong">
+          {show.title}
+        </span>
+        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-muted transition-colors group-hover:border-accent/50 group-hover:text-accent-strong">
+          <Play className="size-3 fill-current" aria-hidden />
+          Episode {episode}
+        </span>
+      </Link>
+    </li>
+  )
+}
+
+function ArrowButton({
+  dir,
+  disabled,
+  onClick,
+}: {
+  dir: 'left' | 'right'
+  disabled: boolean
+  onClick: () => void
+}) {
+  const Icon = dir === 'left' ? ChevronLeft : ChevronRight
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={dir === 'left' ? 'Previous days' : 'Next days'}
+      className={cn(
+        'grid w-9 shrink-0 place-items-center rounded-md text-muted transition-colors',
+        'hover:bg-card-hover hover:text-foreground',
+        'disabled:cursor-not-allowed disabled:opacity-30',
+      )}
+    >
+      <Icon className="size-5" aria-hidden />
+    </button>
+  )
+}
+
+function ScheduleSkeleton() {
+  return (
+    <div
+      data-testid="schedule-grid"
+      className="overflow-hidden rounded-card border border-border bg-card/30"
+    >
+      <div className="border-b border-border px-4 py-3">
+        <div className="h-3 w-64 animate-pulse rounded bg-card-hover" />
       </div>
-    </Link>
+      <div className="flex gap-1 border-b border-border p-2">
+        {Array.from({ length: VISIBLE_DAYS }).map((_, i) => (
+          <div
+            key={i}
+            className="h-12 flex-1 animate-pulse rounded-md bg-card-hover"
+          />
+        ))}
+      </div>
+      <div className="space-y-px p-2">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-11 animate-pulse rounded bg-card-hover" />
+        ))}
+      </div>
+    </div>
   )
 }

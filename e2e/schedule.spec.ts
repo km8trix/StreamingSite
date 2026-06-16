@@ -4,104 +4,112 @@ import seed from '../src/lib/data/seed.json'
 // Seed-derived slot facts (track enrichment; do not hardcode).
 type SeedSlot = { showId: string; dayOfWeek: number }
 const SEED_SLOTS = (seed as { airingSlots: SeedSlot[] }).airingSlots
-const SEED_SLOT_COUNT = SEED_SLOTS.length // currently 17
 const SEED_DISTINCT_DAYS = new Set(SEED_SLOTS.map((s) => s.dayOfWeek))
 
-test.describe('Schedule page (/schedule)', () => {
-  test('renders the schedule-grid container', async ({ page }) => {
+test.describe('Schedule page (/schedule) — day picker', () => {
+  test('renders the picker container and 7 day tabs', async ({ page }) => {
     await page.goto('/schedule')
     await expect(page.getByTestId('schedule-grid')).toBeVisible()
+    await expect(page.getByTestId('schedule-day-tab')).toHaveCount(7)
   })
 
-  test('renders exactly 7 schedule-day columns', async ({ page }) => {
+  test('day tabs are labelled with date + weekday and a live "Now" clock', async ({
+    page,
+  }) => {
     await page.goto('/schedule')
-    // Both desktop + mobile layouts are in the DOM; we pick the desktop grid
-    // which is the first child of schedule-grid (hidden on small screens but
-    // still present in the DOM at full viewport width).
-    await expect(page.getByTestId('schedule-grid')).toBeVisible()
-    const dayColumns = page.getByTestId('schedule-day')
-    // At desktop viewport (1280px default in Playwright) the desktop grid
-    // is visible and the stacked list is hidden. Total DOM count = 14 (both
-    // renders). We just assert the total is a multiple of 7.
-    const count = await dayColumns.count()
-    expect(count % 7).toBe(0)
-    expect(count).toBeGreaterThanOrEqual(7)
+    // Abbreviated month + day appears in the tab strip (e.g. "Jun 17").
+    await expect(
+      page.getByTestId('schedule-grid').getByText(
+        /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}\b/,
+      ).first(),
+    ).toBeVisible()
+    await expect(page.getByText(/^Now:/)).toBeVisible()
   })
 
-  test('shows airing-show entries from the seed (one per slot, per layout)', async ({ page }) => {
+  test('selecting each day reveals that day\'s releases; populated days match the seed', async ({
+    page,
+  }) => {
     await page.goto('/schedule')
-    // Each seeded airing slot renders a schedule-entry card. Two layout trees
-    // (desktop + mobile) are in the DOM, so the total is a multiple of the slot count.
-    const entries = page.getByTestId('schedule-entry')
-    await expect(entries.first()).toBeVisible()
-    const count = await entries.count()
-    expect(count).toBeGreaterThanOrEqual(SEED_SLOT_COUNT)
-    expect(count % SEED_SLOT_COUNT).toBe(0)
+    const tabs = page.getByTestId('schedule-day-tab')
+    await expect(tabs).toHaveCount(7)
+
+    const populated = new Set<string>()
+    for (let i = 0; i < 7; i++) {
+      await tabs.nth(i).click()
+      const day = await tabs.nth(i).getAttribute('data-day')
+      const count = await page.getByTestId('schedule-entry').count()
+      if (count > 0 && day) populated.add(day)
+    }
+
+    expect(populated.size).toBeGreaterThan(1)
+    expect([...populated].sort()).toEqual(
+      [...SEED_DISTINCT_DAYS].map(String).sort(),
+    )
   })
 
-  test('populates MULTIPLE weekdays (enrichment spread slots across the week)', async ({ page }) => {
+  test('an entry shows an estimated episode pill and links to the show', async ({
+    page,
+  }) => {
     await page.goto('/schedule')
-    // Collect the data-day of every day column that actually contains an entry.
-    const populatedDays = new Set<string>()
-    const dayColumns = page.getByTestId('schedule-day')
-    const colCount = await dayColumns.count()
-    for (let i = 0; i < colCount; i++) {
-      const col = dayColumns.nth(i)
-      const entriesInCol = await col.getByTestId('schedule-entry').count()
-      if (entriesInCol > 0) {
-        const day = await col.getAttribute('data-day')
-        if (day !== null) populatedDays.add(day)
+    const tabs = page.getByTestId('schedule-day-tab')
+
+    // Select the first day (of the visible week) that actually has releases.
+    let href: string | null = null
+    for (let i = 0; i < 7; i++) {
+      await tabs.nth(i).click()
+      if ((await page.getByTestId('schedule-entry').count()) > 0) {
+        const first = page.getByTestId('schedule-entry').first()
+        await expect(first).toBeVisible()
+        await expect(first.getByText(/Episode \d+/)).toBeVisible()
+        href = await first.getAttribute('href')
+        break
       }
     }
-    // More than one weekday must carry entries...
-    expect(populatedDays.size).toBeGreaterThan(1)
-    // ...and the set of populated days must match the seed's distinct slot days.
-    const expectedDays = [...SEED_DISTINCT_DAYS].map(String).sort()
-    expect([...populatedDays].sort()).toEqual(expectedDays)
-  })
-
-  test('each entry card links to a show detail page', async ({ page }) => {
-    await page.goto('/schedule')
-    const firstEntry = page.getByTestId('schedule-entry').first()
-    await expect(firstEntry).toBeVisible()
-    const href = await firstEntry.getAttribute('href')
     expect(href).toMatch(/^\/shows\/.+/)
   })
 
-  test('clicking an entry navigates to the show detail page', async ({ page }) => {
+  test('clicking an entry navigates to the show detail page', async ({
+    page,
+  }) => {
     await page.goto('/schedule')
-    const firstEntry = page.getByTestId('schedule-entry').first()
-    const href = await firstEntry.getAttribute('href')
-    expect(href).toBeTruthy()
-    await firstEntry.click()
-    await page.waitForURL(`**${href}`)
-    // Confirm we landed on a real detail page. The watch section renders either
-    // the real <VideoPlayer> (episode has a stream) or the <PlayerPlaceholder>.
-    await expect(page.getByTestId('watch-section')).toBeVisible()
-    await expect(
-      page.getByTestId('video-player').or(page.getByTestId('player-placeholder')),
-    ).toBeVisible()
+    const tabs = page.getByTestId('schedule-day-tab')
+    for (let i = 0; i < 7; i++) {
+      await tabs.nth(i).click()
+      if ((await page.getByTestId('schedule-entry').count()) > 0) {
+        const first = page.getByTestId('schedule-entry').first()
+        const href = await first.getAttribute('href')
+        await first.click()
+        await page.waitForURL(`**${href}`)
+        await expect(page.getByTestId('watch-section')).toBeVisible()
+        return
+      }
+    }
+    throw new Error('No schedule entries found on any day of the visible week')
   })
 
-  test('empty days render without crashing (show "No releases")', async ({ page }) => {
+  test('a day with no releases shows the empty state', async ({ page }) => {
+    // Only assert when the seed leaves at least one weekday empty.
+    test.skip(
+      SEED_DISTINCT_DAYS.size >= 7,
+      'every weekday has a seeded slot — no empty day to assert',
+    )
     await page.goto('/schedule')
-    // If any weekday has no seeded slot it must render "No releases" rather than
-    // crashing. Only assert the empty-state path when the seed leaves a gap.
-    const hasEmptyDay = SEED_DISTINCT_DAYS.size < 7
-    if (hasEmptyDay) {
-      await expect(page.getByText('No releases').first()).toBeVisible()
+    const tabs = page.getByTestId('schedule-day-tab')
+    for (let i = 0; i < 7; i++) {
+      await tabs.nth(i).click()
+      const day = await tabs.nth(i).getAttribute('data-day')
+      if (day && !SEED_DISTINCT_DAYS.has(Number(day))) {
+        await expect(page.getByTestId('schedule-empty')).toBeVisible()
+        return
+      }
     }
   })
 
-  test('page title includes "Release Schedule"', async ({ page }) => {
+  test('page title includes "Release Schedule" and shows the timezone note', async ({
+    page,
+  }) => {
     await page.goto('/schedule')
     await expect(page).toHaveTitle(/release schedule/i)
-  })
-
-  test('shows a timezone note about JST source', async ({ page }) => {
-    await page.goto('/schedule')
-    await expect(
-      page.getByText(/your local timezone/i).first(),
-    ).toBeVisible()
+    await expect(page.getByText(/your local timezone/i)).toBeVisible()
   })
 })
