@@ -34,14 +34,13 @@ import { safeRedirectPath } from '@/lib/auth/safe-redirect'
 export const dynamic = 'force-dynamic'
 
 /**
- * The TRUSTED public base URL to redirect to. We deliberately do NOT read the
- * raw `x-forwarded-host` header (a spoofed value would turn this into an open
- * redirect). We use a fixed source: NEXT_PUBLIC_SITE_URL when set (the
- * production recommendation), otherwise `request.nextUrl.origin`.
+ * The public base URL to redirect to, derived from the actual request origin so
+ * the user returns to the exact domain they signed in from (where the session
+ * cookie is set). On Vercel `nextUrl.origin` reflects the real edge-validated
+ * host — not client-spoofable — so this is safe and needs no NEXT_PUBLIC_SITE_URL
+ * (a mis-set value there silently broke sign-in by redirecting off-domain).
  */
 function resolveBaseUrl(request: NextRequest): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()
-  if (fromEnv) return fromEnv.replace(/\/+$/, '')
   return request.nextUrl.origin
 }
 
