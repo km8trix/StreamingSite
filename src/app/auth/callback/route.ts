@@ -3,19 +3,31 @@
 // Google (and any future OAuth provider) redirects the browser back here with
 // `?code=<auth-code>` after the user consents. We exchange that code for a
 // Supabase session — exchangeCodeForSession() reads the PKCE code-verifier
-// cookie set by signInWithOAuth() and, on success, writes the `sb-…-auth-token`
-// session cookies via the @supabase/ssr cookie adapter. Those cookie writes are
-// attached to the NextResponse.redirect() we return, so the user lands signed in.
+// cookie (sent on the request) and, on success, writes the `sb-…-auth-token`
+// session cookies.
+//
+// IMPORTANT (production correctness): in a Route Handler the session cookies must
+// be written DIRECTLY onto the NextResponse we return. Relying on the
+// next/headers cookies() adapter to auto-merge onto a manually-constructed
+// NextResponse.redirect() does NOT reliably persist them (the user lands signed
+// OUT with no error). So we build the redirect response first and give the
+// Supabase client a setAll that sets cookies on that exact response — the same
+// reliable pattern used by middleware (src/lib/supabase/middleware.ts).
 //
 // On any error (provider returned ?error, missing code, or a failed exchange)
-// we bounce back to /signin with a human-readable `?error=` message instead of
-// leaving the user on a blank page.
+// we bounce back to /signin with a human-readable `?error=` message.
 //
-// `next` is an OPEN-REDIRECT-sanitized relative path (safeRedirectPath) so an
-// attacker can't craft a callback link that lands the user off-site.
+// `next` is OPEN-REDIRECT-sanitized (safeRedirectPath) so a crafted callback
+// link can't land the user off-site.
 
 import { NextResponse, type NextRequest } from 'next/server'
-import { getServerClient } from '@/lib/supabase/server'
+import { createServerClient } from '@supabase/ssr'
+import type { Database } from '@/lib/database.types'
+import {
+  SUPABASE_ANON_KEY,
+  SUPABASE_URL,
+  isSupabaseConfigured,
+} from '@/lib/supabase/config'
 import { safeRedirectPath } from '@/lib/auth/safe-redirect'
 
 // Per-request code exchange — never cache.
@@ -23,16 +35,9 @@ export const dynamic = 'force-dynamic'
 
 /**
  * The TRUSTED public base URL to redirect to. We deliberately do NOT read the
- * raw `x-forwarded-host` header here: a client-supplied (or proxy-forwarded)
- * value would let an attacker set the redirect ORIGIN to their own domain,
- * sidestepping safeRedirectPath() (which only constrains the PATH) and turning
- * this route into an open redirect — the error branch fires on any request
- * without a valid `code`, so no session is even required.
- *
- * Instead we use a fixed, trusted source: NEXT_PUBLIC_SITE_URL when set (the
- * production recommendation), otherwise `request.nextUrl.origin`, which Next
- * derives from the platform-validated host (on Vercel the edge overwrites any
- * client-spoofed forwarding headers with the real host).
+ * raw `x-forwarded-host` header (a spoofed value would turn this into an open
+ * redirect). We use a fixed source: NEXT_PUBLIC_SITE_URL when set (the
+ * production recommendation), otherwise `request.nextUrl.origin`.
  */
 function resolveBaseUrl(request: NextRequest): string {
   const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()
@@ -52,8 +57,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const next = safeRedirectPath(params.get('next'))
 
   // The provider can redirect back with an error (e.g. the user clicked Cancel).
-  const providerError =
-    params.get('error_description') ?? params.get('error')
+  const providerError = params.get('error_description') ?? params.get('error')
   if (providerError) {
     return redirectToSignin(base, providerError)
   }
@@ -66,11 +70,31 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     )
   }
 
-  const supabase = await getServerClient()
+  if (!isSupabaseConfigured()) {
+    return redirectToSignin(base, 'Authentication is not configured.')
+  }
+
+  // Build the success redirect FIRST so the Supabase client writes the session
+  // cookies straight onto it (reliable; see the file header).
+  const response = NextResponse.redirect(new URL(next, base))
+
+  const supabase = createServerClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
+      },
+      setAll(cookiesToSet) {
+        for (const { name, value, options } of cookiesToSet) {
+          response.cookies.set(name, value, options)
+        }
+      },
+    },
+  })
+
   const { error } = await supabase.auth.exchangeCodeForSession(code)
   if (error) {
     return redirectToSignin(base, error.message)
   }
 
-  return NextResponse.redirect(new URL(next, base))
+  return response
 }
