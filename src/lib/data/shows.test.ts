@@ -11,6 +11,7 @@ import {
   getRecommendedForYou,
   getRecommendedShows,
   getShowBySlug,
+  getTopAnime,
   listGenres,
 } from '@/lib/data'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
@@ -126,6 +127,26 @@ describe('getRecommendedForYou', () => {
     expect(recs[0]).toEqual(
       expect.objectContaining({ id: expect.any(String), slug: expect.any(String) }),
     )
+  })
+})
+
+describe('getTopAnime', () => {
+  it('falls back to popular shows with no engagement data (seed path)', async () => {
+    const top = await getTopAnime('week')
+    const popular = await getPopularShows()
+    expect(top).toEqual(popular)
+  })
+
+  it('accepts day/week/month and returns ShowSummary shape', async () => {
+    for (const w of ['day', 'week', 'month'] as const) {
+      const shows = await getTopAnime(w, 5)
+      expect(shows.length).toBeGreaterThan(0)
+      expect(shows[0]).not.toHaveProperty('episodes')
+    }
+  })
+
+  it('respects an explicit limit', async () => {
+    expect(await getTopAnime('day', 3)).toHaveLength(3)
   })
 })
 

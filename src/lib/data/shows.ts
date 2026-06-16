@@ -17,9 +17,18 @@ import type {
   ShowDetail,
   ShowStatus,
   ShowSummary,
+  TopAnimeWindow,
 } from './types'
 
 const DEFAULT_LIMIT = 12
+
+// Rolling window lengths (days) for "Top Anime of the Day/Week/Month".
+const TOP_ANIME_WINDOW_DAYS: Record<TopAnimeWindow, number> = {
+  day: 1,
+  week: 7,
+  month: 30,
+}
+const DAY_MS = 86_400_000
 
 // ---------------------------------------------------------------------------
 // Seed typing — seed.json holds full ShowDetail-shaped records.
@@ -412,6 +421,63 @@ export async function getRecommendedForYou(
       err,
     )
     return seedRecommendedForYou(watched, limit)
+  }
+}
+
+type TopAnimeRow = {
+  id: string
+  slug: string
+  title: string
+  cover_image: string
+  sub_episodes: number
+  dub_episodes: number
+  status: string
+  year: number | null
+  views: number
+}
+
+/**
+ * "Top Anime of the Day/Week/Month" — shows ranked by REAL engagement (view
+ * events from all viewers, signed-in and guest) within a rolling window, via the
+ * get_top_anime RPC (0011). Falls back to the most popular shows when there's no
+ * engagement yet (fresh DB) or Supabase is unconfigured, so the section is never
+ * empty.
+ */
+export async function getTopAnime(
+  window: TopAnimeWindow,
+  limit: number = DEFAULT_LIMIT,
+): Promise<ShowSummary[]> {
+  if (!isSupabaseConfigured()) return seedPopularShows(limit)
+
+  try {
+    const supabase = await getPublicClient()
+    const since = new Date(
+      Date.now() - TOP_ANIME_WINDOW_DAYS[window] * DAY_MS,
+    ).toISOString()
+
+    const { data, error } = await supabase.rpc('get_top_anime', {
+      p_since: since,
+      p_limit: limit,
+    })
+    if (error) throw error
+
+    const rows = (data ?? []) as TopAnimeRow[]
+    // No engagement in the window yet → show the most popular, not an empty rail.
+    if (rows.length === 0) return getPopularShows(limit)
+
+    return rows.map((r) => ({
+      id: r.id,
+      slug: r.slug,
+      title: r.title,
+      coverImage: r.cover_image,
+      subEpisodes: r.sub_episodes,
+      dubEpisodes: r.dub_episodes,
+      status: coerceStatus(r.status),
+      year: r.year,
+    }))
+  } catch (err) {
+    console.warn('[data] getTopAnime live query failed, falling back:', err)
+    return seedPopularShows(limit)
   }
 }
 

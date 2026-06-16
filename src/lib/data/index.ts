@@ -26,6 +26,7 @@ export type {
   ShowSort,
   ShowStatus,
   ShowSummary,
+  TopAnimeWindow,
   UserRole,
 } from './types'
 
@@ -38,6 +39,7 @@ export {
   getRecommendedForYou,
   getRecommendedShows,
   getShowBySlug,
+  getTopAnime,
   listGenres,
 } from './shows'
 

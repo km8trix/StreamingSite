@@ -10,6 +10,7 @@ import { EpisodeList } from '@/components/EpisodeList'
 import { StatusBadge } from '@/components/StatusBadge'
 import { SubDubBadges } from '@/components/SubDubBadges'
 import { WatchSection } from '@/components/WatchSection'
+import { ShowViewTracker } from '@/components/ShowViewTracker'
 
 type Params = { slug: string }
 
@@ -78,6 +79,8 @@ export default async function ShowDetailPage({
 
   return (
     <article className="pb-8">
+      {/* Records a view event (guests + signed-in) for the Top Anime rankings. */}
+      <ShowViewTracker showId={show.id} />
       {/* ---- HERO (tolerates null bannerImage) ---------------------------- */}
       <header className="relative isolate overflow-hidden border-b border-border">
         <div className="absolute inset-0 -z-10">

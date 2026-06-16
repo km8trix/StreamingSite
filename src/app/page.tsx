@@ -5,11 +5,13 @@ import {
   getRecentlyUpdatedShows,
   getRecommendedForYou,
   getRecommendedShows,
+  getTopAnime,
 } from '@/lib/data'
 import { FeaturedHero } from '@/components/FeaturedHero'
 import { ShowCarousel } from '@/components/ShowCarousel'
 import { ContinueWatchingRail } from '@/components/ContinueWatchingRail'
 import { RecommendedForYouRail } from '@/components/RecommendedForYouRail'
+import { TopAnimeSection } from '@/components/TopAnimeSection'
 import { GuestProgressSync } from '@/components/GuestProgressSync'
 import { AdSlot } from '@/components/AdSlot'
 
@@ -18,14 +20,27 @@ import { AdSlot } from '@/components/AdSlot'
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const [recentlyUpdated, popular, recommended, continueWatching, user] =
-    await Promise.all([
-      getRecentlyUpdatedShows(),
-      getPopularShows(),
-      getRecommendedShows(),
-      getContinueWatching(),
-      getCurrentUser(),
-    ])
+  const [
+    recentlyUpdated,
+    popular,
+    recommended,
+    continueWatching,
+    user,
+    topDay,
+    topWeek,
+    topMonth,
+  ] = await Promise.all([
+    getRecentlyUpdatedShows(),
+    getPopularShows(),
+    getRecommendedShows(),
+    getContinueWatching(),
+    getCurrentUser(),
+    getTopAnime('day'),
+    getTopAnime('week'),
+    getTopAnime('month'),
+  ])
+
+  const topWindows = { day: topDay, week: topWeek, month: topMonth }
 
   const isSignedIn = Boolean(user)
 
@@ -76,6 +91,9 @@ export default async function HomePage() {
         </p>
       ) : (
         <div className="flex flex-col gap-10">
+          {/* Top Anime — ranked by real engagement, with a Day/Week/Month toggle. */}
+          <TopAnimeSection windows={topWindows} />
+
           <ShowCarousel
             title="Recently Updated"
             shows={recentlyUpdated}

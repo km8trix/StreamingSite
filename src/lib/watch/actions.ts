@@ -138,3 +138,19 @@ export async function dismissContinueWatching(
     return { ok: false }
   }
 }
+
+/**
+ * Record a show-view engagement event for the "Top Anime" rankings. Works for
+ * guests (auth.uid() is null) and signed-in users alike — the RPC dedups
+ * signed-in users to one counted view per show per hour. Fire-and-forget: a
+ * no-op when unconfigured, never throws.
+ */
+export async function recordShowView(showId: string): Promise<void> {
+  if (!isSupabaseConfigured() || !isNonEmptyString(showId)) return
+  try {
+    const supabase = await getServerClient()
+    await supabase.rpc('record_show_view', { p_show_id: showId })
+  } catch (err) {
+    console.warn('[watch] recordShowView failed:', err)
+  }
+}

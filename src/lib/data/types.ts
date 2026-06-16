@@ -45,6 +45,9 @@ export type ShowDetail = ShowSummary & {
 // localStorage). One item per show: the current resume episode + position.
 // ---------------------------------------------------------------------------
 
+// "Top Anime" ranking window — rolling Day / Week / Month engagement.
+export type TopAnimeWindow = 'day' | 'week' | 'month'
+
 export type ContinueWatchingItem = {
   showId: string
   slug: string
