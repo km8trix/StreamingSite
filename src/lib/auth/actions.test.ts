@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 // ---------------------------------------------------------------------------
 // M3 Feature 1 (AUTH) — auth server-action unit tests.
@@ -39,8 +39,20 @@ const cookieStore = {
     cookieJar = cookieJar.filter((c) => c.name !== name)
   },
 }
+// Fake request headers for next/headers. getSiteOrigin() derives the OAuth
+// origin from x-forwarded-host/host (no NEXT_PUBLIC_SITE_URL dependency).
+const headerJar: Record<string, string> = {
+  'x-forwarded-host': 'senpai.test',
+  'x-forwarded-proto': 'https',
+}
+const headerStore = {
+  get(name: string): string | null {
+    return headerJar[name.toLowerCase()] ?? null
+  },
+}
 vi.mock('next/headers', () => ({
   cookies: async () => cookieStore,
+  headers: async () => headerStore,
 }))
 
 // redirect() in Next throws a special control-flow error and never returns; the
@@ -402,21 +414,11 @@ describe('signOut', () => {
 })
 
 // ---------------------------------------------------------------------------
-// signInWithGoogle (OAuth) — NEXT_PUBLIC_SITE_URL is set so getSiteOrigin()
-// resolves from env without touching request headers().
+// signInWithGoogle (OAuth) — getSiteOrigin() derives the redirect origin from
+// the mocked request host (x-forwarded-host=senpai.test), NOT an env var.
 // ---------------------------------------------------------------------------
 
 describe('signInWithGoogle', () => {
-  const ORIGINAL_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-
-  beforeEach(() => {
-    process.env.NEXT_PUBLIC_SITE_URL = 'https://senpai.test'
-  })
-  afterAll(() => {
-    if (ORIGINAL_SITE_URL === undefined) delete process.env.NEXT_PUBLIC_SITE_URL
-    else process.env.NEXT_PUBLIC_SITE_URL = ORIGINAL_SITE_URL
-  })
-
   it('requests the google provider with an /auth/callback redirectTo and redirects to the returned URL', async () => {
     const { redirectedTo } = await runAction(() => signInWithGoogle())
     expect(redirectedTo).toBe(

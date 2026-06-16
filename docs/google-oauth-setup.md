@@ -42,23 +42,21 @@ Cloud and Supabase). Do these three things once.
 2. Toggle **Enable**, paste the **Client ID** and **Client secret** from step 1,
    **Save**.
 3. **Authentication → URL Configuration**:
-   - **Site URL**: your production origin, e.g. `https://senpai.vercel.app`.
+   - **Site URL**: your **actual** production origin (the exact domain users
+     visit), e.g. `https://your-app.vercel.app`.
    - **Redirect URLs** (allowlist): add every origin's callback, e.g.
      ```
-     https://senpai.vercel.app/auth/callback
+     https://your-app.vercel.app/auth/callback
      http://localhost:3000/auth/callback
      ```
-     These must match what the app sends as `redirectTo`. The app derives the
-     origin from `NEXT_PUBLIC_SITE_URL` (see step 3) or the request host.
+     These must be the real domains you serve from. The app derives its
+     `redirectTo` automatically from the request host, so there is **no app env
+     var to set** — just make sure the domain you browse is allow‑listed here.
 
-## 3. Set `NEXT_PUBLIC_SITE_URL` (your app's env)
-
-So the OAuth `redirectTo` is stable and matches the allowlist above:
-
-- **Vercel** → Project → Settings → Environment Variables:
-  `NEXT_PUBLIC_SITE_URL = https://senpai.vercel.app`
-- **Local** `.env.local` (optional; host-header fallback also works):
-  `NEXT_PUBLIC_SITE_URL = http://localhost:3000`
+> No `NEXT_PUBLIC_SITE_URL` (or any app env var) is needed for OAuth — the redirect
+> origin is taken from the live request host. (Earlier versions used that env var;
+> a value that didn't match the real domain silently sent the session to the wrong
+> host. That dependency has been removed.)
 
 ---
 
@@ -78,6 +76,6 @@ Run `supabase/migrations/0008_oauth_profile_metadata.sql` against your database
 | Symptom | Likely cause |
 |---|---|
 | `redirect_uri_mismatch` on Google's screen | The Supabase callback URI in step 1.3 doesn't exactly match `https://<ref>.supabase.co/auth/v1/callback`. |
-| Bounced to `/signin?error=...` | The exchange failed — usually the app's `/auth/callback` origin isn't in Supabase's **Redirect URLs** allowlist (step 2.3), or `NEXT_PUBLIC_SITE_URL` is wrong. |
+| Bounced to `/signin?error=...` | The exchange failed — usually the domain you browse (its `/auth/callback`) isn't in Supabase's **Redirect URLs** allowlist (step 2.3). |
 | "Unsupported provider" / provider disabled | Google provider not enabled/saved in step 2. |
 | Signed in but no avatar/name | Migration `0008` not applied to that database. |
