@@ -17,6 +17,7 @@ export type {
   ForumThread,
   ForumThreadWithPosts,
   Genre,
+  NewsArticle,
   Profile,
   ScheduleEntry,
   SearchSuggestion,
@@ -44,6 +45,8 @@ export {
 } from './shows'
 
 export { getWeeklySchedule } from './schedule'
+
+export { getNews } from './news'
 
 export {
   getSearchSuggestions,

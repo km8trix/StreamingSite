@@ -4,6 +4,7 @@
 import type {
   Episode,
   Genre,
+  NewsArticle,
   ScheduleEntry,
   ShowDetail,
   ShowSummary,
@@ -75,6 +76,23 @@ export function makeScheduleEntry(
     dayOfWeek: 5, // Saturday (ISO: 0=Mon … 6=Sun)
     airTime: '17:00',
     timezone: 'Asia/Tokyo',
+    ...overrides,
+  }
+}
+
+export function makeNewsArticle(
+  overrides: Partial<NewsArticle> = {},
+): NewsArticle {
+  return {
+    id: 'news-001',
+    slug: 'sample-headline',
+    title: 'Sample Anime Headline',
+    summary: 'A short summary of the sample headline.',
+    source: 'Anime News Network',
+    sourceUrl: 'https://www.animenewsnetwork.com',
+    category: 'Industry',
+    imageUrl: null,
+    publishedAt: '2026-06-15T09:00:00.000Z',
     ...overrides,
   }
 }

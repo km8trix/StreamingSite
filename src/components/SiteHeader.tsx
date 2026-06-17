@@ -28,6 +28,7 @@ export function SiteHeader() {
           </NavLink>
           <NavLink href="/shows">Browse</NavLink>
           <NavLink href="/schedule">Schedule</NavLink>
+          <NavLink href="/news">News</NavLink>
           <NavLink href="/forum">Forum</NavLink>
         </nav>
 

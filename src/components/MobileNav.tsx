@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: '/', label: 'Home', exact: true },
   { href: '/shows', label: 'Browse', exact: false },
   { href: '/schedule', label: 'Schedule', exact: false },
+  { href: '/news', label: 'News', exact: false },
   { href: '/forum', label: 'Forum', exact: false },
 ] as const
 
