@@ -73,7 +73,17 @@ export default async function ShowDetailPage({
   if (!show) notFound()
 
   const [{ ep, t }, user] = await Promise.all([searchParams, getCurrentUser()])
-  const resumeEpisodeId = (Array.isArray(ep) ? ep[0] : ep) ?? null
+  // `ep` may be an episode id (Continue Watching deep-link) or a plain episode
+  // number (Release Schedule's episode badge). Resolve to a concrete episode id,
+  // matching id first; if it matches neither, keep the raw value so WatchSection
+  // falls back gracefully (e.g. a not-yet-aired estimated episode).
+  const epParam = (Array.isArray(ep) ? ep[0] : ep) ?? null
+  const resumeEpisodeId =
+    epParam == null
+      ? null
+      : (show.episodes.find((e) => e.id === epParam)?.id ??
+        show.episodes.find((e) => String(e.number) === epParam)?.id ??
+        epParam)
   const rawT = Array.isArray(t) ? t[0] : t
   const resumeSeconds = rawT ? Math.max(0, Math.floor(Number(rawT)) || 0) : 0
 

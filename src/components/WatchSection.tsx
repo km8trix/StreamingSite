@@ -43,18 +43,21 @@ export function WatchSection({
   initialEpisodeId?: string | null
   initialStartSeconds?: number
 }) {
-  // Prefer the deep-linked resume episode, but only if it actually has a stream;
-  // otherwise fall back to the first playable episode so a resume never lands on
-  // the "streaming coming soon" placeholder. Last resort: the resume episode (so
-  // a single sourceless show still selects something), else the first episode.
+  // Pick the initial episode from a deep link. A plain "open this episode" link
+  // (e.g. the Release Schedule's episode badge — no resume position) honors the
+  // exact target even if it's not yet streamable, so you land on that episode.
+  // A *resume* (initialStartSeconds>0, from a Continue Watching card) instead
+  // falls back to the first playable episode so it never lands on the "streaming
+  // coming soon" placeholder. Last resort: the target (so a single sourceless
+  // show still selects something), else the first episode.
   const defaultId = useMemo(() => {
     const target = initialEpisodeId
       ? episodes.find((e) => e.id === initialEpisodeId)
       : undefined
-    if (target?.videoUrl) return target.id
+    if (target && (target.videoUrl || initialStartSeconds === 0)) return target.id
     const withVideo = episodes.find((e) => e.videoUrl)
     return withVideo?.id ?? target?.id ?? episodes[0]?.id ?? null
-  }, [episodes, initialEpisodeId])
+  }, [episodes, initialEpisodeId, initialStartSeconds])
 
   const [activeId, setActiveId] = useState<string | null>(defaultId)
 
