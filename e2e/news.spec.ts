@@ -7,23 +7,21 @@ test.describe('News page (/news)', () => {
     await expect(
       page.getByRole('heading', { level: 1, name: 'News' }),
     ).toBeVisible()
+    await expect(page.getByTestId('news-list')).toBeVisible()
     expect(await page.getByTestId('news-card').count()).toBeGreaterThan(0)
   })
 
-  test('shows a featured lead card', async ({ page }) => {
-    await page.goto('/news')
-    await expect(
-      page.locator('[data-testid="news-card"][data-featured="true"]'),
-    ).toBeVisible()
-  })
-
-  test('each card is a safe external link to its source', async ({ page }) => {
+  test('each card has a thumbnail and is a safe external link to its source', async ({
+    page,
+  }) => {
     await page.goto('/news')
     const first = page.getByTestId('news-card').first()
     await expect(first).toBeVisible()
+    // Thumbnail (a real image, or the placeholder when none) is present.
+    await expect(first.getByTestId('news-thumb')).toBeVisible()
+    // Links OUT to the real source article, opened safely in a new tab.
     await expect(first).toHaveAttribute('href', /^https:\/\//)
     await expect(first).toHaveAttribute('target', '_blank')
-    // rel must include noopener so the opened tab can't reach window.opener.
     await expect(first).toHaveAttribute('rel', /noopener/)
   })
 

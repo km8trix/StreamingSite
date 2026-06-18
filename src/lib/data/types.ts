@@ -238,12 +238,10 @@ export type AdPlacement = {
 // News — anime news & headlines
 // ---------------------------------------------------------------------------
 
-// One curated news headline as the UI consumes it. Articles link OUT to their
-// original source (sourceUrl is an absolute https URL); the page never hosts the
-// full article. `category` drives the card accent (e.g. 'New Anime', 'Industry',
-// 'Manga', 'Box Office', 'Events'). `imageUrl` is reserved for a future
-// cover-image card variant — the current NewsCard renders text only and ignores
-// it (today every seed row is null).
+// One news headline as the UI consumes it. Articles link OUT to their original
+// source (sourceUrl is an absolute https URL); the page never hosts the full
+// article. `source` is the outlet name, `category` a tag (e.g. the related
+// title), and `imageUrl` the thumbnail (null → the card shows a placeholder).
 export type NewsArticle = {
   id: string
   slug: string

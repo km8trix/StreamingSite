@@ -89,24 +89,30 @@ describe('ScheduleGrid (timeline) — "Today" jump', () => {
     process.env.TZ = 'Asia/Tokyo'
   })
 
-  it('hides "Today" on first render and shows it after paging weeks', () => {
+  it('is always present, inactive on today, and highlighted once the day changes', () => {
     render(<ScheduleGrid entries={[]} />)
-    // Today (week 0, first button) is selected initially → no jump button.
-    expect(screen.queryByTestId('schedule-today')).not.toBeInTheDocument()
+    const today = () => screen.getByTestId('schedule-today')
+    // Always rendered; not highlighted while today is selected.
+    expect(today()).toBeInTheDocument()
+    expect(today()).toHaveAttribute('data-active', 'false')
 
+    // Paging to another week changes the selected day → highlighted.
     fireEvent.click(screen.getByRole('button', { name: 'Next days' }))
-    expect(screen.getByTestId('schedule-today')).toBeInTheDocument()
+    expect(today()).toHaveAttribute('data-active', 'true')
   })
 
-  it('"Today" returns the selection to today (first day pressed)', () => {
+  it('"Today" returns the selection to today (first day pressed, no longer highlighted)', () => {
     render(<ScheduleGrid entries={[]} />)
     fireEvent.click(screen.getByRole('button', { name: 'Next days' }))
     fireEvent.click(screen.getByTestId('schedule-today'))
 
     const tabs = screen.getAllByTestId('schedule-day-tab')
     expect(tabs[0]).toHaveAttribute('aria-pressed', 'true')
-    // Back on today → the jump button disappears again.
-    expect(screen.queryByTestId('schedule-today')).not.toBeInTheDocument()
+    // Back on today → still present, but no longer highlighted.
+    expect(screen.getByTestId('schedule-today')).toHaveAttribute(
+      'data-active',
+      'false',
+    )
   })
 })
 

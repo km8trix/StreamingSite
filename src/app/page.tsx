@@ -66,8 +66,15 @@ export default async function HomePage() {
       {/* Flush guest localStorage progress into the DB once after sign-in. */}
       <GuestProgressSync isSignedIn={isSignedIn} />
 
-      {/* Continue Watching — pinned to the top for returning viewers; renders
-          nothing when there's no progress (guests resolve it client-side). */}
+      {/* Featured show — pinned to the very top of the home page. */}
+      {featured && (
+        <div className="mb-10">
+          <FeaturedHero show={featured} />
+        </div>
+      )}
+
+      {/* Continue Watching — for returning viewers; renders nothing when there's
+          no progress (guests resolve it client-side). */}
       <ContinueWatchingRail items={continueWatching} isSignedIn={isSignedIn} />
 
       {/* Personalized Recommended For You, directly under Continue Watching
@@ -78,12 +85,6 @@ export default async function HomePage() {
           isSignedIn={isSignedIn}
         />
       </div>
-
-      {featured && (
-        <div className="mb-10">
-          <FeaturedHero show={featured} />
-        </div>
-      )}
 
       {!hasContent ? (
         <p className="rounded-card border border-dashed border-border bg-card/40 px-4 py-16 text-center text-muted">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { Loader2 } from 'lucide-react'
 import { updateProfile } from '@/lib/auth/actions'
@@ -39,9 +39,16 @@ export function ProfileForm({
   avatarUrl: string
 }) {
   const [state, formAction] = useActionState(action, initialState)
+  // Cancel hides any inline banner too; a fresh submit shows it again.
+  const [dismissed, setDismissed] = useState(false)
 
   return (
-    <form action={formAction} className="flex flex-col gap-5" noValidate>
+    <form
+      action={formAction}
+      onSubmit={() => setDismissed(false)}
+      className="flex flex-col gap-5"
+      noValidate
+    >
       <div className="flex flex-col gap-1.5">
         <label
           htmlFor="username"
@@ -109,7 +116,7 @@ export function ProfileForm({
         </p>
       </div>
 
-      {state.error && (
+      {state.error && !dismissed && (
         <p
           role="alert"
           data-testid="profile-error"
@@ -119,7 +126,7 @@ export function ProfileForm({
         </p>
       )}
 
-      {state.success && !state.error && (
+      {state.success && !state.error && !dismissed && (
         <p
           role="status"
           data-testid="profile-success"
@@ -129,7 +136,18 @@ export function ProfileForm({
         </p>
       )}
 
-      <SaveButton />
+      <div className="flex flex-wrap items-center gap-3">
+        <SaveButton />
+        {/* Cancel: revert fields (native reset) and dismiss any inline banner. */}
+        <button
+          type="reset"
+          data-testid="profile-cancel"
+          onClick={() => setDismissed(true)}
+          className="inline-flex w-fit items-center justify-center rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-card-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   )
 }
