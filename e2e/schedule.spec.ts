@@ -7,6 +7,12 @@ const SEED_SLOTS = (seed as { airingSlots: SeedSlot[] }).airingSlots
 const SEED_DISTINCT_DAYS = new Set(SEED_SLOTS.map((s) => s.dayOfWeek))
 
 test.describe('Schedule page (/schedule) — day picker', () => {
+  // Pin the browser timezone to JST so day bucketing is deterministic: with the
+  // viewer in Asia/Tokyo, each slot's viewer-local day equals its JST broadcast
+  // weekday, so populated tabs map 1:1 onto the seed's dayOfWeek values. (The
+  // cross-timezone bucketing itself is covered by the unit tests.)
+  test.use({ timezoneId: 'Asia/Tokyo' })
+
   test('renders the picker container and 7 day tabs', async ({ page }) => {
     await page.goto('/schedule')
     await expect(page.getByTestId('schedule-grid')).toBeVisible()
@@ -47,28 +53,35 @@ test.describe('Schedule page (/schedule) — day picker', () => {
     )
   })
 
-  test('an entry shows an estimated episode pill and links to the show', async ({
+  test('a row has a poster + countdown and separate show / episode links', async ({
     page,
   }) => {
     await page.goto('/schedule')
     const tabs = page.getByTestId('schedule-day-tab')
 
     // Select the first day (of the visible week) that actually has releases.
-    let href: string | null = null
+    let showHref: string | null = null
+    let epHref: string | null = null
     for (let i = 0; i < 7; i++) {
       await tabs.nth(i).click()
       if ((await page.getByTestId('schedule-entry').count()) > 0) {
         const first = page.getByTestId('schedule-entry').first()
         await expect(first).toBeVisible()
-        await expect(first.getByText(/Episode \d+/)).toBeVisible()
-        href = await first.getAttribute('href')
+        // LiveChart-style row: poster thumbnail + "EP N" badge + countdown chip.
+        await expect(first.locator('img')).toBeVisible()
+        await expect(first.getByText(/EP\s?\d+/)).toBeVisible()
+        await expect(first.getByTestId('schedule-countdown')).toBeVisible()
+        showHref = await first.getByTestId('schedule-show-link').getAttribute('href')
+        epHref = await first.getByTestId('schedule-episode').getAttribute('href')
         break
       }
     }
-    expect(href).toMatch(/^\/shows\/.+/)
+    expect(showHref).toMatch(/^\/shows\/.+/)
+    // The episode badge deep-links to a specific episode of the same show.
+    expect(epHref).toMatch(/^\/shows\/.+\?ep=\d+$/)
   })
 
-  test('clicking an entry navigates to the show detail page', async ({
+  test('clicking the show link navigates to the show detail page', async ({
     page,
   }) => {
     await page.goto('/schedule')
@@ -76,10 +89,38 @@ test.describe('Schedule page (/schedule) — day picker', () => {
     for (let i = 0; i < 7; i++) {
       await tabs.nth(i).click()
       if ((await page.getByTestId('schedule-entry').count()) > 0) {
-        const first = page.getByTestId('schedule-entry').first()
-        const href = await first.getAttribute('href')
-        await first.click()
+        const showLink = page
+          .getByTestId('schedule-entry')
+          .first()
+          .getByTestId('schedule-show-link')
+        const href = await showLink.getAttribute('href')
+        await showLink.click()
         await page.waitForURL(`**${href}`)
+        await expect(page.getByTestId('watch-section')).toBeVisible()
+        return
+      }
+    }
+    throw new Error('No schedule entries found on any day of the visible week')
+  })
+
+  test('clicking the episode badge deep-links to that episode on the show', async ({
+    page,
+  }) => {
+    await page.goto('/schedule')
+    const tabs = page.getByTestId('schedule-day-tab')
+    for (let i = 0; i < 7; i++) {
+      await tabs.nth(i).click()
+      if ((await page.getByTestId('schedule-entry').count()) > 0) {
+        const epLink = page
+          .getByTestId('schedule-entry')
+          .first()
+          .getByTestId('schedule-episode')
+        const href = await epLink.getAttribute('href')
+        expect(href).toMatch(/^\/shows\/.+\?ep=\d+$/)
+        await epLink.click()
+        await page.waitForURL('**/shows/**')
+        // The show page renders, with the watch section, even when the
+        // estimated next episode is not yet streamable (graceful fallback).
         await expect(page.getByTestId('watch-section')).toBeVisible()
         return
       }

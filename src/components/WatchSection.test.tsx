@@ -152,3 +152,47 @@ describe('WatchSection — episode selection', () => {
     )
   })
 })
+
+describe('WatchSection — deep-linked initial episode', () => {
+  const episodes = [
+    makeEpisode({ id: 'ep-1', number: 1, videoUrl: MANIFEST }),
+    makeEpisode({ id: 'ep-2', number: 2, videoUrl: null }),
+  ]
+
+  it('honors a plain deep-link to a not-yet-streamable episode (no resume)', () => {
+    // e.g. the Release Schedule episode badge → ?ep=<id>, no &t=. We should
+    // land on ep-2 (its placeholder), NOT silently fall back to playable ep-1.
+    render(
+      <WatchSection
+        {...base}
+        title="Frieren"
+        episodes={episodes}
+        initialEpisodeId="ep-2"
+      />,
+    )
+    const active = screen
+      .getAllByTestId('episode-select-option')
+      .find((b) => b.getAttribute('aria-pressed') === 'true')!
+    expect(active).toHaveAttribute('data-episode-id', 'ep-2')
+    expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
+  })
+
+  it('a RESUME (initialStartSeconds>0) onto a sourceless episode still falls back to a playable one', () => {
+    // Continue Watching deep-link: ?ep=ep-2&t=120. A resume must never land on
+    // the "coming soon" placeholder, so it falls back to the first playable.
+    render(
+      <WatchSection
+        {...base}
+        title="Frieren"
+        episodes={episodes}
+        initialEpisodeId="ep-2"
+        initialStartSeconds={120}
+      />,
+    )
+    expect(screen.getByTestId('video-player')).toHaveAttribute(
+      'data-src',
+      MANIFEST,
+    )
+    expect(screen.queryByTestId('player-placeholder')).not.toBeInTheDocument()
+  })
+})
