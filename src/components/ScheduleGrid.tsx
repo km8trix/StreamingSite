@@ -272,11 +272,26 @@ export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
       data-testid="schedule-grid"
       className="overflow-hidden rounded-card border border-border bg-card/30"
     >
-      {/* Header: timezone note + live clock */}
+      {/* Header: "Today" jump (left) + live clock (right) */}
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-border px-4 py-3">
-        <span className="text-xs text-subtle">
-          Times shown in your local timezone (source: JST).
-        </span>
+        {/* Always-present "Today" jump, highlighted when the selected day is
+            not today. */}
+        <button
+          type="button"
+          data-testid="schedule-today"
+          data-active={!onToday}
+          onClick={goToday}
+          aria-label={onToday ? undefined : 'Return to today'}
+          className={cn(
+            'rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+            onToday
+              ? 'border-border text-muted hover:bg-card-hover hover:text-foreground'
+              : 'border-accent bg-accent/15 text-accent-strong hover:bg-accent/25',
+          )}
+        >
+          Today
+        </button>
         <span
           className="text-xs tabular-nums text-muted"
           suppressHydrationWarning
@@ -286,26 +301,8 @@ export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
         </span>
       </div>
 
-      {/* Day picker: [Today] ‹ days › (a button group, not an ARIA tablist) */}
+      {/* Day picker: ‹ days › (a button group, not an ARIA tablist) */}
       <div className="flex items-stretch gap-1 border-b border-border p-2">
-        {/* Always-present "Today" jump on the left, highlighted when the
-            selected day is not today. */}
-        <button
-          type="button"
-          data-testid="schedule-today"
-          data-active={!onToday}
-          onClick={goToday}
-          aria-label={onToday ? undefined : 'Return to today'}
-          className={cn(
-            'mr-1 shrink-0 self-center rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-            onToday
-              ? 'border-border text-muted hover:bg-card-hover hover:text-foreground'
-              : 'border-accent bg-accent/15 text-accent-strong hover:bg-accent/25',
-          )}
-        >
-          Today
-        </button>
         <ArrowButton
           dir="left"
           disabled={weekOffset === 0}
@@ -375,6 +372,13 @@ export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
         day={selectedDay}
         now={now}
       />
+
+      {/* Timezone note, beneath the schedule. */}
+      <div className="border-t border-border px-4 py-3">
+        <span className="text-xs text-subtle">
+          Times shown in your local timezone (source: JST).
+        </span>
+      </div>
     </div>
   )
 }

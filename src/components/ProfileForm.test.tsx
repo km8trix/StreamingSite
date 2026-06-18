@@ -1,6 +1,6 @@
-// ProfileForm.test.tsx — the edit form's Cancel (reset) affordance.
+// ProfileForm.test.tsx — the edit form's Cancel affordance.
 
-import { render, screen, fireEvent, cleanup } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 // The server action is never invoked in these tests (no submit); stub it so the
@@ -14,23 +14,13 @@ import { ProfileForm } from './ProfileForm'
 afterEach(cleanup)
 
 describe('ProfileForm — cancel', () => {
-  it('renders a Cancel reset button that reverts edits to the saved values', () => {
+  it('renders a Cancel link that closes the profile page (navigates home)', () => {
     render(<ProfileForm username="neo" displayName="Neo" avatarUrl="" />)
 
-    const displayName = screen.getByTestId(
-      'profile-display-name',
-    ) as HTMLInputElement
-    expect(displayName.value).toBe('Neo')
-
-    // Edit the field…
-    fireEvent.change(displayName, { target: { value: 'Trinity' } })
-    expect(displayName.value).toBe('Trinity')
-
     const cancel = screen.getByTestId('profile-cancel')
-    expect(cancel).toHaveAttribute('type', 'reset')
-
-    // …then Cancel reverts it to the original (native form reset → defaultValue).
-    fireEvent.click(cancel)
-    expect(displayName.value).toBe('Neo')
+    // It's a navigation link out of the page, not a form button.
+    expect(cancel.tagName).toBe('A')
+    expect(cancel).toHaveAttribute('href', '/')
+    expect(cancel).toHaveTextContent('Cancel')
   })
 })
