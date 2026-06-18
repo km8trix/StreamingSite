@@ -5,24 +5,26 @@ import { NewsCard } from '@/components/NewsCard'
 export const metadata: Metadata = {
   title: 'News',
   description:
-    'The latest anime news and headlines — new series, industry updates, manga, box office, and events.',
+    'The latest anime news and headlines from around the web — new series, industry updates, manga, and more. Each story links to its original source.',
 }
 
-// Curated headlines / live data; don't statically cache.
-export const dynamic = 'force-dynamic'
+// News is shared content (not per-user), so render it statically and refresh via
+// ISR — the Jikan fetch's own `revalidate` then shares the upstream calls across
+// requests. (force-dynamic would disable that fetch cache and refetch per request.)
+export const revalidate = 1800
 
 export default async function NewsPage() {
   const articles = await getNews()
-  const [featured, ...rest] = articles
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
         <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
           News
         </h1>
         <p className="mt-1 text-sm text-muted">
-          The latest anime headlines. Each story links to its original source.
+          The latest anime headlines from around the web. Each story links to its
+          original source.
         </p>
       </div>
 
@@ -34,16 +36,13 @@ export default async function NewsPage() {
           No news right now. Check back soon.
         </p>
       ) : (
-        <div className="flex flex-col gap-6">
-          <NewsCard article={featured} featured />
-          {rest.length > 0 && (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {rest.map((article) => (
-                <NewsCard key={article.id} article={article} />
-              ))}
-            </div>
-          )}
-        </div>
+        <ol data-testid="news-list" className="flex flex-col gap-3">
+          {articles.map((article) => (
+            <li key={article.id}>
+              <NewsCard article={article} />
+            </li>
+          ))}
+        </ol>
       )}
     </div>
   )

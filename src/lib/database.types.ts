@@ -173,42 +173,6 @@ export type Database = {
           },
         ]
       }
-      news: {
-        Row: {
-          id: string
-          slug: string
-          title: string
-          summary: string
-          source: string
-          source_url: string
-          category: string
-          image_url: string | null
-          published_at: string
-        }
-        Insert: {
-          id: string
-          slug: string
-          title: string
-          summary?: string
-          source?: string
-          source_url: string
-          category?: string
-          image_url?: string | null
-          published_at?: string
-        }
-        Update: {
-          id?: string
-          slug?: string
-          title?: string
-          summary?: string
-          source?: string
-          source_url?: string
-          category?: string
-          image_url?: string | null
-          published_at?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           id: string

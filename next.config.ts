@@ -2,14 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Allowlisted hosts for next/image. Cover artwork in the seed comes from
-    // MyAnimeList's CDN (Jikan API). placehold.co is the documented fallback
-    // host used if Jikan/MAL is ever unreachable — see scripts/build_seed.mjs.
+    // Allowlisted hosts for next/image. Cover artwork comes from MyAnimeList's
+    // CDN (Jikan API): /images/** for posters and /s/** for news thumbnails, so
+    // the whole host is allowed. placehold.co is the documented fallback host.
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cdn.myanimelist.net",
-        pathname: "/images/**",
+        pathname: "/**",
       },
       {
         protocol: "https",

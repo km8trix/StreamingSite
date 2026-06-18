@@ -26,7 +26,7 @@ export function ShowCard({
     <Link
       href={`/shows/${show.slug}`}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-card border border-border bg-card transition-all duration-200',
+        'group relative flex h-full flex-col overflow-hidden rounded-card border border-border bg-card transition-all duration-200',
         'hover:-translate-y-1 hover:border-accent/60 hover:bg-card-hover hover:shadow-[0_12px_40px_-12px_rgba(139,92,246,0.45)]',
         'focus-visible:-translate-y-1 focus-visible:border-accent',
         className,
@@ -55,7 +55,7 @@ export function ShowCard({
 
       <div className="flex flex-1 flex-col gap-1 p-3">
         <h3
-          className="line-clamp-2 text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-accent-strong"
+          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-accent-strong"
           title={show.title}
         >
           {show.title}

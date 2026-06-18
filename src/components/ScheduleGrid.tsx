@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils'
  * ‹ › week paging and a "Today" jump; selecting a day shows that day's releases
  * as a chronological timeline. Each row links to the show (poster + title) AND,
  * separately, to that episode (the "EP N" badge deep-links to /shows/{slug}?ep=N).
- * A live countdown chip reads "in 2h 15m" / "Airing now" / "Aired".
+ * A live countdown chip reads "in 2h 15m 30s" / "Airing now" / "Aired".
  *
  * Timezone model: a slot stores its *JST broadcast* weekday (dayOfWeek, 0=Mon…
  * 6=Sun) + air time. We resolve each slot to a concrete UTC instant from its JST
@@ -33,8 +33,8 @@ import { cn } from '@/lib/utils'
 const VISIBLE_DAYS = 7 // tabs shown per page
 const MAX_WEEKS_AHEAD = 4 // how far forward ‹ › can page
 const LIST_LIMIT = 8 // rows before "Show more"
-// Treat a slot as "Airing now" from the final minute before air through a
-// typical TV episode's runtime, then fall back to "Aired".
+// "Airing now" window: from air time through a typical TV episode's runtime
+// (before air the chip counts down; after the window it reads "Aired").
 const BROADCAST_WINDOW_MS = 24 * 60_000
 
 /**
@@ -97,30 +97,39 @@ function localDateKey(d: Date): string {
 
 type Countdown = { text: string; tone: string }
 
-/** Relative time from `now` to an air `instant`, LiveChart-style. */
+/**
+ * Relative time from `now` to an air `instant`, LiveChart-style. Within a day
+ * the countdown is LIVE to the second (the parent clock ticks every second), so
+ * a show releasing today visibly counts down; further out it stays coarse.
+ */
 function countdown(instant: Date, now: Date): Countdown {
   const ms = instant.getTime() - now.getTime()
 
-  // Final minute before air through the broadcast window after it.
-  if (ms <= 60_000 && ms > -BROADCAST_WINDOW_MS)
+  if (ms > 0) {
+    const totalSec = Math.floor(ms / 1000)
+    const days = Math.floor(totalSec / 86400)
+    const hours = Math.floor((totalSec % 86400) / 3600)
+    const mins = Math.floor((totalSec % 3600) / 60)
+    const secs = totalSec % 60
+
+    const text =
+      days > 0
+        ? `in ${days}d ${hours}h`
+        : hours > 0
+          ? `in ${hours}h ${mins}m ${secs}s`
+          : mins > 0
+            ? `in ${mins}m ${secs}s`
+            : `in ${secs}s`
+    return { text, tone: 'text-muted' }
+  }
+
+  // From air time through the broadcast window, then "Aired".
+  if (ms > -BROADCAST_WINDOW_MS)
     return {
       text: 'Airing now',
       tone: 'rounded-full bg-accent/15 px-2 py-0.5 text-accent-strong',
     }
-  if (ms <= 0) return { text: 'Aired', tone: 'text-subtle' }
-
-  const totalMin = Math.floor(ms / 60000)
-  const days = Math.floor(totalMin / 1440)
-  const hours = Math.floor((totalMin % 1440) / 60)
-  const mins = totalMin % 60
-
-  const text =
-    days > 0
-      ? `in ${days}d ${hours}h`
-      : hours > 0
-        ? `in ${hours}h ${mins}m`
-        : `in ${mins}m`
-  return { text, tone: 'text-muted' }
+  return { text: 'Aired', tone: 'text-subtle' }
 }
 
 // --- mount gate: false on the server, true on the client (no setState/effect) -
@@ -263,34 +272,40 @@ export function ScheduleGrid({ entries }: { entries: ScheduleEntry[] }) {
       data-testid="schedule-grid"
       className="overflow-hidden rounded-card border border-border bg-card/30"
     >
-      {/* Header: timezone note + optional "Today" jump + live clock */}
+      {/* Header: timezone note + live clock */}
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-border px-4 py-3">
         <span className="text-xs text-subtle">
           Times shown in your local timezone (source: JST).
         </span>
-        <div className="flex items-center gap-3">
-          {!onToday && (
-            <button
-              type="button"
-              data-testid="schedule-today"
-              onClick={goToday}
-              className="rounded-full border border-border px-2.5 py-1 text-xs font-semibold text-muted transition-colors hover:bg-card-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              Today
-            </button>
-          )}
-          <span
-            className="text-xs tabular-nums text-muted"
-            suppressHydrationWarning
-          >
-            Now: {now.toLocaleDateString('en-US')}{' '}
-            {now.toLocaleTimeString('en-US')}
-          </span>
-        </div>
+        <span
+          className="text-xs tabular-nums text-muted"
+          suppressHydrationWarning
+        >
+          Now: {now.toLocaleDateString('en-US')}{' '}
+          {now.toLocaleTimeString('en-US')}
+        </span>
       </div>
 
-      {/* Day picker: ‹ days › (a button group, not an ARIA tablist) */}
+      {/* Day picker: [Today] ‹ days › (a button group, not an ARIA tablist) */}
       <div className="flex items-stretch gap-1 border-b border-border p-2">
+        {/* Always-present "Today" jump on the left, highlighted when the
+            selected day is not today. */}
+        <button
+          type="button"
+          data-testid="schedule-today"
+          data-active={!onToday}
+          onClick={goToday}
+          aria-label={onToday ? undefined : 'Return to today'}
+          className={cn(
+            'mr-1 shrink-0 self-center rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+            onToday
+              ? 'border-border text-muted hover:bg-card-hover hover:text-foreground'
+              : 'border-accent bg-accent/15 text-accent-strong hover:bg-accent/25',
+          )}
+        >
+          Today
+        </button>
         <ArrowButton
           dir="left"
           disabled={weekOffset === 0}
@@ -482,7 +497,12 @@ function ScheduleRow({ occurrence, now }: { occurrence: Occurrence; now: Date })
         </Link>
         <span
           data-testid="schedule-countdown"
-          className={cn('text-xs font-semibold tabular-nums', cd.tone)}
+          className={cn(
+            // Reserve a stable, right-aligned box so the live seconds tick in
+            // place instead of shifting the chip's left edge each second.
+            'min-w-[5.5rem] text-right text-xs font-semibold tabular-nums',
+            cd.tone,
+          )}
         >
           {cd.text}
         </span>
