@@ -3,14 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
-import { getCurrentUser, getShowBySlug, getWhereToWatch } from '@/lib/data'
+import { getShowBySlug, getWhereToWatch } from '@/lib/data'
 import seed from '@/lib/data/seed.json'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
 import { StatusBadge } from '@/components/StatusBadge'
 import { SubDubBadges } from '@/components/SubDubBadges'
 import { WatchSection } from '@/components/WatchSection'
-import { WhereToWatch } from '@/components/WhereToWatch'
 import { ShowViewTracker } from '@/components/ShowViewTracker'
 
 type Params = { slug: string }
@@ -63,34 +62,16 @@ export async function generateMetadata({
 
 export default async function ShowDetailPage({
   params,
-  searchParams,
 }: {
   params: Promise<Params>
-  // Continue Watching deep-link: ?ep=<episodeId>&t=<seconds> resumes playback.
-  searchParams: Promise<{ ep?: string | string[]; t?: string | string[] }>
 }) {
   const { slug } = await params
   const show = await getShowBySlug(slug)
   if (!show) notFound()
 
-  const [{ ep, t }, user, whereToWatch] = await Promise.all([
-    searchParams,
-    getCurrentUser(),
-    getWhereToWatch(show.title),
-  ])
-  // `ep` may be an episode id (Continue Watching deep-link) or a plain episode
-  // number (Release Schedule's episode badge). Resolve to a concrete episode id,
-  // matching id first; if it matches neither, keep the raw value so WatchSection
-  // falls back gracefully (e.g. a not-yet-aired estimated episode).
-  const epParam = (Array.isArray(ep) ? ep[0] : ep) ?? null
-  const resumeEpisodeId =
-    epParam == null
-      ? null
-      : (show.episodes.find((e) => e.id === epParam)?.id ??
-        show.episodes.find((e) => String(e.number) === epParam)?.id ??
-        epParam)
-  const rawT = Array.isArray(t) ? t[0] : t
-  const resumeSeconds = rawT ? Math.max(0, Math.floor(Number(rawT)) || 0) : 0
+  // Legal "where to watch" providers (AniList). Drives both the optional official
+  // embed and the out-link panel inside WatchSection.
+  const whereToWatch = await getWhereToWatch(show.title)
 
   return (
     <article className="pb-8">
@@ -193,20 +174,9 @@ export default async function ShowDetailPage({
       {/* ---- BODY -------------------------------------------------------- */}
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_22rem] lg:px-8">
         <div className="flex flex-col gap-8">
-          <WatchSection
-            showId={show.id}
-            slug={show.slug}
-            title={show.title}
-            poster={show.bannerImage ?? show.coverImage}
-            coverImage={show.coverImage}
-            episodes={show.episodes}
-            isSignedIn={Boolean(user)}
-            initialEpisodeId={resumeEpisodeId}
-            initialStartSeconds={resumeSeconds}
-          />
-
-          {/* Legal "where to watch" (AniList) — link out to licensed providers. */}
-          <WhereToWatch links={whereToWatch} title={show.title} />
+          {/* Discovery watch hub: an official embed when a provider is legally
+              embeddable, plus "where to watch" out-links. Senpai hosts no video. */}
+          <WatchSection title={show.title} links={whereToWatch} />
 
           {show.synopsis && (
             <section aria-labelledby="synopsis-heading">

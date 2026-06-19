@@ -106,7 +106,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-16",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-001-ep-002",
@@ -378,7 +378,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-03-29",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-002-ep-002",
@@ -524,7 +524,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-11-25",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-003-ep-002",
@@ -786,7 +786,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-05-31",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         }
       ],
       "popularityScore": 496946,
@@ -828,7 +828,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-29",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-005-ep-002",
@@ -1077,7 +1077,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-04-10",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-006-ep-002",
@@ -1200,7 +1200,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-10",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-007-ep-002",
@@ -1472,7 +1472,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-06-04",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         }
       ],
       "popularityScore": 185315,
@@ -1514,7 +1514,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-02-09",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-009-ep-002",
@@ -1718,7 +1718,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-05",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-010-ep-002",
@@ -1985,7 +1985,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-11-28",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-011-ep-002",
@@ -2252,7 +2252,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-02-22",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-012-ep-002",
@@ -2397,7 +2397,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-03",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-013-ep-002",
@@ -2664,7 +2664,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-05-30",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         }
       ],
       "popularityScore": 158332,
@@ -2706,7 +2706,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-03-07",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-015-ep-002",
@@ -2847,7 +2847,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-02-26",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-016-ep-002",
@@ -2992,7 +2992,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-02-26",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-017-ep-002",
@@ -3142,7 +3142,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-03-14",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-018-ep-002",
@@ -3287,7 +3287,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-30",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-019-ep-002",
@@ -3536,7 +3536,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-09",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-020-ep-002",
@@ -3798,7 +3798,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-05-28",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         }
       ],
       "popularityScore": 2628439,
@@ -3840,7 +3840,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-16",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-022-ep-002",
@@ -4093,7 +4093,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2025-12-24",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-023-ep-002",
@@ -4332,7 +4332,7 @@
           "isSubbed": true,
           "isDubbed": true,
           "airDate": "2026-01-06",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-024-ep-002",
@@ -4553,7 +4553,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-06",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-025-ep-002",
@@ -4680,7 +4680,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-01",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-026-ep-002",
@@ -4812,7 +4812,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-03",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-027-ep-002",
@@ -4944,7 +4944,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-04",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-028-ep-002",
@@ -5071,7 +5071,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-12",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-029-ep-002",
@@ -5189,7 +5189,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-02",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-030-ep-002",
@@ -5311,7 +5311,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-03",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-031-ep-002",
@@ -5433,7 +5433,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-07",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-032-ep-002",
@@ -5551,7 +5551,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-08",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-033-ep-002",
@@ -5674,7 +5674,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-09",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-034-ep-002",
@@ -5792,7 +5792,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-04",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-035-ep-002",
@@ -5919,7 +5919,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-06",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-036-ep-002",
@@ -6041,7 +6041,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-01",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-037-ep-002",
@@ -6163,7 +6163,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-04",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-038-ep-002",
@@ -6285,7 +6285,7 @@
           "isSubbed": true,
           "isDubbed": false,
           "airDate": "2026-04-04",
-          "videoUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+          "videoUrl": null
         },
         {
           "id": "show-039-ep-002",

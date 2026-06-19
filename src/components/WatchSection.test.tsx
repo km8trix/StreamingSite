@@ -1,198 +1,105 @@
-// WatchSection.test.tsx — unit tests for the watch-experience branching.
+// WatchSection.test.tsx — the discovery watch hub.
 //
-// WatchSection owns the "active episode" state and decides which of the two
-// render paths to show:
-//   - active episode HAS a `videoUrl` → render the real <VideoPlayer> (wired to
-//     that manifest URL);
-//   - active episode has NO source (null/empty videoUrl) → render the
-//     <PlayerPlaceholder> ("Streaming coming soon"), NOT a broken player.
-//
-// We stub the child <VideoPlayer> so these tests assert WatchSection's logic
-// (selection + which path renders + what src it forwards) without booting hls.js
-// or a real <video> element. The PlayerPlaceholder renders for real (it is a
-// pure server-safe presentational component).
+// The owned HLS player is retired: WatchSection no longer plays video. It now
+// leads with the LEGAL watch path —
+//   - an OfficialEmbed (YouTube IFrame) when a provider link is officially
+//     embeddable AND resolves to a concrete /embed/ URL;
+//   - the WhereToWatch panel of out-links to licensed providers (always).
+// Both children render for real (pure, server-safe), so these tests assert the
+// branching from the `links` prop end-to-end.
 
-import { render, screen, fireEvent, cleanup } from '@testing-library/react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
-import { makeEpisode } from '@/test/fixtures'
-
-// Stub VideoPlayer: render a marker that echoes the src it received so tests can
-// assert WatchSection forwarded the correct manifest URL.
-vi.mock('./VideoPlayer', () => ({
-  VideoPlayer: ({ src, title }: { src: string; title?: string }) => (
-    <div data-testid="video-player" data-src={src} data-title={title}>
-      mock-video-player
-    </div>
-  ),
-}))
-
+import { render, screen, cleanup } from '@testing-library/react'
+import { afterEach, describe, expect, it } from 'vitest'
+import type { StreamingLink } from '@/lib/data'
 import { WatchSection } from './WatchSection'
 
-const MANIFEST = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
-
-// Required props unrelated to the branching logic under test. isSignedIn:false
-// keeps the (un-fired) progress recorder on the guest path; the mocked
-// VideoPlayer never calls onProgress, so no recording actually runs.
-const base = {
-  showId: 'show-1',
-  slug: 'frieren',
-  coverImage: 'https://img.example/cover.jpg',
-  isSignedIn: false,
+const crunchyroll: StreamingLink = {
+  site: 'Crunchyroll',
+  url: 'https://www.crunchyroll.com/series/abc',
+  embeddable: false,
+}
+// An official YouTube video link (Muse Asia / Ani-One style) — embeddable.
+const youtubeVideo: StreamingLink = {
+  site: 'YouTube',
+  url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  embeddable: true,
+}
+// A YouTube CHANNEL link — flagged embeddable by host, but not iframe-able.
+const youtubeChannel: StreamingLink = {
+  site: 'YouTube',
+  url: 'https://www.youtube.com/@MuseAsia',
+  embeddable: true,
 }
 
 afterEach(cleanup)
 
-describe('WatchSection — default render path', () => {
-  it('renders the VideoPlayer wired to the manifest when episode 1 has a source', () => {
-    const episodes = [
-      makeEpisode({ id: 'ep-1', number: 1, videoUrl: MANIFEST }),
-      makeEpisode({ id: 'ep-2', number: 2, videoUrl: null }),
-    ]
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
+describe('WatchSection — official embed', () => {
+  it('renders an OfficialEmbed wired to the YouTube /embed/ URL when a link is embeddable', () => {
+    render(<WatchSection title="Frieren" links={[youtubeVideo, crunchyroll]} />)
 
     expect(screen.getByTestId('watch-section')).toBeInTheDocument()
-    const player = screen.getByTestId('video-player')
-    expect(player).toBeInTheDocument()
-    expect(player).toHaveAttribute('data-src', MANIFEST)
-    // No placeholder when a real stream is active.
-    expect(screen.queryByTestId('player-placeholder')).not.toBeInTheDocument()
-  })
-
-  it('defaults to the FIRST episode that has a stream, even if it is not episode 1', () => {
-    const episodes = [
-      makeEpisode({ id: 'ep-1', number: 1, videoUrl: null }),
-      makeEpisode({ id: 'ep-2', number: 2, videoUrl: MANIFEST }),
-    ]
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
-
-    expect(screen.getByTestId('video-player')).toHaveAttribute(
-      'data-src',
-      MANIFEST,
+    const embed = screen.getByTestId('official-embed')
+    expect(embed).toBeInTheDocument()
+    const iframe = embed.querySelector('iframe')!
+    expect(iframe).toHaveAttribute(
+      'src',
+      'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ',
     )
+    // The provider out-links still render below the embed.
+    expect(screen.getByTestId('where-to-watch')).toBeInTheDocument()
   })
 
-  it('renders the PlayerPlaceholder (not a broken player) when NO episode has a source', () => {
-    const episodes = [
-      makeEpisode({ id: 'ep-1', number: 1, videoUrl: null }),
-      makeEpisode({ id: 'ep-2', number: 2, videoUrl: null }),
-    ]
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
+  it('does NOT embed a YouTube channel/handle page (not iframe-able), but still lists it', () => {
+    render(<WatchSection title="Frieren" links={[youtubeChannel]} />)
 
-    expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
-    expect(screen.queryByTestId('video-player')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('official-embed')).not.toBeInTheDocument()
+    // The channel is still offered as an out-link in the WhereToWatch panel.
+    expect(screen.getAllByTestId('where-to-watch-link')).toHaveLength(1)
   })
 
-  it('renders the placeholder when the active episode has an empty-string source', () => {
-    // The component treats falsy videoUrl (null OR '') as "no stream".
-    const episodes = [
-      makeEpisode({ id: 'ep-1', number: 1, videoUrl: '' }),
-    ]
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
-
-    expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
-    expect(screen.queryByTestId('video-player')).not.toBeInTheDocument()
-  })
-})
-
-describe('WatchSection — episode selection', () => {
-  const episodes = [
-    makeEpisode({ id: 'ep-1', number: 1, title: 'Premiere', videoUrl: MANIFEST }),
-    makeEpisode({ id: 'ep-2', number: 2, title: 'Two', videoUrl: null }),
-    makeEpisode({ id: 'ep-3', number: 3, title: 'Three', videoUrl: null }),
-  ]
-
-  it('renders a selector with one option per episode (multi-episode show)', () => {
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
-    expect(screen.getByTestId('episode-select')).toBeInTheDocument()
-    expect(screen.getAllByTestId('episode-select-option')).toHaveLength(3)
-  })
-
-  it('swaps to the placeholder when a higher episode without a source is selected', () => {
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
-
-    // Starts on ep 1 (has stream) → real player.
-    expect(screen.getByTestId('video-player')).toHaveAttribute(
-      'data-src',
-      MANIFEST,
+  it('picks the FIRST embeddable link when several are present', () => {
+    const second: StreamingLink = {
+      site: 'YouTube (dub)',
+      url: 'https://youtu.be/abcdefghijk',
+      embeddable: true,
+    }
+    render(
+      <WatchSection
+        title="Frieren"
+        links={[crunchyroll, youtubeVideo, second]}
+      />,
     )
-
-    // Pick episode 2 (no source).
-    const ep2 = screen
-      .getAllByTestId('episode-select-option')
-      .find((b) => b.getAttribute('data-episode-id') === 'ep-2')!
-    fireEvent.click(ep2)
-
-    expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
-    expect(screen.queryByTestId('video-player')).not.toBeInTheDocument()
-  })
-
-  it('marks watchable episodes with data-has-video and the active one with aria-pressed', () => {
-    render(<WatchSection {...base} title="Frieren" episodes={episodes} />)
-    const options = screen.getAllByTestId('episode-select-option')
-
-    const ep1 = options.find((b) => b.getAttribute('data-episode-id') === 'ep-1')!
-    const ep2 = options.find((b) => b.getAttribute('data-episode-id') === 'ep-2')!
-
-    expect(ep1).toHaveAttribute('data-has-video', 'true')
-    expect(ep2).toHaveAttribute('data-has-video', 'false')
-    // ep1 is the default active episode.
-    expect(ep1).toHaveAttribute('aria-pressed', 'true')
-    expect(ep2).toHaveAttribute('aria-pressed', 'false')
-  })
-
-  it('does NOT render the selector for a single-episode entry (movie)', () => {
-    const single = [makeEpisode({ id: 'ep-1', number: 1, videoUrl: MANIFEST })]
-    render(<WatchSection {...base} title="A Silent Voice" episodes={single} />)
-
-    expect(screen.queryByTestId('episode-select')).not.toBeInTheDocument()
-    // Still plays the stream.
-    expect(screen.getByTestId('video-player')).toHaveAttribute(
-      'data-src',
-      MANIFEST,
+    const iframe = screen.getByTestId('official-embed').querySelector('iframe')!
+    expect(iframe).toHaveAttribute(
+      'src',
+      'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ',
     )
   })
 })
 
-describe('WatchSection — deep-linked initial episode', () => {
-  const episodes = [
-    makeEpisode({ id: 'ep-1', number: 1, videoUrl: MANIFEST }),
-    makeEpisode({ id: 'ep-2', number: 2, videoUrl: null }),
-  ]
+describe('WatchSection — no embed', () => {
+  it('renders only the WhereToWatch out-link panel when no link is embeddable', () => {
+    render(<WatchSection title="Frieren" links={[crunchyroll]} />)
 
-  it('honors a plain deep-link to a not-yet-streamable episode (no resume)', () => {
-    // e.g. the Release Schedule episode badge → ?ep=<id>, no &t=. We should
-    // land on ep-2 (its placeholder), NOT silently fall back to playable ep-1.
-    render(
-      <WatchSection
-        {...base}
-        title="Frieren"
-        episodes={episodes}
-        initialEpisodeId="ep-2"
-      />,
+    expect(screen.queryByTestId('official-embed')).not.toBeInTheDocument()
+    expect(screen.getByTestId('where-to-watch')).toBeInTheDocument()
+    expect(screen.getByTestId('where-to-watch-link')).toHaveAttribute(
+      'href',
+      crunchyroll.url,
     )
-    const active = screen
-      .getAllByTestId('episode-select-option')
-      .find((b) => b.getAttribute('aria-pressed') === 'true')!
-    expect(active).toHaveAttribute('data-episode-id', 'ep-2')
-    expect(screen.getByTestId('player-placeholder')).toBeInTheDocument()
   })
 
-  it('a RESUME (initialStartSeconds>0) onto a sourceless episode still falls back to a playable one', () => {
-    // Continue Watching deep-link: ?ep=ep-2&t=120. A resume must never land on
-    // the "coming soon" placeholder, so it falls back to the first playable.
-    render(
-      <WatchSection
-        {...base}
-        title="Frieren"
-        episodes={episodes}
-        initialEpisodeId="ep-2"
-        initialStartSeconds={120}
-      />,
-    )
-    expect(screen.getByTestId('video-player')).toHaveAttribute(
-      'data-src',
-      MANIFEST,
-    )
+  it('renders the WhereToWatch empty state when there are no providers at all', () => {
+    render(<WatchSection title="Frieren" links={[]} />)
+
+    expect(screen.queryByTestId('official-embed')).not.toBeInTheDocument()
+    expect(screen.getByTestId('where-to-watch-empty')).toBeInTheDocument()
+  })
+
+  it('never renders an owned <video> player or a "coming soon" placeholder', () => {
+    render(<WatchSection title="Frieren" links={[crunchyroll]} />)
+    expect(screen.queryByTestId('video-player')).not.toBeInTheDocument()
     expect(screen.queryByTestId('player-placeholder')).not.toBeInTheDocument()
+    expect(document.querySelector('video')).toBeNull()
   })
 })
