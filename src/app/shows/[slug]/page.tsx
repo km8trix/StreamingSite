@@ -3,13 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
-import { getCurrentUser, getShowBySlug } from '@/lib/data'
+import { getCurrentUser, getShowBySlug, getWhereToWatch } from '@/lib/data'
 import seed from '@/lib/data/seed.json'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
 import { StatusBadge } from '@/components/StatusBadge'
 import { SubDubBadges } from '@/components/SubDubBadges'
 import { WatchSection } from '@/components/WatchSection'
+import { WhereToWatch } from '@/components/WhereToWatch'
 import { ShowViewTracker } from '@/components/ShowViewTracker'
 
 type Params = { slug: string }
@@ -72,7 +73,11 @@ export default async function ShowDetailPage({
   const show = await getShowBySlug(slug)
   if (!show) notFound()
 
-  const [{ ep, t }, user] = await Promise.all([searchParams, getCurrentUser()])
+  const [{ ep, t }, user, whereToWatch] = await Promise.all([
+    searchParams,
+    getCurrentUser(),
+    getWhereToWatch(show.title),
+  ])
   // `ep` may be an episode id (Continue Watching deep-link) or a plain episode
   // number (Release Schedule's episode badge). Resolve to a concrete episode id,
   // matching id first; if it matches neither, keep the raw value so WatchSection
@@ -199,6 +204,9 @@ export default async function ShowDetailPage({
             initialEpisodeId={resumeEpisodeId}
             initialStartSeconds={resumeSeconds}
           />
+
+          {/* Legal "where to watch" (AniList) — link out to licensed providers. */}
+          <WhereToWatch links={whereToWatch} title={show.title} />
 
           {show.synopsis && (
             <section aria-labelledby="synopsis-heading">

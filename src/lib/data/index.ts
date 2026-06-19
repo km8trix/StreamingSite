@@ -27,6 +27,7 @@ export type {
   ShowSort,
   ShowStatus,
   ShowSummary,
+  StreamingLink,
   TopAnimeWindow,
   UserRole,
 } from './types'
@@ -47,6 +48,8 @@ export {
 export { getWeeklySchedule } from './schedule'
 
 export { getNews } from './news'
+
+export { getWhereToWatch } from './where-to-watch'
 
 export {
   getSearchSuggestions,

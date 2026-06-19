@@ -253,3 +253,17 @@ export type NewsArticle = {
   imageUrl: string | null
   publishedAt: string // ISO timestamp
 }
+
+// ---------------------------------------------------------------------------
+// Where to watch — official streaming providers (AniList)
+// ---------------------------------------------------------------------------
+
+// One legal place to watch a title, from AniList `externalLinks` (type
+// STREAMING). `url` is an absolute https deep-link on the provider;
+// `embeddable` marks officially-embeddable sources (YouTube). We link OUT to
+// licensed providers — Senpai never hosts or proxies video.
+export type StreamingLink = {
+  site: string
+  url: string
+  embeddable: boolean
+}
