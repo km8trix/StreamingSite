@@ -136,7 +136,8 @@ flip to live Supabase later by setting env vars only.
     titles/synopses/cover URLs (`cdn.myanimelist.net`, verified resolving)/genres/sub counts.
     Synthesized: `dubEpisodes` (rule in `scripts/build_seed.mjs synthDub`: upcoming=0; ≥2024
     shows 0–40%; 2022–23 ~60–95%; older fully dubbed; always ≤ sub), episode lists, updatedAt
-    spread. Regenerate with `node scripts/build_seed.mjs` (needs re-fetched Jikan JSON).
+    spread. Regenerate with `node scripts/build_seed.mjs` (reads the vendored snapshot
+    under `scripts/seed-source/`; no live Jikan fetch — the catalog is now hand-curated).
   - `src/lib/data/types.ts` (contract types verbatim), `src/lib/data/shows.ts` +
     `index.ts` (all 7 contract functions, seed-fallback when `!isSupabaseConfigured()`,
     row→domain mapping centralized; raw rows never leak).

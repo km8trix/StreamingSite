@@ -1,184 +1,62 @@
-// Transform Jikan top-anime data into the COORDINATION.md contract shape.
-// Produces: src/lib/data/seed.json  AND  supabase/seed/seed.sql
-// Run with node. Reads /tmp/jikan_page1.json (already fetched, polite single call).
+// Build the streaming catalog seed: src/lib/data/seed.json AND
+// supabase/seed/seed.sql, from the vendored source under scripts/seed-source/.
+//
+// History: the catalog originally came from the Jikan API (MyAnimeList top
+// anime) transformed by this script — slugs, synthesized dub counts, and
+// weekly episode lists. Since then the seed has been hand-curated: the
+// currently-airing shows carry hand-set air dates / dub counts for the release
+// schedule, one slug was hand-fixed, and later milestones appended airing
+// slots, forum categories, and house ad placements. That curated data can no
+// longer be reproduced from a live Jikan fetch, so the resolved snapshot is
+// vendored under scripts/seed-source/ and this script formats it into the two
+// committed artifacts. Re-running it is a no-op against the committed seed.
+//
+//   scripts/seed-source/catalog.json        — metadata + genres + shows
+//                                              (episodes carry no video_url;
+//                                              this script owns that column)
+//   scripts/seed-source/airing-slots.json   — weekly air slots (SQL + JSON)
+//   scripts/seed-source/ad-placements.json  — house ads (seed.json only)
+//   scripts/seed-source/sql/forum_categories.sql — verbatim SQL block
+//   scripts/seed-source/sql/ad_placements.sql    — verbatim SQL block
+//
+// Run: `node scripts/build_seed.mjs`
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
-const ROOT = '/Users/spencer.karrat/Documents/GitHub/StreamingSite';
-const raw = JSON.parse(readFileSync('/tmp/jikan_page1.json', 'utf8'));
-const anime = raw.data;
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const SRC = join(ROOT, 'scripts', 'seed-source');
 
-// ---- helpers -------------------------------------------------------------
+const read = (p) => readFileSync(p, 'utf8');
+const readJson = (p) => JSON.parse(read(p));
 
-function slugify(s) {
-  return s
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/['’.,:!?/\\()]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 80);
-}
+const catalog = readJson(join(SRC, 'catalog.json'));
+const airingSlots = readJson(join(SRC, 'airing-slots.json'));
+const adPlacements = readJson(join(SRC, 'ad-placements.json'));
+const forumSql = read(join(SRC, 'sql', 'forum_categories.sql'));
+const adSql = read(join(SRC, 'sql', 'ad_placements.sql'));
 
-// Map Jikan status -> contract ShowStatus
-function mapStatus(s) {
-  if (s === 'Currently Airing') return 'airing';
-  if (s === 'Not yet aired') return 'upcoming';
-  return 'finished'; // 'Finished Airing'
-}
+const { genres, shows } = catalog;
 
-// Deterministic pseudo-random in [0,1) from a string seed (so re-runs are stable).
-function seededRand(str) {
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  // xorshift a couple of times
-  h ^= h << 13; h ^= h >>> 17; h ^= h << 5;
-  return ((h >>> 0) % 100000) / 100000;
-}
-
-// Synthesize a realistic dub episode count from sub count + status.
-// Documented rule: upcoming -> 0; otherwise dubbing lags subbing.
-// Newer (>= 2024) shows get a smaller fraction; older shows are usually fully dubbed.
-function synthDub(subEpisodes, status, year, seed) {
-  if (status === 'upcoming' || subEpisodes <= 0) return 0;
-  const r = seededRand(seed);
-  if (year && year >= 2024) {
-    // very new: 0..40% dubbed, sometimes 0
-    if (r < 0.35) return 0;
-    return Math.max(0, Math.floor(subEpisodes * (0.15 + r * 0.25)));
-  }
-  if (year && year >= 2022) {
-    // recent: ~60-95% dubbed
-    return Math.floor(subEpisodes * (0.6 + r * 0.35));
-  }
-  // older / classic: fully dubbed
-  return subEpisodes;
-}
-
-// ---- build genres (deduped across all shows) -----------------------------
-
-const genreMap = new Map(); // name -> {id,name,slug}
-let genreSeq = 0;
-function genreId(name) {
-  if (!genreMap.has(name)) {
-    genreSeq += 1;
-    genreMap.set(name, {
-      id: `gen-${String(genreSeq).padStart(3, '0')}`,
-      name,
-      slug: slugify(name),
-    });
-  }
-  return genreMap.get(name).id;
-}
-
-// ---- build shows ---------------------------------------------------------
-
-const usedSlugs = new Set();
-function uniqueSlug(base) {
-  let s = base || 'show';
-  let i = 2;
-  while (usedSlugs.has(s)) s = `${base}-${i++}`;
-  usedSlugs.add(s);
-  return s;
-}
-
-const shows = [];
-const showGenres = []; // {showId, genreId}
-const allEpisodes = []; // flat for sql
-
-// spread updatedAt across the last ~30 days deterministically so the
-// "Recently Updated" rail has meaningful ordering.
-const NOW = new Date('2026-06-15T12:00:00.000Z').getTime();
-const DAY = 24 * 60 * 60 * 1000;
-
-anime.forEach((a, idx) => {
-  const title = a.title_english || a.title;
-  const slug = uniqueSlug(slugify(title));
-  const id = `show-${String(idx + 1).padStart(3, '0')}`;
-  const status = mapStatus(a.status);
-  const year = a.year ?? (a.aired?.prop?.from?.year ?? null);
-
-  // sub episodes = aired episode count from API. Some shows report null
-  // (still airing / unknown) -> fall back to a sane number.
-  let subEpisodes = typeof a.episodes === 'number' && a.episodes > 0 ? a.episodes : 0;
-  if (subEpisodes === 0 && status === 'airing') subEpisodes = 12; // currently-airing default cour
-  if (subEpisodes === 0 && status === 'finished') subEpisodes = 12;
-
-  const dubEpisodes = synthDub(subEpisodes, status, year, id + slug);
-
-  const coverImage = a.images?.jpg?.large_image_url || a.images?.jpg?.image_url;
-
-  const popularityScore = a.members ?? a.scored_by ?? 0;
-
-  // updatedAt: airing shows are "fresher"; spread the rest deterministically.
-  const ageDays = status === 'airing'
-    ? Math.floor(seededRand(id) * 4)            // 0-3 days ago
-    : 2 + Math.floor(seededRand(slug) * 28);    // 2-29 days ago
-  const updatedAt = new Date(NOW - ageDays * DAY).toISOString();
-
-  // genres
-  const gNames = (a.genres ?? []).map((g) => g.name);
-  const genres = gNames.map((n) => {
-    genreId(n);
-    return genreMap.get(n);
-  });
-  genres.forEach((g) => showGenres.push({ showId: id, genreId: g.id }));
-
-  // episodes: synthesize an episode list up to subEpisodes (cap for size).
-  // air dates count back weekly from the show's updatedAt anchor.
-  const epCount = Math.min(subEpisodes, 26);
-  const episodes = [];
-  const anchor = new Date(updatedAt).getTime();
-  for (let n = 1; n <= epCount; n++) {
-    const epAir = new Date(anchor - (epCount - n) * 7 * DAY);
-    const airDate = status === 'upcoming' ? null : epAir.toISOString().slice(0, 10);
-    const ep = {
-      id: `${id}-ep-${String(n).padStart(3, '0')}`,
-      number: n,
-      title: `Episode ${n}`,
-      isSubbed: n <= subEpisodes,
-      isDubbed: n <= dubEpisodes,
-      airDate,
-    };
-    episodes.push(ep);
-    allEpisodes.push({ ...ep, showId: id });
-  }
-
-  shows.push({
-    id,
-    slug,
-    title,
-    coverImage,
-    bannerImage: null, // Jikan provides no wide banner; contract allows null
-    subEpisodes,
-    dubEpisodes,
-    status,
-    year,
-    synopsis: (a.synopsis || 'No synopsis available.').trim(),
-    genres,
-    episodes,
-    popularityScore,
-    updatedAt,
-  });
-});
-
-const genres = [...genreMap.values()];
-
-// ---- seed.json (full ShowDetail records; data layer derives summaries) ---
+// ---- seed.json (full ShowDetail records; data layer derives summaries) ----
+// Episodes get an explicit video_url, defaulting to null — Senpai no longer
+// hosts owned streams, so every episode renders the "official embeds" path.
 
 const seedJson = {
-  generatedAt: new Date('2026-06-15T12:00:00.000Z').toISOString(),
-  source: 'Jikan API (api.jikan.moe/v4/top/anime) — MyAnimeList',
-  note: 'dubEpisodes are synthesized (see build_seed.mjs synthDub). episodes are synthesized lists; titles/synopses/covers/genres/subEpisodes are real.',
+  generatedAt: catalog.generatedAt,
+  source: catalog.source,
+  note: catalog.note,
   genres,
-  shows,
+  shows: shows.map((s) => ({
+    ...s,
+    episodes: s.episodes.map((e) => ({ ...e, videoUrl: e.videoUrl ?? null })),
+  })),
+  airingSlots,
+  adPlacements,
 };
 
-writeFileSync(`${ROOT}/src/lib/data/seed.json`, JSON.stringify(seedJson, null, 2) + '\n');
+writeFileSync(join(ROOT, 'src/lib/data/seed.json'), JSON.stringify(seedJson, null, 2) + '\n');
 
 // ---- seed.sql ------------------------------------------------------------
 
@@ -189,6 +67,14 @@ function q(v) {
   return `'${String(v).replace(/'/g, "''")}'`;
 }
 
+// derived join + flat episode lists, in show order (matches committed order)
+const showGenres = []; // {showId, genreId}
+const allEpisodes = []; // flat for sql
+for (const s of shows) {
+  for (const g of s.genres) showGenres.push({ showId: s.id, genreId: g.id });
+  for (const e of s.episodes) allEpisodes.push({ ...e, videoUrl: e.videoUrl ?? null, showId: s.id });
+}
+
 let sql = `-- Seed data for the anime streaming catalog.
 -- Generated from the Jikan API (MyAnimeList) by scripts/build_seed.mjs.
 -- Idempotent: truncates then inserts. Safe to re-run against a live DB.
@@ -197,7 +83,7 @@ let sql = `-- Seed data for the anime streaming catalog.
 
 begin;
 
-truncate table public.episodes, public.show_genres, public.shows, public.genres restart identity cascade;
+truncate table public.ad_placements, public.airing_slots, public.episodes, public.show_genres, public.shows, public.genres restart identity cascade;
 
 -- genres -------------------------------------------------------------------
 insert into public.genres (id, name, slug) values
@@ -226,25 +112,44 @@ sql += showGenres
   .join(',\n') + ';\n\n';
 
 sql += `-- episodes -----------------------------------------------------------------
-insert into public.episodes (id, show_id, number, title, is_subbed, is_dubbed, air_date) values
+insert into public.episodes (id, show_id, number, title, is_subbed, is_dubbed, air_date, video_url) values
 `;
 sql += allEpisodes
   .map(
     (e) =>
-      `  (${q(e.id)}, ${q(e.showId)}, ${q(e.number)}, ${q(e.title)}, ${q(e.isSubbed)}, ${q(e.isDubbed)}, ${q(e.airDate)})`,
+      `  (${q(e.id)}, ${q(e.showId)}, ${q(e.number)}, ${q(e.title)}, ${q(e.isSubbed)}, ${q(e.isDubbed)}, ${q(e.airDate)}, ${q(e.videoUrl)})`,
   )
   .join(',\n') + ';\n\n';
 
+sql += `-- airing_slots ------------------------------------------------------------
+-- Milestone 2: one weekly air slot per currently-airing show (JST source).
+-- day_of_week: 0=Monday … 6=Sunday. air_time: 'HH:MM' 24h.
+-- FK-safe: shows rows already inserted above.
+insert into public.airing_slots (id, show_id, day_of_week, air_time, timezone, season) values
+`;
+sql += airingSlots
+  .map(
+    (a) =>
+      `  (${q(a.id)}, ${q(a.showId)}, ${q(a.dayOfWeek)}, ${q(a.airTime)}, ${q(a.timezone)}, ${q(a.season)})`,
+  )
+  .join(',\n') + ';\n\n';
+
+// forum_categories + ad_placements: hand-curated SQL-only blocks, emitted
+// verbatim (alignment, on-conflict clauses, and apostrophes preserved).
+sql += forumSql.trimEnd() + '\n\n';
+sql += adSql.trimEnd() + '\n\n';
+
 sql += `commit;\n`;
 
-writeFileSync(`${ROOT}/supabase/seed/seed.sql`, sql);
+writeFileSync(join(ROOT, 'supabase/seed/seed.sql'), sql);
 
 // ---- report --------------------------------------------------------------
 console.log('shows:', shows.length);
 console.log('genres:', genres.length);
 console.log('show_genres links:', showGenres.length);
 console.log('episodes:', allEpisodes.length);
+console.log('airing slots:', airingSlots.length);
+console.log('ad placements (json):', adPlacements.length);
 console.log('status breakdown:', shows.reduce((m, s) => ((m[s.status] = (m[s.status] || 0) + 1), m), {}));
-console.log('sample slugs:', shows.slice(0, 5).map((s) => s.slug).join(', '));
 console.log('dub=0 count:', shows.filter((s) => s.dubEpisodes === 0).length);
 console.log('image hosts:', [...new Set(shows.map((s) => new URL(s.coverImage).host))]);

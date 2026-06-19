@@ -21,7 +21,7 @@ insert into public.genres (id, name, slug) values
   ('gen-009', 'Suspense', 'suspense'),
   ('gen-010', 'Comedy', 'comedy'),
   ('gen-011', 'Romance', 'romance'),
-('gen-012', 'Slice of Life', 'slice-of-life');
+  ('gen-012', 'Slice of Life', 'slice-of-life');
 
 -- shows --------------------------------------------------------------------
 insert into public.shows
@@ -169,7 +169,7 @@ However, with the arrival of a merchant caravan comes a new wave of intrigue. A 
 Nonetheless, the life of a professional is not easy. Between tournaments, championships, and title matches, the pressure mounts as Rei advances through the ranks and encounters incredibly skilled opponents. As he manages his relationships with those who have grown close to him, the shogi player continues to search for the reason he plays the game that defines his career.
 
 [Written by MAL Rewrite]', 22, 22, 'finished', 2017, 440204, '2026-06-02T12:00:00.000Z'),
-('show-025', 'witch-hat-atelier', 'Witch Hat Atelier', 'https://cdn.myanimelist.net/images/anime/1726/155542l.jpg', NULL, 'In a world where witches wield breathtaking magic, Coco, coming from a humble background, often wishes she were born one herself. After all, the secret behind casting magic is strictly guarded from non-witches. But when Coco manages to catch a glimpse of the witch Qifrey casting a spell, her revelation on the truth behind magic drastically alters the course of her life.
+  ('show-025', 'witch-hat-atelier', 'Witch Hat Atelier', 'https://cdn.myanimelist.net/images/anime/1726/155542l.jpg', NULL, 'In a world where witches wield breathtaking magic, Coco, coming from a humble background, often wishes she were born one herself. After all, the secret behind casting magic is strictly guarded from non-witches. But when Coco manages to catch a glimpse of the witch Qifrey casting a spell, her revelation on the truth behind magic drastically alters the course of her life.
 
 However, Coco''s curiosity pays a steep price when a disastrous spell cast in ignorance brings a tragic fate upon her beloved mother. Qifrey takes the shaken girl in, recognizing both her resolve to save her mother and her link to a group of forbidden magic heretics. Secrets are a heavy burden, and between navigating a society that views her as an uninvited guest and mastering the art of magic, Coco must give her all to prove her worth as a witch.
 
@@ -293,7 +293,7 @@ insert into public.show_genres (show_id, genre_id) values
   ('show-023', 'gen-003'),
   ('show-023', 'gen-006'),
   ('show-024', 'gen-003'),
-('show-025', 'gen-004'),
+  ('show-025', 'gen-004'),
   ('show-026', 'gen-003'),
   ('show-026', 'gen-009'),
   ('show-027', 'gen-005'),
@@ -733,7 +733,7 @@ insert into public.episodes (id, show_id, number, title, is_subbed, is_dubbed, a
   ('show-024-ep-020', 'show-024', 20, 'Episode 20', TRUE, TRUE, '2026-05-19', NULL),
   ('show-024-ep-021', 'show-024', 21, 'Episode 21', TRUE, TRUE, '2026-05-26', NULL),
   ('show-024-ep-022', 'show-024', 22, 'Episode 22', TRUE, TRUE, '2026-06-02', NULL),
-('show-025-ep-001', 'show-025', 1, 'Episode 1', TRUE, FALSE, '2026-04-06', NULL),
+  ('show-025-ep-001', 'show-025', 1, 'Episode 1', TRUE, FALSE, '2026-04-06', NULL),
   ('show-025-ep-002', 'show-025', 2, 'Episode 2', TRUE, FALSE, '2026-04-13', NULL),
   ('show-025-ep-003', 'show-025', 3, 'Episode 3', TRUE, FALSE, '2026-04-20', NULL),
   ('show-025-ep-004', 'show-025', 4, 'Episode 4', TRUE, FALSE, '2026-04-27', NULL),
@@ -902,7 +902,7 @@ insert into public.episodes (id, show_id, number, title, is_subbed, is_dubbed, a
 insert into public.airing_slots (id, show_id, day_of_week, air_time, timezone, season) values
   ('slot-001', 'show-002', 5, '17:00', 'Asia/Tokyo', 'Spring 2026'),
   ('slot-002', 'show-009', 2, '23:00', 'Asia/Tokyo', 'Spring 2026'),
-('slot-003', 'show-025', 0, '23:00', 'Asia/Tokyo', 'Spring 2026'),
+  ('slot-003', 'show-025', 0, '23:00', 'Asia/Tokyo', 'Spring 2026'),
   ('slot-004', 'show-026', 0, '00:30', 'Asia/Tokyo', 'Spring 2026'),
   ('slot-005', 'show-027', 1, '22:00', 'Asia/Tokyo', 'Spring 2026'),
   ('slot-006', 'show-028', 1, '12:00', 'Asia/Tokyo', 'Spring 2026'),
