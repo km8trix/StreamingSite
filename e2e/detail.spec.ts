@@ -1,24 +1,9 @@
 import { expect, test } from '@playwright/test'
-import seed from '../src/lib/data/seed.json'
 
-// Derive representative shows from the live seed (the e2e runs against live
-// Supabase, which is seeded from this same data) so the assertions stay correct
-// if the seed evolves.
-type SeedEpisode = { number: number; videoUrl: string | null }
-type SeedShow = { slug: string; episodes: SeedEpisode[] }
-const SHOWS = seed.shows as SeedShow[]
-
-// A multi-episode show whose lowest-numbered episode HAS a seeded stream and
-// which also has at least one later episode WITHOUT one — exercises both the
-// real <VideoPlayer> and the <PlayerPlaceholder> on a single page.
-const MIXED = SHOWS.find(
-  (s) =>
-    s.episodes.length > 1 &&
-    s.episodes.some((e) => e.videoUrl) &&
-    s.episodes.some((e) => !e.videoUrl),
-)!
-const MIXED_FIRST = [...MIXED.episodes].sort((a, b) => a.number - b.number)[0]
-const MIXED_NULL_EP = MIXED.episodes.find((e) => !e.videoUrl)!
+// M1 Slice 2 retired the owned in-app player. The show detail page is now a
+// DISCOVERY surface: it leads with the legal "where to watch" path (an official
+// embed when a provider is embeddable, plus out-links) and never hosts video.
+// These e2e checks assert that contract against the live-seeded app.
 
 test.describe('Show detail navigation', () => {
   test('clicking a show card lands on its detail page', async ({ page }) => {
@@ -37,64 +22,52 @@ test.describe('Show detail navigation', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await expect(page.getByTestId('badge-sub')).toBeVisible()
     await expect(page.getByTestId('badge-dub').first()).toBeVisible()
-    // The watch experience renders the real <VideoPlayer> when the active
-    // episode has a stream, otherwise the <PlayerPlaceholder>. Assert the
-    // section is present and that one of the two render paths is visible.
-    await expect(page.getByTestId('watch-section')).toBeVisible()
-    await expect(
-      page.getByTestId('video-player').or(page.getByTestId('player-placeholder')),
-    ).toBeVisible()
     await expect(page.getByTestId('episode-list')).toBeVisible()
     expect(await page.getByTestId('episode-row').count()).toBeGreaterThanOrEqual(1)
   })
 
-  test('episode 1 mounts the real video player wired to the HLS manifest; a sourceless episode shows the placeholder', async ({
+  test('the watch section leads with the legal "where to watch" path and hosts no owned video', async ({
     page,
   }) => {
-    await page.goto(`/shows/${MIXED.slug}`)
+    await page.goto('/')
+    const firstCard = page.getByTestId('show-card').first()
+    const slug = await firstCard.getAttribute('data-slug')
+    await page.goto(`/shows/${slug}`)
 
-    // WatchSection is a client component — wait for it to mount.
+    // The watch hub renders, with the WhereToWatch panel always present.
     await expect(page.getByTestId('watch-section')).toBeVisible()
+    await expect(page.getByTestId('where-to-watch')).toBeVisible()
 
-    // Default active episode = the first one with a stream → the real player
-    // (a <video> element) renders, NOT the placeholder.
-    const player = page.getByTestId('video-player')
-    await expect(player).toBeVisible()
-    await expect(page.getByTestId('player-placeholder')).toHaveCount(0)
+    // It shows EITHER provider out-links OR the "no info yet" empty state — both
+    // are valid (AniList availability is queried live and varies per title).
+    await expect(
+      page
+        .getByTestId('where-to-watch-link')
+        .first()
+        .or(page.getByTestId('where-to-watch-empty')),
+    ).toBeVisible()
 
-    // It is a genuine <video> element.
-    await expect(player.locator('video')).toHaveCount(1)
-
-    // It is wired to the HLS manifest: the player carries the .m3u8 URL (the
-    // no-JS fallback anchor inside <video> always reflects the source; on the
-    // native-HLS path it is also set as video.src). Assert the manifest URL is
-    // present in the player.
-    const manifest = MIXED_FIRST.videoUrl as string
-    expect(manifest).toMatch(/\.m3u8$/)
-    await expect(player.locator(`a[href="${manifest}"]`)).toHaveCount(1)
-
-    // Now pick an episode that has NO source (data-has-video="false") → the
-    // player is replaced by the "streaming coming soon" placeholder (the UI must
-    // not render a broken player). There is at least one such episode by
-    // construction (MIXED_NULL_EP).
-    expect(MIXED_NULL_EP).toBeTruthy()
-    const sourcelessButton = page.locator(
-      '[data-testid="episode-select-option"][data-has-video="false"]',
-    )
-    await sourcelessButton.first().click()
-
-    await expect(page.getByTestId('player-placeholder')).toBeVisible()
+    // The retired player must NOT appear: no owned <video>, no fake placeholder.
     await expect(page.getByTestId('video-player')).toHaveCount(0)
+    await expect(page.getByTestId('player-placeholder')).toHaveCount(0)
+    await expect(page.locator('video')).toHaveCount(0)
+
+    // Any provider link is an external, safe out-link (never a hosted stream).
+    const links = page.getByTestId('where-to-watch-link')
+    for (let i = 0; i < (await links.count()); i++) {
+      const href = await links.nth(i).getAttribute('href')
+      expect(href).toMatch(/^https:\/\//)
+      expect(href).not.toContain('test-streams.mux.dev')
+      await expect(links.nth(i)).toHaveAttribute('target', '_blank')
+      await expect(links.nth(i)).toHaveAttribute('rel', /noopener/)
+    }
   })
 
   test('unknown slug renders the not-found page', async ({ page }) => {
-    // As of M3, auth state is read server-side in the global header
-    // (SiteHeader → AuthControls → getCurrentUser reads cookies), so every
-    // route — including /shows/[slug] — renders dynamically. On a dynamic route
-    // Next renders the route's not-found boundary (correct UX) but commits the
-    // document status as 200 rather than 404 (the hard-404 status was a
-    // side-effect of the page being fully static pre-M3). We therefore assert on
-    // the user-facing not-found UI, which is the actual contract.
+    // As of M3, auth state is read server-side in the global header, so every
+    // route renders dynamically. On a dynamic route Next renders the not-found
+    // boundary (correct UX) but commits a 200 status, so we assert on the
+    // user-facing not-found UI — the actual contract.
     await page.goto('/shows/does-not-exist')
     await expect(page.getByTestId('show-not-found')).toBeVisible()
     await expect(

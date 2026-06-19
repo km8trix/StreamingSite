@@ -198,13 +198,15 @@ describe('getShowBySlug', () => {
     }
   })
 
-  it('exposes at least one seeded HLS manifest URL on the catalog', async () => {
-    // The seed assigns the Mux test stream to episode 1 of every show, so any
-    // real show should surface a non-null .m3u8 videoUrl somewhere in its list.
-    const detail = await getShowBySlug(REAL_SLUG)
-    const withStream = detail!.episodes.find((e) => e.videoUrl)
-    expect(withStream).toBeDefined()
-    expect(withStream!.videoUrl).toMatch(/\.m3u8($|\?)/)
+  it('carries NO owned video streams (the in-app player is retired)', async () => {
+    // M1 Slice 2 nulled the seeded test streams: Senpai is a discovery product
+    // that never hosts video, so every episode videoUrl is null across the whole
+    // catalog (the dormant VideoPlayer awaits a future licensed catalog).
+    const all = await getAllShows()
+    for (const summary of all) {
+      const detail = await getShowBySlug(summary.slug)
+      expect(detail!.episodes.every((e) => e.videoUrl === null)).toBe(true)
+    }
   })
 })
 
