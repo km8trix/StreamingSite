@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ad-001",
+    "placementKey": "home-banner",
+    "name": "House — Join the Forum",
+    "imageUrl": "https://placehold.co/970x90/1a1a2e/8b5cf6?text=Join+the+Discussion",
+    "targetUrl": "/forum",
+    "altText": "Join the discussion on the Senpai forum",
+    "weight": 1
+  },
+  {
+    "id": "ad-002",
+    "placementKey": "grid-native",
+    "name": "House — Surprise Me (Randomizer)",
+    "imageUrl": "https://placehold.co/300x250/1a1a2e/8b5cf6?text=Surprise+Me",
+    "targetUrl": "/random",
+    "altText": "Feeling lucky? Jump to a random anime",
+    "weight": 1
+  },
+  {
+    "id": "ad-003",
+    "placementKey": "sidebar",
+    "name": "House — Create an Account",
+    "imageUrl": "https://placehold.co/300x250/1a1a2e/8b5cf6?text=Create+an+Account",
+    "targetUrl": "/signup",
+    "altText": "Create a free account to comment and post",
+    "weight": 2
+  },
+  {
+    "id": "ad-004",
+    "placementKey": "sidebar",
+    "name": "House — Weekly Release Schedule",
+    "imageUrl": "https://placehold.co/300x250/1a1a2e/8b5cf6?text=Weekly+Schedule",
+    "targetUrl": "/schedule",
+    "altText": "See this weeks anime release schedule",
+    "weight": 1
+  }
+]

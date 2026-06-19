@@ -1,0 +1,138 @@
+[
+  {
+    "id": "slot-001",
+    "showId": "show-002",
+    "dayOfWeek": 5,
+    "airTime": "17:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-002",
+    "showId": "show-009",
+    "dayOfWeek": 2,
+    "airTime": "23:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-003",
+    "showId": "show-025",
+    "dayOfWeek": 0,
+    "airTime": "23:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-004",
+    "showId": "show-026",
+    "dayOfWeek": 0,
+    "airTime": "00:30",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-005",
+    "showId": "show-027",
+    "dayOfWeek": 1,
+    "airTime": "22:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-006",
+    "showId": "show-028",
+    "dayOfWeek": 1,
+    "airTime": "12:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-007",
+    "showId": "show-029",
+    "dayOfWeek": 2,
+    "airTime": "23:30",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-008",
+    "showId": "show-030",
+    "dayOfWeek": 2,
+    "airTime": "08:30",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-009",
+    "showId": "show-031",
+    "dayOfWeek": 3,
+    "airTime": "21:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-010",
+    "showId": "show-032",
+    "dayOfWeek": 3,
+    "airTime": "01:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-011",
+    "showId": "show-033",
+    "dayOfWeek": 4,
+    "airTime": "22:30",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-012",
+    "showId": "show-034",
+    "dayOfWeek": 4,
+    "airTime": "10:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-013",
+    "showId": "show-035",
+    "dayOfWeek": 5,
+    "airTime": "17:30",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-014",
+    "showId": "show-036",
+    "dayOfWeek": 5,
+    "airTime": "00:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-015",
+    "showId": "show-037",
+    "dayOfWeek": 6,
+    "airTime": "23:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-016",
+    "showId": "show-038",
+    "dayOfWeek": 6,
+    "airTime": "16:00",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  },
+  {
+    "id": "slot-017",
+    "showId": "show-039",
+    "dayOfWeek": 6,
+    "airTime": "09:30",
+    "timezone": "Asia/Tokyo",
+    "season": "Spring 2026"
+  }
+]

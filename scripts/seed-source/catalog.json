@@ -1,0 +1,5814 @@
+{
+  "generatedAt": "2026-06-15T12:00:00.000Z",
+  "source": "Jikan API (api.jikan.moe/v4/top/anime) — MyAnimeList",
+  "note": "dubEpisodes are synthesized (see build_seed.mjs synthDub). episodes are synthesized lists; titles/synopses/covers/genres/subEpisodes are real.",
+  "genres": [
+    {
+      "id": "gen-001",
+      "name": "Adventure",
+      "slug": "adventure"
+    },
+    {
+      "id": "gen-002",
+      "name": "Award Winning",
+      "slug": "award-winning"
+    },
+    {
+      "id": "gen-003",
+      "name": "Drama",
+      "slug": "drama"
+    },
+    {
+      "id": "gen-004",
+      "name": "Fantasy",
+      "slug": "fantasy"
+    },
+    {
+      "id": "gen-005",
+      "name": "Action",
+      "slug": "action"
+    },
+    {
+      "id": "gen-006",
+      "name": "Mystery",
+      "slug": "mystery"
+    },
+    {
+      "id": "gen-007",
+      "name": "Supernatural",
+      "slug": "supernatural"
+    },
+    {
+      "id": "gen-008",
+      "name": "Sci-Fi",
+      "slug": "sci-fi"
+    },
+    {
+      "id": "gen-009",
+      "name": "Suspense",
+      "slug": "suspense"
+    },
+    {
+      "id": "gen-010",
+      "name": "Comedy",
+      "slug": "comedy"
+    },
+    {
+      "id": "gen-011",
+      "name": "Romance",
+      "slug": "romance"
+    },
+    {
+      "id": "gen-012",
+      "name": "Slice of Life",
+      "slug": "slice-of-life"
+    }
+  ],
+  "shows": [
+    {
+      "id": "show-001",
+      "slug": "frieren-beyond-journeys-end",
+      "title": "Frieren: Beyond Journey's End",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 28,
+      "dubEpisodes": 19,
+      "status": "finished",
+      "year": 2023,
+      "synopsis": "During their decade-long quest to defeat the Demon King, the members of the hero's party—Himmel himself, the priest Heiter, the dwarf warrior Eisen, and the elven mage Frieren—forge bonds through adventures and battles, creating unforgettable precious memories for most of them.\n\nHowever, the time that Frieren spends with her comrades is equivalent to merely a fraction of her life, which has lasted over a thousand years. When the party disbands after their victory, Frieren casually returns to her \"usual\" routine of collecting spells across the continent. Due to her different sense of time, she seemingly holds no strong feelings toward the experiences she went through.\n\nAs the years pass, Frieren gradually realizes how her days in the hero's party truly impacted her. Witnessing the deaths of two of her former companions, Frieren begins to regret having taken their presence for granted; she vows to better understand humans and create real personal connections. Although the story of that once memorable journey has long ended, a new tale is about to begin.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-002",
+          "name": "Award Winning",
+          "slug": "award-winning"
+        },
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-001-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-16"
+        },
+        {
+          "id": "show-001-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-23"
+        },
+        {
+          "id": "show-001-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-30"
+        },
+        {
+          "id": "show-001-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-06"
+        },
+        {
+          "id": "show-001-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-13"
+        },
+        {
+          "id": "show-001-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-20"
+        },
+        {
+          "id": "show-001-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-27"
+        },
+        {
+          "id": "show-001-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-03"
+        },
+        {
+          "id": "show-001-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-10"
+        },
+        {
+          "id": "show-001-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-17"
+        },
+        {
+          "id": "show-001-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-24"
+        },
+        {
+          "id": "show-001-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-03"
+        },
+        {
+          "id": "show-001-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-10"
+        },
+        {
+          "id": "show-001-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-17"
+        },
+        {
+          "id": "show-001-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-24"
+        },
+        {
+          "id": "show-001-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-31"
+        },
+        {
+          "id": "show-001-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-001-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-001-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-001-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-001-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-001-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-001-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-19"
+        },
+        {
+          "id": "show-001-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-26"
+        },
+        {
+          "id": "show-001-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-02"
+        },
+        {
+          "id": "show-001-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-09"
+        }
+      ],
+      "popularityScore": 1458270,
+      "updatedAt": "2026-06-09T12:00:00.000Z"
+    },
+    {
+      "id": "show-002",
+      "slug": "steel-ball-run-jojos-bizarre-adventure",
+      "title": "Steel Ball Run: JoJo's Bizarre Adventure",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1448/154111l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 12,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "In the American Old West, the world's greatest race is about to begin. Thousands line up in San Diego to travel over six thousand kilometers for a chance to win the grand prize of fifty million dollars. With the era of the horse reaching its end, contestants are allowed to use any kind of vehicle they wish. Competitors will have to endure grueling conditions, traveling up to a hundred kilometers a day through uncharted wastelands. The Steel Ball Run is truly a one-of-a-kind event.\n\nThe youthful Johnny Joestar, a crippled former horse racer, has come to San Diego to watch the start of the race. There he encounters Gyro Zeppeli, a racer with two steel balls at his waist instead of a gun. Johnny witnesses Gyro using one of his steel balls to unleash a fantastical power, compelling a man to fire his gun at himself during a duel. In the midst of the action, Johnny happens to touch the steel ball and feels a power surging through his legs, allowing him to stand up for the first time in two years. Vowing to find the secret of the steel balls, Johnny decides to compete in the race, and so begins his bizarre adventure across America on the Steel Ball Run.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-006",
+          "name": "Mystery",
+          "slug": "mystery"
+        },
+        {
+          "id": "gen-007",
+          "name": "Supernatural",
+          "slug": "supernatural"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-002-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-29"
+        },
+        {
+          "id": "show-002-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-05"
+        },
+        {
+          "id": "show-002-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-12"
+        },
+        {
+          "id": "show-002-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-19"
+        },
+        {
+          "id": "show-002-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-26"
+        },
+        {
+          "id": "show-002-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-03"
+        },
+        {
+          "id": "show-002-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-10"
+        },
+        {
+          "id": "show-002-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-17"
+        },
+        {
+          "id": "show-002-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-24"
+        },
+        {
+          "id": "show-002-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-31"
+        },
+        {
+          "id": "show-002-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-07"
+        },
+        {
+          "id": "show-002-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-14"
+        }
+      ],
+      "popularityScore": 212973,
+      "updatedAt": "2026-06-14T12:00:00.000Z"
+    },
+    {
+      "id": "show-003",
+      "slug": "fullmetal-alchemist-brotherhood",
+      "title": "Fullmetal Alchemist: Brotherhood",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1208/94745l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 64,
+      "dubEpisodes": 64,
+      "status": "finished",
+      "year": 2009,
+      "synopsis": "After a horrific alchemy experiment goes wrong in the Elric household, brothers Edward and Alphonse are left in a catastrophic new reality. Ignoring the alchemical principle banning human transmutation, the boys attempted to bring their recently deceased mother back to life. Instead, they suffered brutal personal loss: Alphonse's body disintegrated while Edward lost a leg and then sacrificed an arm to keep Alphonse's soul in the physical realm by binding it to a hulking suit of armor.\n\nThe brothers are rescued by their neighbor Pinako Rockbell and her granddaughter Winry. Known as a bio-mechanical engineering prodigy, Winry creates prosthetic limbs for Edward by utilizing \"automail,\" a tough, versatile metal used in robots and combat armor. After years of training, the Elric brothers set off on a quest to restore their bodies by locating the Philosopher's Stone—a powerful gem that allows an alchemist to defy the traditional laws of Equivalent Exchange.\n\nAs Edward becomes an infamous alchemist and gains the nickname \"Fullmetal,\" the boys' journey embroils them in a growing conspiracy that threatens the fate of the world.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-003-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-11-25"
+        },
+        {
+          "id": "show-003-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-02"
+        },
+        {
+          "id": "show-003-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-09"
+        },
+        {
+          "id": "show-003-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-16"
+        },
+        {
+          "id": "show-003-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-23"
+        },
+        {
+          "id": "show-003-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-30"
+        },
+        {
+          "id": "show-003-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-06"
+        },
+        {
+          "id": "show-003-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-13"
+        },
+        {
+          "id": "show-003-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-20"
+        },
+        {
+          "id": "show-003-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-27"
+        },
+        {
+          "id": "show-003-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-03"
+        },
+        {
+          "id": "show-003-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-10"
+        },
+        {
+          "id": "show-003-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-17"
+        },
+        {
+          "id": "show-003-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-24"
+        },
+        {
+          "id": "show-003-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-03"
+        },
+        {
+          "id": "show-003-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-10"
+        },
+        {
+          "id": "show-003-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-17"
+        },
+        {
+          "id": "show-003-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-24"
+        },
+        {
+          "id": "show-003-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-31"
+        },
+        {
+          "id": "show-003-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-003-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-003-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-003-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-003-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-003-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-003-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-19"
+        }
+      ],
+      "popularityScore": 3697344,
+      "updatedAt": "2026-05-19T12:00:00.000Z"
+    },
+    {
+      "id": "show-004",
+      "slug": "chainsaw-man-the-movie-reze-arc",
+      "title": "Chainsaw Man – The Movie: Reze Arc",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1763/150638l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 1,
+      "dubEpisodes": 0,
+      "status": "finished",
+      "year": 2025,
+      "synopsis": "Despite the immediate challenges following becoming a devil hunter with the Public Safety Bureau, Denji has quickly adapted to his new life and responsibilities. As the chaos of Denji's first ordeal with Public Safety settles down, the elite devil hunter Makima decides to take Denji out on a date. Although the date strengthens his affection for Makima and he swears to not fall in love with anyone else, Denji soon finds himself in a tricky situation when he meets a seemingly innocent cafe worker named Reze.\n\nWith her forward and flirty demeanor, Reze immediately captures Denji's heart, driving him to frequent the cafe where she works and deepen his relationship with her. However, Denji is completely oblivious to the fact that meeting Reze might have grave consequences beyond simply deciding which woman his heart belongs to. \n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-004-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-31"
+        }
+      ],
+      "popularityScore": 496946,
+      "updatedAt": "2026-05-31T12:00:00.000Z"
+    },
+    {
+      "id": "show-005",
+      "slug": "steins-gate",
+      "title": "Steins;Gate",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1935/127974l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 24,
+      "dubEpisodes": 24,
+      "status": "finished",
+      "year": 2011,
+      "synopsis": "Eccentric scientist Rintarou Okabe has a never-ending thirst for scientific exploration. Together with his ditzy but well-meaning friend Mayuri Shiina and his roommate Itaru Hashida, Okabe founds the Future Gadget Laboratory in the hopes of creating technological innovations that baffle the human psyche. Despite claims of grandeur, the only notable \"gadget\" the trio have created is a microwave that has the mystifying power to turn bananas into green goo.\n\nHowever, when Okabe attends a conference on time travel, he experiences a series of strange events that lead him to believe that there is more to the \"Phone Microwave\" gadget than meets the eye. Apparently able to send text messages into the past using the microwave, Okabe dabbles further with the \"time machine,\" attracting the ire and attention of the mysterious organization SERN.\n\nDue to the novel discovery, Okabe and his friends find themselves in an ever-present danger. As he works to mitigate the damage his invention has caused to the timeline, Okabe fights a battle to not only save his loved ones but also to preserve his degrading sanity.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        },
+        {
+          "id": "gen-009",
+          "name": "Suspense",
+          "slug": "suspense"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-005-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-29"
+        },
+        {
+          "id": "show-005-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-05"
+        },
+        {
+          "id": "show-005-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-12"
+        },
+        {
+          "id": "show-005-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-19"
+        },
+        {
+          "id": "show-005-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-26"
+        },
+        {
+          "id": "show-005-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-02"
+        },
+        {
+          "id": "show-005-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-09"
+        },
+        {
+          "id": "show-005-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-16"
+        },
+        {
+          "id": "show-005-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-23"
+        },
+        {
+          "id": "show-005-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-02"
+        },
+        {
+          "id": "show-005-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-09"
+        },
+        {
+          "id": "show-005-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-16"
+        },
+        {
+          "id": "show-005-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-23"
+        },
+        {
+          "id": "show-005-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-30"
+        },
+        {
+          "id": "show-005-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-06"
+        },
+        {
+          "id": "show-005-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-13"
+        },
+        {
+          "id": "show-005-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-20"
+        },
+        {
+          "id": "show-005-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-27"
+        },
+        {
+          "id": "show-005-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-04"
+        },
+        {
+          "id": "show-005-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-11"
+        },
+        {
+          "id": "show-005-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-18"
+        },
+        {
+          "id": "show-005-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-25"
+        },
+        {
+          "id": "show-005-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-01"
+        },
+        {
+          "id": "show-005-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-08"
+        }
+      ],
+      "popularityScore": 2823401,
+      "updatedAt": "2026-06-08T12:00:00.000Z"
+    },
+    {
+      "id": "show-006",
+      "slug": "attack-on-titan-season-3-part-2",
+      "title": "Attack on Titan Season 3 Part 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1517/100633l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 10,
+      "dubEpisodes": 10,
+      "status": "finished",
+      "year": 2019,
+      "synopsis": "Seeking to restore humanity's diminishing hope, the Survey Corps embark on a mission to retake Wall Maria, where the battle against the merciless \"Titans\" takes the stage once again.\n\nReturning to the tattered Shiganshina District that was once his home, Eren Yeager and the Corps find the town oddly unoccupied by Titans. Even after the outer gate is plugged, they strangely encounter no opposition. The mission progresses smoothly until Armin Arlert, highly suspicious of the enemy's absence, discovers distressing signs of a potential scheme against them. \n\nShingeki no Kyojin Season 3 Part 2 follows Eren as he vows to take back everything that was once his. Alongside him, the Survey Corps strive—through countless sacrifices—to carve a path towards victory and uncover the secrets locked away in the Yeager family's basement.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-009",
+          "name": "Suspense",
+          "slug": "suspense"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-006-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-10"
+        },
+        {
+          "id": "show-006-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-17"
+        },
+        {
+          "id": "show-006-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-24"
+        },
+        {
+          "id": "show-006-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-01"
+        },
+        {
+          "id": "show-006-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-08"
+        },
+        {
+          "id": "show-006-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-15"
+        },
+        {
+          "id": "show-006-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-22"
+        },
+        {
+          "id": "show-006-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-29"
+        },
+        {
+          "id": "show-006-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-05"
+        },
+        {
+          "id": "show-006-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-12"
+        }
+      ],
+      "popularityScore": 2605771,
+      "updatedAt": "2026-06-12T12:00:00.000Z"
+    },
+    {
+      "id": "show-007",
+      "slug": "gintama-season-4",
+      "title": "Gintama Season 4",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/3/72078l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 51,
+      "dubEpisodes": 51,
+      "status": "finished",
+      "year": 2015,
+      "synopsis": "Gintoki, Shinpachi, and Kagura return as the fun-loving but broke members of the Yorozuya team! Living in an alternate-reality Edo, where swords are prohibited and alien overlords have conquered Japan, they try to thrive on doing whatever work they can get their hands on. However, Shinpachi and Kagura still haven't been paid... Does Gin-chan really spend all that cash playing pachinko?\n\nMeanwhile, when Gintoki drunkenly staggers home one night, an alien spaceship crashes nearby. A fatally injured crew member emerges from the ship and gives Gintoki a strange, clock-shaped device, warning him that it is incredibly powerful and must be safeguarded. Mistaking it for his alarm clock, Gintoki proceeds to smash the device the next morning and suddenly discovers that the world outside his apartment has come to a standstill. With Kagura and Shinpachi at his side, he sets off to get the device fixed; though, as usual, nothing is ever that simple for the Yorozuya team.\n\nFilled with tongue-in-cheek humor and moments of heartfelt emotion, Gintama's fourth season finds Gintoki and his friends facing both their most hilarious misadventures and most dangerous crises yet.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-007-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-10"
+        },
+        {
+          "id": "show-007-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-17"
+        },
+        {
+          "id": "show-007-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-24"
+        },
+        {
+          "id": "show-007-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-31"
+        },
+        {
+          "id": "show-007-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-07"
+        },
+        {
+          "id": "show-007-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-14"
+        },
+        {
+          "id": "show-007-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-21"
+        },
+        {
+          "id": "show-007-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-28"
+        },
+        {
+          "id": "show-007-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-04"
+        },
+        {
+          "id": "show-007-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-11"
+        },
+        {
+          "id": "show-007-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-18"
+        },
+        {
+          "id": "show-007-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-25"
+        },
+        {
+          "id": "show-007-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-04"
+        },
+        {
+          "id": "show-007-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-11"
+        },
+        {
+          "id": "show-007-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-18"
+        },
+        {
+          "id": "show-007-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-25"
+        },
+        {
+          "id": "show-007-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-01"
+        },
+        {
+          "id": "show-007-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-08"
+        },
+        {
+          "id": "show-007-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-15"
+        },
+        {
+          "id": "show-007-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-22"
+        },
+        {
+          "id": "show-007-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-29"
+        },
+        {
+          "id": "show-007-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-06"
+        },
+        {
+          "id": "show-007-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-13"
+        },
+        {
+          "id": "show-007-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-20"
+        },
+        {
+          "id": "show-007-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-27"
+        },
+        {
+          "id": "show-007-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-03"
+        }
+      ],
+      "popularityScore": 694044,
+      "updatedAt": "2026-06-03T12:00:00.000Z"
+    },
+    {
+      "id": "show-008",
+      "slug": "gintama-the-very-final",
+      "title": "Gintama: The Very Final",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1245/116760l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 1,
+      "dubEpisodes": 1,
+      "status": "finished",
+      "year": 2021,
+      "synopsis": "Two years have passed following the Tendoshuu's invasion of the O-Edo Central Terminal. Since then, the Yorozuya have gone their separate ways. Foreseeing Utsuro's return, Gintoki Sakata begins surveying Earth's ley lines for traces of the other man's Altana. After an encounter with the remnants of the Tendoshuu—who continue to press on in search of immortality—Gintoki returns to Edo.\n\nLater, the regrouped Shinsengumi and Yorozuya begin an attack on the occupied Central Terminal. With the Altana harvested by the wreckage of the Tendoshuu's ship in danger of detonating, the Yorozuya and their allies fight their enemies while the safety of Edo—and the rest of the world—hangs in the balance. Fulfilling the wishes of their teacher, Shouyou Yoshida's former students unite and relive their pasts one final time in an attempt to save their futures.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-008-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-04"
+        }
+      ],
+      "popularityScore": 185315,
+      "updatedAt": "2026-06-04T12:00:00.000Z"
+    },
+    {
+      "id": "show-009",
+      "slug": "rezero-starting-life-in-another-world-season-4",
+      "title": "Re:ZERO -Starting Life in Another World- Season 4",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1540/155824l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 19,
+      "dubEpisodes": 6,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "In the deadly battle at the Watergate City of Priestella, Subaru and his allies barely emerged victorious—but their triumph came at a great cost. Through the \"Authority of Gluttony,\" Rem was put into suspended animation, while Crusch's memories and even Julius’s name were devoured. As he searches for a way to save them, Subaru learns of the \"Sage\" Shaula—an all-seeing being said to possess every form of knowledge. His next destination is the Pleiades Watchtower, home to the Sage, the farthest tower standing in the vast, uncharted desert known as the Auguria Dunes—a place so perilous that even the mightiest \"Sword Saint,\" Reinhard, failed to conquer it. The fury of nature, unknown magical beasts, and unimaginable dangers lie ahead. Together with his friends, Subaru embarks on a life-risking journey to reclaim what was lost.\n\n(Source: Kadokawa, edited)",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        },
+        {
+          "id": "gen-009",
+          "name": "Suspense",
+          "slug": "suspense"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-009-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-09"
+        },
+        {
+          "id": "show-009-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-16"
+        },
+        {
+          "id": "show-009-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-23"
+        },
+        {
+          "id": "show-009-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-02"
+        },
+        {
+          "id": "show-009-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-09"
+        },
+        {
+          "id": "show-009-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-16"
+        },
+        {
+          "id": "show-009-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-23"
+        },
+        {
+          "id": "show-009-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-30"
+        },
+        {
+          "id": "show-009-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-06"
+        },
+        {
+          "id": "show-009-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-13"
+        },
+        {
+          "id": "show-009-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-20"
+        },
+        {
+          "id": "show-009-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-27"
+        },
+        {
+          "id": "show-009-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-04"
+        },
+        {
+          "id": "show-009-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-11"
+        },
+        {
+          "id": "show-009-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-18"
+        },
+        {
+          "id": "show-009-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-25"
+        },
+        {
+          "id": "show-009-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-01"
+        },
+        {
+          "id": "show-009-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-08"
+        },
+        {
+          "id": "show-009-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-15"
+        }
+      ],
+      "popularityScore": 250862,
+      "updatedAt": "2026-06-15T12:00:00.000Z"
+    },
+    {
+      "id": "show-010",
+      "slug": "hunter-x-hunter",
+      "title": "Hunter x Hunter",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1337/99013l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 148,
+      "dubEpisodes": 148,
+      "status": "finished",
+      "year": 2011,
+      "synopsis": "Hunters devote themselves to accomplishing hazardous tasks, all from traversing the world's uncharted territories to locating rare items and monsters. Before becoming a Hunter, one must pass the Hunter Examination—a high-risk selection process in which most applicants end up handicapped or worse, deceased.\n\nAmbitious participants who challenge the notorious exam carry their own reason. What drives 12-year-old Gon Freecss is finding Ging, his father and a Hunter himself. Believing that he will meet his father by becoming a Hunter, Gon takes the first step to walk the same path.\n\nDuring the Hunter Examination, Gon befriends the medical student Leorio Paladiknight, the vindictive Kurapika, and ex-assassin Killua Zoldyck. While their motives vastly differ from each other, they band together for a common goal and begin to venture into a perilous world.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-010-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-05"
+        },
+        {
+          "id": "show-010-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-12"
+        },
+        {
+          "id": "show-010-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-19"
+        },
+        {
+          "id": "show-010-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-26"
+        },
+        {
+          "id": "show-010-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-02"
+        },
+        {
+          "id": "show-010-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-09"
+        },
+        {
+          "id": "show-010-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-16"
+        },
+        {
+          "id": "show-010-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-23"
+        },
+        {
+          "id": "show-010-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-30"
+        },
+        {
+          "id": "show-010-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-06"
+        },
+        {
+          "id": "show-010-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-13"
+        },
+        {
+          "id": "show-010-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-20"
+        },
+        {
+          "id": "show-010-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-27"
+        },
+        {
+          "id": "show-010-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-06"
+        },
+        {
+          "id": "show-010-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-13"
+        },
+        {
+          "id": "show-010-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-20"
+        },
+        {
+          "id": "show-010-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-27"
+        },
+        {
+          "id": "show-010-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-03"
+        },
+        {
+          "id": "show-010-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-10"
+        },
+        {
+          "id": "show-010-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-17"
+        },
+        {
+          "id": "show-010-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-24"
+        },
+        {
+          "id": "show-010-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-01"
+        },
+        {
+          "id": "show-010-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-08"
+        },
+        {
+          "id": "show-010-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-15"
+        },
+        {
+          "id": "show-010-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-22"
+        },
+        {
+          "id": "show-010-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-29"
+        }
+      ],
+      "popularityScore": 3202930,
+      "updatedAt": "2026-05-29T12:00:00.000Z"
+    },
+    {
+      "id": "show-011",
+      "slug": "gintama-season-2",
+      "title": "Gintama Season 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/4/50361l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 51,
+      "dubEpisodes": 51,
+      "status": "finished",
+      "year": 2011,
+      "synopsis": "After a one-year hiatus, Shinpachi Shimura returns to Edo, only to stumble upon a shocking surprise: Gintoki and Kagura, his fellow Yorozuya members, have become completely different characters! Fleeing from the Yorozuya headquarters in confusion, Shinpachi finds that all the denizens of Edo have undergone impossibly extreme changes, in both appearance and personality. Most unbelievably, his sister Otae has married the Shinsengumi chief and shameless stalker Isao Kondou and is pregnant with their first child.\n\nBewildered, Shinpachi agrees to join the Shinsengumi at Otae and Kondou's request and finds even more startling transformations afoot both in and out of the ranks of the the organization. However, discovering that Vice Chief Toushirou Hijikata has remained unchanged, Shinpachi and his unlikely Shinsengumi ally set out to return the city of Edo to how they remember it.\n\nWith even more dirty jokes, tongue-in-cheek parodies, and shameless references, Gintama' follows the Yorozuya team through more of their misadventures in the vibrant, alien-filled world of Edo.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-011-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-11-28"
+        },
+        {
+          "id": "show-011-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-05"
+        },
+        {
+          "id": "show-011-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-12"
+        },
+        {
+          "id": "show-011-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-19"
+        },
+        {
+          "id": "show-011-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-26"
+        },
+        {
+          "id": "show-011-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-02"
+        },
+        {
+          "id": "show-011-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-09"
+        },
+        {
+          "id": "show-011-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-16"
+        },
+        {
+          "id": "show-011-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-23"
+        },
+        {
+          "id": "show-011-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-30"
+        },
+        {
+          "id": "show-011-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-06"
+        },
+        {
+          "id": "show-011-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-13"
+        },
+        {
+          "id": "show-011-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-20"
+        },
+        {
+          "id": "show-011-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-27"
+        },
+        {
+          "id": "show-011-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-06"
+        },
+        {
+          "id": "show-011-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-13"
+        },
+        {
+          "id": "show-011-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-20"
+        },
+        {
+          "id": "show-011-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-27"
+        },
+        {
+          "id": "show-011-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-03"
+        },
+        {
+          "id": "show-011-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-10"
+        },
+        {
+          "id": "show-011-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-17"
+        },
+        {
+          "id": "show-011-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-24"
+        },
+        {
+          "id": "show-011-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-01"
+        },
+        {
+          "id": "show-011-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-08"
+        },
+        {
+          "id": "show-011-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-15"
+        },
+        {
+          "id": "show-011-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-22"
+        }
+      ],
+      "popularityScore": 616631,
+      "updatedAt": "2026-05-22T12:00:00.000Z"
+    },
+    {
+      "id": "show-012",
+      "slug": "gintama-enchousen",
+      "title": "Gintama: Enchousen",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1452/123686l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 13,
+      "dubEpisodes": 13,
+      "status": "finished",
+      "year": 2012,
+      "synopsis": "While Gintoki Sakata was away, the Yorozuya found themselves a new leader: Kintoki, Gintoki's golden-haired doppelganger. In order to regain his former position, Gintoki will need the help of those around him, a troubling feat when no one can remember him! Between Kintoki and Gintoki, who will claim the throne as the main character?\n\nIn addition, Yorozuya make a trip back down to red-light district of Yoshiwara to aid an elderly courtesan in her search for her long-lost lover. Although the district is no longer in chains beneath the earth's surface, the trio soon learn of the tragic backstories of Yoshiwara's inhabitants that still haunt them. With flashback after flashback, this quest has Yorozuya witnessing everlasting love and protecting it as best they can with their hearts and souls.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-012-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-22"
+        },
+        {
+          "id": "show-012-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-01"
+        },
+        {
+          "id": "show-012-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-08"
+        },
+        {
+          "id": "show-012-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-15"
+        },
+        {
+          "id": "show-012-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-22"
+        },
+        {
+          "id": "show-012-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-29"
+        },
+        {
+          "id": "show-012-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-05"
+        },
+        {
+          "id": "show-012-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-12"
+        },
+        {
+          "id": "show-012-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-19"
+        },
+        {
+          "id": "show-012-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-26"
+        },
+        {
+          "id": "show-012-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-03"
+        },
+        {
+          "id": "show-012-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-10"
+        },
+        {
+          "id": "show-012-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-17"
+        }
+      ],
+      "popularityScore": 359435,
+      "updatedAt": "2026-05-17T12:00:00.000Z"
+    },
+    {
+      "id": "show-013",
+      "slug": "legend-of-the-galactic-heroes",
+      "title": "Legend of the Galactic Heroes",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1976/142016l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 110,
+      "dubEpisodes": 110,
+      "status": "finished",
+      "year": 1988,
+      "synopsis": "The 150-year-long stalemate between the two interstellar superpowers, the Galactic Empire and the Free Planets Alliance, comes to an end when a new generation of leaders arises: the idealistic military genius Reinhard von Lohengramm, and the FPA's reserved historian, Yang Wenli.\n\nWhile Reinhard climbs the ranks of the Empire with the aid of his childhood friend, Siegfried Kircheis, he must fight not only the war, but also the remnants of the crumbling Goldenbaum Dynasty in order to free his sister from the Kaiser and unify humanity under one genuine ruler. Meanwhile, on the other side of the galaxy, Yang—a strong supporter of democratic ideals—has to stand firm in his beliefs, despite the struggles of the FPA, and show his pupil, Julian Mintz, that autocracy is not the solution.\n\nAs ideologies clash amidst the war's many casualties, the two strategic masterminds must ask themselves what the real reason behind their battle is.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-013-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-03"
+        },
+        {
+          "id": "show-013-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-10"
+        },
+        {
+          "id": "show-013-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-17"
+        },
+        {
+          "id": "show-013-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-24"
+        },
+        {
+          "id": "show-013-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-31"
+        },
+        {
+          "id": "show-013-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-07"
+        },
+        {
+          "id": "show-013-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-14"
+        },
+        {
+          "id": "show-013-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-21"
+        },
+        {
+          "id": "show-013-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-28"
+        },
+        {
+          "id": "show-013-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-04"
+        },
+        {
+          "id": "show-013-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-11"
+        },
+        {
+          "id": "show-013-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-18"
+        },
+        {
+          "id": "show-013-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-25"
+        },
+        {
+          "id": "show-013-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-04"
+        },
+        {
+          "id": "show-013-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-11"
+        },
+        {
+          "id": "show-013-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-18"
+        },
+        {
+          "id": "show-013-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-25"
+        },
+        {
+          "id": "show-013-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-01"
+        },
+        {
+          "id": "show-013-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-08"
+        },
+        {
+          "id": "show-013-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-15"
+        },
+        {
+          "id": "show-013-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-22"
+        },
+        {
+          "id": "show-013-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-29"
+        },
+        {
+          "id": "show-013-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-06"
+        },
+        {
+          "id": "show-013-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-13"
+        },
+        {
+          "id": "show-013-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-20"
+        },
+        {
+          "id": "show-013-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-27"
+        }
+      ],
+      "popularityScore": 364955,
+      "updatedAt": "2026-05-27T12:00:00.000Z"
+    },
+    {
+      "id": "show-014",
+      "slug": "one-piece-fan-letter",
+      "title": "One Piece Fan Letter",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1455/146229l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 1,
+      "dubEpisodes": 0,
+      "status": "finished",
+      "year": 2024,
+      "synopsis": "Although the golden age of piracy is about to reach new heights, most people do not seek the glory of finding the elusive One Piece—a treasure signifying a new conqueror of all seas that was once embodied by the legendary King of the Pirates, Gol D. Roger. However, even if civilians generally despise pirates, they secretly cheer for at least one of them. \n\nOne red-headed girl from Sabaody Archipelago is no exception: She reveres Nami, the ingenious female navigator of Monkey D. Luffy's Straw Hat crew. Determined to deliver a fan letter to her idol, the Sabaody child is prepared to challenge forces of authority who strive to prevent Luffy and his friends from departing for their next destination: the New World. But to succeed, Nami's fan may need to risk her life and interfere with the Marines' plans, potentially causing devastating consequences for the wider world.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-014-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-30"
+        }
+      ],
+      "popularityScore": 158332,
+      "updatedAt": "2026-05-30T12:00:00.000Z"
+    },
+    {
+      "id": "show-015",
+      "slug": "gintama-season-5",
+      "title": "Gintama Season 5",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/3/83528l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 12,
+      "dubEpisodes": 12,
+      "status": "finished",
+      "year": 2017,
+      "synopsis": "After joining the resistance against the bakufu, Gintoki and the gang are in hiding, along with Katsura and his Joui rebels. The Yorozuya is soon approached by Nobume Imai and two members of the Kiheitai, who explain that the Harusame pirates have turned against 7th Division Captain Kamui and their former ally Takasugi. The Kiheitai present Gintoki with a job: find Takasugi, who has been missing since his ship was ambushed in a Harusame raid. Nobume also makes a stunning revelation regarding the Tendoushuu, a secret organization pulling the strings of numerous factions, and their leader Utsuro, the shadowy figure with an uncanny resemblance to Gintoki's former teacher.\n\nHitching a ride on Sakamoto's space ship, the Yorozuya and Katsura set out for Rakuyou, Kagura's home planet, where the various factions have gathered and tensions are brewing. Long-held grudges, political infighting, and the Tendoushuu's sinister overarching plan finally culminate into a massive, decisive battle on Rakuyou.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-015-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-07"
+        },
+        {
+          "id": "show-015-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-14"
+        },
+        {
+          "id": "show-015-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-21"
+        },
+        {
+          "id": "show-015-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-28"
+        },
+        {
+          "id": "show-015-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-04"
+        },
+        {
+          "id": "show-015-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-11"
+        },
+        {
+          "id": "show-015-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-18"
+        },
+        {
+          "id": "show-015-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-25"
+        },
+        {
+          "id": "show-015-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-02"
+        },
+        {
+          "id": "show-015-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-09"
+        },
+        {
+          "id": "show-015-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-16"
+        },
+        {
+          "id": "show-015-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-23"
+        }
+      ],
+      "popularityScore": 350112,
+      "updatedAt": "2026-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "show-016",
+      "slug": "bleach-thousand-year-blood-war",
+      "title": "Bleach: Thousand-Year Blood War",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1908/135431l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 13,
+      "dubEpisodes": 11,
+      "status": "finished",
+      "year": 2022,
+      "synopsis": "Substitute Soul Reaper Ichigo Kurosaki spends his days fighting against Hollows, dangerous evil spirits that threaten Karakura Town. Ichigo carries out his quest with his closest allies: Orihime Inoue, his childhood friend with a talent for healing; Yasutora Sado, his high school classmate with superhuman strength; and Uryuu Ishida, Ichigo's Quincy rival.\n\nIchigo's vigilante routine is disrupted by the sudden appearance of Asguiaro Ebern, a dangerous Arrancar who heralds the return of Yhwach, an ancient Quincy king. Yhwach seeks to reignite the historic blood feud between Soul Reaper and Quincy, and he sets his sights on erasing both the human world and the Soul Society for good.\n\nYhwach launches a two-pronged invasion into both the Soul Society and Hueco Mundo, the home of Hollows and Arrancar. In retaliation, Ichigo and his friends must fight alongside old allies and enemies alike to end Yhwach's campaign of carnage before the world itself comes to an end.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-007",
+          "name": "Supernatural",
+          "slug": "supernatural"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-016-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-26"
+        },
+        {
+          "id": "show-016-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-05"
+        },
+        {
+          "id": "show-016-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-12"
+        },
+        {
+          "id": "show-016-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-19"
+        },
+        {
+          "id": "show-016-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-26"
+        },
+        {
+          "id": "show-016-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-02"
+        },
+        {
+          "id": "show-016-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-09"
+        },
+        {
+          "id": "show-016-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-16"
+        },
+        {
+          "id": "show-016-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-23"
+        },
+        {
+          "id": "show-016-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-30"
+        },
+        {
+          "id": "show-016-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-07"
+        },
+        {
+          "id": "show-016-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-14"
+        },
+        {
+          "id": "show-016-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-21"
+        }
+      ],
+      "popularityScore": 712213,
+      "updatedAt": "2026-05-21T12:00:00.000Z"
+    },
+    {
+      "id": "show-017",
+      "slug": "kaguya-sama-love-is-war-ultra-romantic",
+      "title": "Kaguya-sama: Love is War -Ultra Romantic-",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1160/122627l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 13,
+      "dubEpisodes": 11,
+      "status": "finished",
+      "year": 2022,
+      "synopsis": "The elite members of Shuchiin Academy's student council continue their competitive day-to-day antics. Council president Miyuki Shirogane clashes daily against vice-president Kaguya Shinomiya, each fighting tooth and nail to trick the other into confessing their romantic love. Kaguya struggles within the strict confines of her wealthy, uptight family, rebelling against her cold default demeanor as she warms to Shirogane and the rest of her friends.\n\nMeanwhile, council treasurer Yuu Ishigami suffers under the weight of his hopeless crush on Tsubame Koyasu, a popular upperclassman who helps to instill a new confidence in him. Miko Iino, the newest student council member, grows closer to the rule-breaking Ishigami while striving to overcome her own authoritarian moral code.\n\nAs love further blooms at Shuchiin Academy, the student council officers drag their outsider friends into increasingly comedic conflicts.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-017-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-26"
+        },
+        {
+          "id": "show-017-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-05"
+        },
+        {
+          "id": "show-017-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-12"
+        },
+        {
+          "id": "show-017-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-19"
+        },
+        {
+          "id": "show-017-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-26"
+        },
+        {
+          "id": "show-017-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-02"
+        },
+        {
+          "id": "show-017-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-09"
+        },
+        {
+          "id": "show-017-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-16"
+        },
+        {
+          "id": "show-017-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-23"
+        },
+        {
+          "id": "show-017-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-30"
+        },
+        {
+          "id": "show-017-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-07"
+        },
+        {
+          "id": "show-017-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-14"
+        },
+        {
+          "id": "show-017-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-21"
+        }
+      ],
+      "popularityScore": 1119164,
+      "updatedAt": "2026-05-21T12:00:00.000Z"
+    },
+    {
+      "id": "show-018",
+      "slug": "fruits-basket-the-final-season",
+      "title": "Fruits Basket: The Final Season",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1085/114792l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 13,
+      "dubEpisodes": 13,
+      "status": "finished",
+      "year": 2021,
+      "synopsis": "Hundreds of years ago, the Chinese zodiac spirits and their god swore to stay together eternally. United by this promise, the possessed members of the Souma family shall always return to each other under any circumstances. Yet, when these bonds shackle them from freedom, it becomes an undesirable burden—a curse. As head of the clan, Akito is convinced that he shares a special connection with the other Soumas. While he desperately clings to this fantasy, the rest of the family remains isolated and suppressed by the fear of punishment.\n\nTooru Honda, who has grown attached to the Soumas, is determined to break the chains that bind them. Her companionship with the family and her friends encourages her to move forward with lifting the curse. However, due to confounding revelations, she struggles to find the tenacity to continue her endeavors. With time slowly withering away, Tooru contends with an uncertain future in hopes of reaching the tranquility that may lie beyond all this commotion.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        },
+        {
+          "id": "gen-007",
+          "name": "Supernatural",
+          "slug": "supernatural"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-018-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-14"
+        },
+        {
+          "id": "show-018-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-21"
+        },
+        {
+          "id": "show-018-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-28"
+        },
+        {
+          "id": "show-018-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-04"
+        },
+        {
+          "id": "show-018-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-11"
+        },
+        {
+          "id": "show-018-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-18"
+        },
+        {
+          "id": "show-018-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-25"
+        },
+        {
+          "id": "show-018-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-02"
+        },
+        {
+          "id": "show-018-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-09"
+        },
+        {
+          "id": "show-018-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-16"
+        },
+        {
+          "id": "show-018-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-23"
+        },
+        {
+          "id": "show-018-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-30"
+        },
+        {
+          "id": "show-018-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-06"
+        }
+      ],
+      "popularityScore": 566530,
+      "updatedAt": "2026-06-06T12:00:00.000Z"
+    },
+    {
+      "id": "show-019",
+      "slug": "clannad-after-story",
+      "title": "Clannad: After Story",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1299/110774l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 24,
+      "dubEpisodes": 24,
+      "status": "finished",
+      "year": 2008,
+      "synopsis": "Tomoya Okazaki and Nagisa Furukawa have graduated from high school, and together, they experience the emotional rollercoaster of growing up. Unable to decide on a course for his future, Tomoya learns the value of a strong work ethic and discovers the strength of Nagisa's support. Through the couple's dedication and unity of purpose, they push forward to confront their personal problems, deepen their old relationships, and create new bonds.\n\nTime also moves on in the Illusionary World. As the plains grow cold with the approach of winter, the Illusionary Girl and the Garbage Doll are presented with a difficult situation that reveals the World's true purpose.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-019-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-30"
+        },
+        {
+          "id": "show-019-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-06"
+        },
+        {
+          "id": "show-019-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-13"
+        },
+        {
+          "id": "show-019-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-20"
+        },
+        {
+          "id": "show-019-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-27"
+        },
+        {
+          "id": "show-019-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-03"
+        },
+        {
+          "id": "show-019-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-10"
+        },
+        {
+          "id": "show-019-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-17"
+        },
+        {
+          "id": "show-019-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-24"
+        },
+        {
+          "id": "show-019-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-03"
+        },
+        {
+          "id": "show-019-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-10"
+        },
+        {
+          "id": "show-019-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-17"
+        },
+        {
+          "id": "show-019-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-24"
+        },
+        {
+          "id": "show-019-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-31"
+        },
+        {
+          "id": "show-019-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-019-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-019-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-019-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-019-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-019-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-019-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-19"
+        },
+        {
+          "id": "show-019-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-26"
+        },
+        {
+          "id": "show-019-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-02"
+        },
+        {
+          "id": "show-019-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-09"
+        }
+      ],
+      "popularityScore": 1290078,
+      "updatedAt": "2026-06-09T12:00:00.000Z"
+    },
+    {
+      "id": "show-020",
+      "slug": "gintama",
+      "title": "Gintama",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/10/73274l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 201,
+      "dubEpisodes": 201,
+      "status": "finished",
+      "year": 2006,
+      "synopsis": "Edo is a city that was home to the vigor and ambition of samurai across the country. However, following feudal Japan's surrender to powerful aliens known as the \"Amanto,\" those aspirations now seem unachievable. With the once-influential shogunate rebuilt as a puppet government, a new law is passed that promptly prohibits all swords in public. \n\nEnter Gintoki Sakata, an eccentric silver-haired man who always carries around a wooden sword and maintains his stature as a samurai despite the ban. As the founder of Yorozuya, a small business for odd jobs, Gintoki often embarks on endeavors to help other people—though usually in rather strange and unforeseen ways. \n\nAssisted by Shinpachi Shimura, a boy with glasses supposedly learning the way of the samurai; Kagura, a tomboyish girl with superhuman strength and an endless appetite; and Sadaharu, their giant pet dog who loves biting on people's heads, the Yorozuya encounter anything from alien royalty to scuffles with local gangs in the ever-changing world of Edo.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-020-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-09"
+        },
+        {
+          "id": "show-020-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-16"
+        },
+        {
+          "id": "show-020-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-23"
+        },
+        {
+          "id": "show-020-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-30"
+        },
+        {
+          "id": "show-020-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-06"
+        },
+        {
+          "id": "show-020-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-13"
+        },
+        {
+          "id": "show-020-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-20"
+        },
+        {
+          "id": "show-020-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-27"
+        },
+        {
+          "id": "show-020-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-03"
+        },
+        {
+          "id": "show-020-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-10"
+        },
+        {
+          "id": "show-020-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-17"
+        },
+        {
+          "id": "show-020-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-24"
+        },
+        {
+          "id": "show-020-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-03"
+        },
+        {
+          "id": "show-020-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-10"
+        },
+        {
+          "id": "show-020-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-17"
+        },
+        {
+          "id": "show-020-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-24"
+        },
+        {
+          "id": "show-020-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-31"
+        },
+        {
+          "id": "show-020-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-020-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-020-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-020-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-020-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-020-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-020-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-19"
+        },
+        {
+          "id": "show-020-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-26"
+        },
+        {
+          "id": "show-020-ep-026",
+          "number": 26,
+          "title": "Episode 26",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-02"
+        }
+      ],
+      "popularityScore": 1158920,
+      "updatedAt": "2026-06-02T12:00:00.000Z"
+    },
+    {
+      "id": "show-021",
+      "slug": "a-silent-voice",
+      "title": "A Silent Voice",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1122/96435l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 1,
+      "dubEpisodes": 1,
+      "status": "finished",
+      "year": 2016,
+      "synopsis": "As a wild youth, elementary school student Shouya Ishida sought to beat boredom in the cruelest ways. When the deaf Shouko Nishimiya transfers into his class, Shouya and the rest of his class thoughtlessly bully her for fun. However, when her mother notifies the school, he is singled out and blamed for everything done to her. With Shouko transferring out of the school, Shouya is left at the mercy of his classmates. He is heartlessly ostracized all throughout elementary and middle school, while teachers turn a blind eye.\n\nNow in his third year of high school, Shouya is still plagued by his wrongdoings as a young boy. Sincerely regretting his past actions, he sets out on a journey of redemption: to meet Shouko once more and make amends.\n\nKoe no Katachi tells the heartwarming tale of Shouya's reunion with Shouko and his honest attempts to redeem himself, all while being continually haunted by the shadows of his past.\n \n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-002",
+          "name": "Award Winning",
+          "slug": "award-winning"
+        },
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-021-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-28"
+        }
+      ],
+      "popularityScore": 2628439,
+      "updatedAt": "2026-05-28T12:00:00.000Z"
+    },
+    {
+      "id": "show-022",
+      "slug": "code-geass-lelouch-of-the-rebellion-r2",
+      "title": "Code Geass: Lelouch of the Rebellion R2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1088/135089l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 25,
+      "dubEpisodes": 25,
+      "status": "finished",
+      "year": 2008,
+      "synopsis": "One year has passed since the Black Rebellion, a failed uprising against the Holy Britannian Empire led by the masked vigilante Zero, who is now missing. At a loss without their revolutionary leader, Area 11's resistance group—the Black Knights—find themselves too powerless to combat the brutality inflicted upon the Elevens by Britannia, which has increased significantly in order to crush any hope of a future revolt. \n\nLelouch Lamperouge, having lost all memory of his double life, is living peacefully alongside his friends as a high school student at Ashford Academy. His former partner C.C., unable to accept this turn of events, takes it upon herself to remind him of his past purpose, hoping that the mastermind Zero will rise once again to finish what he started.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-002",
+          "name": "Award Winning",
+          "slug": "award-winning"
+        },
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-008",
+          "name": "Sci-Fi",
+          "slug": "sci-fi"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-022-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-16"
+        },
+        {
+          "id": "show-022-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-23"
+        },
+        {
+          "id": "show-022-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-30"
+        },
+        {
+          "id": "show-022-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-06"
+        },
+        {
+          "id": "show-022-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-13"
+        },
+        {
+          "id": "show-022-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-20"
+        },
+        {
+          "id": "show-022-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-27"
+        },
+        {
+          "id": "show-022-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-03"
+        },
+        {
+          "id": "show-022-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-10"
+        },
+        {
+          "id": "show-022-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-17"
+        },
+        {
+          "id": "show-022-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-24"
+        },
+        {
+          "id": "show-022-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-03"
+        },
+        {
+          "id": "show-022-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-10"
+        },
+        {
+          "id": "show-022-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-17"
+        },
+        {
+          "id": "show-022-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-24"
+        },
+        {
+          "id": "show-022-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-31"
+        },
+        {
+          "id": "show-022-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-022-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-022-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-022-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-022-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-022-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-022-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-19"
+        },
+        {
+          "id": "show-022-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-26"
+        },
+        {
+          "id": "show-022-ep-025",
+          "number": 25,
+          "title": "Episode 25",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-02"
+        }
+      ],
+      "popularityScore": 1963111,
+      "updatedAt": "2026-06-02T12:00:00.000Z"
+    },
+    {
+      "id": "show-023",
+      "slug": "the-apothecary-diaries-season-2",
+      "title": "The Apothecary Diaries Season 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1025/147458l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 24,
+      "dubEpisodes": 8,
+      "status": "finished",
+      "year": 2025,
+      "synopsis": "Using her wit and vast knowledge of medicines and poisons alike, Maomao played a pivotal role in solving a series of mysteries and conspiracies that plagued the imperial court. Having recently come to terms with the secrets of her parents, she returns to fulfill her normal duties on behalf of the emperor's highest-ranking consorts. Maomao also works alongside the eunuch Jinshi to better the consorts' many ladies-in-waiting, including helping them learn to read.\n\nHowever, with the arrival of a merchant caravan comes a new wave of intrigue. A pattern of strange coincidences involving the visitors and their wares unsettles Maomao, driving her to investigate the puzzling circumstances behind the convoy. As dangers from both outside and within threaten the balance between the imperial concubines, Maomao continues to utilize her cunning and medical expertise to keep the women safe from harm.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-006",
+          "name": "Mystery",
+          "slug": "mystery"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-023-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-24"
+        },
+        {
+          "id": "show-023-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2025-12-31"
+        },
+        {
+          "id": "show-023-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-07"
+        },
+        {
+          "id": "show-023-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-14"
+        },
+        {
+          "id": "show-023-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-21"
+        },
+        {
+          "id": "show-023-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-28"
+        },
+        {
+          "id": "show-023-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-04"
+        },
+        {
+          "id": "show-023-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-11"
+        },
+        {
+          "id": "show-023-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-02-18"
+        },
+        {
+          "id": "show-023-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-02-25"
+        },
+        {
+          "id": "show-023-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-04"
+        },
+        {
+          "id": "show-023-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-11"
+        },
+        {
+          "id": "show-023-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-18"
+        },
+        {
+          "id": "show-023-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-03-25"
+        },
+        {
+          "id": "show-023-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-01"
+        },
+        {
+          "id": "show-023-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-08"
+        },
+        {
+          "id": "show-023-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-15"
+        },
+        {
+          "id": "show-023-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-22"
+        },
+        {
+          "id": "show-023-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-29"
+        },
+        {
+          "id": "show-023-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-06"
+        },
+        {
+          "id": "show-023-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-13"
+        },
+        {
+          "id": "show-023-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-20"
+        },
+        {
+          "id": "show-023-ep-023",
+          "number": 23,
+          "title": "Episode 23",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-27"
+        },
+        {
+          "id": "show-023-ep-024",
+          "number": 24,
+          "title": "Episode 24",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-03"
+        }
+      ],
+      "popularityScore": 516207,
+      "updatedAt": "2026-06-03T12:00:00.000Z"
+    },
+    {
+      "id": "show-024",
+      "slug": "march-comes-in-like-a-lion-2nd-season",
+      "title": "March Comes In Like a Lion 2nd Season",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/3/88469l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 22,
+      "dubEpisodes": 22,
+      "status": "finished",
+      "year": 2017,
+      "synopsis": "Now in his second year of high school, Rei Kiriyama continues pushing through his struggles in the professional shogi world as well as his personal life. Surrounded by vibrant personalities at the shogi hall, the school club, and in the local community, his solitary shell slowly begins to crack. Among them are the three Kawamoto sisters—Akari, Hinata, and Momo—who forge an affectionate and familial bond with Rei. Through these ties, he realizes that everyone is burdened by their own emotional hardships and begins learning how to rely on others while supporting them in return. \n\nNonetheless, the life of a professional is not easy. Between tournaments, championships, and title matches, the pressure mounts as Rei advances through the ranks and encounters incredibly skilled opponents. As he manages his relationships with those who have grown close to him, the shogi player continues to search for the reason he plays the game that defines his career.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-024-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-06"
+        },
+        {
+          "id": "show-024-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-13"
+        },
+        {
+          "id": "show-024-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-20"
+        },
+        {
+          "id": "show-024-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-01-27"
+        },
+        {
+          "id": "show-024-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-03"
+        },
+        {
+          "id": "show-024-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-10"
+        },
+        {
+          "id": "show-024-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-17"
+        },
+        {
+          "id": "show-024-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-02-24"
+        },
+        {
+          "id": "show-024-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-03"
+        },
+        {
+          "id": "show-024-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-10"
+        },
+        {
+          "id": "show-024-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-17"
+        },
+        {
+          "id": "show-024-ep-012",
+          "number": 12,
+          "title": "Episode 12",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-24"
+        },
+        {
+          "id": "show-024-ep-013",
+          "number": 13,
+          "title": "Episode 13",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-03-31"
+        },
+        {
+          "id": "show-024-ep-014",
+          "number": 14,
+          "title": "Episode 14",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-024-ep-015",
+          "number": 15,
+          "title": "Episode 15",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-024-ep-016",
+          "number": 16,
+          "title": "Episode 16",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-024-ep-017",
+          "number": 17,
+          "title": "Episode 17",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-024-ep-018",
+          "number": 18,
+          "title": "Episode 18",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-024-ep-019",
+          "number": 19,
+          "title": "Episode 19",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-024-ep-020",
+          "number": 20,
+          "title": "Episode 20",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-19"
+        },
+        {
+          "id": "show-024-ep-021",
+          "number": 21,
+          "title": "Episode 21",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-05-26"
+        },
+        {
+          "id": "show-024-ep-022",
+          "number": 22,
+          "title": "Episode 22",
+          "isSubbed": true,
+          "isDubbed": true,
+          "airDate": "2026-06-02"
+        }
+      ],
+      "popularityScore": 440204,
+      "updatedAt": "2026-06-02T12:00:00.000Z"
+    },
+    {
+      "id": "show-025",
+      "slug": "witch-hat-atelier",
+      "title": "Witch Hat Atelier",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1726/155542l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "In a world where witches wield breathtaking magic, Coco, coming from a humble background, often wishes she were born one herself. After all, the secret behind casting magic is strictly guarded from non-witches. But when Coco manages to catch a glimpse of the witch Qifrey casting a spell, her revelation on the truth behind magic drastically alters the course of her life.\n\nHowever, Coco's curiosity pays a steep price when a disastrous spell cast in ignorance brings a tragic fate upon her beloved mother. Qifrey takes the shaken girl in, recognizing both her resolve to save her mother and her link to a group of forbidden magic heretics. Secrets are a heavy burden, and between navigating a society that views her as an uninvited guest and mastering the art of magic, Coco must give her all to prove her worth as a witch.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-025-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-06"
+        },
+        {
+          "id": "show-025-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-13"
+        },
+        {
+          "id": "show-025-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-20"
+        },
+        {
+          "id": "show-025-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-27"
+        },
+        {
+          "id": "show-025-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-04"
+        },
+        {
+          "id": "show-025-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-11"
+        },
+        {
+          "id": "show-025-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-18"
+        },
+        {
+          "id": "show-025-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-25"
+        },
+        {
+          "id": "show-025-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-01"
+        },
+        {
+          "id": "show-025-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-08"
+        },
+        {
+          "id": "show-025-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-15"
+        }
+      ],
+      "popularityScore": 334452,
+      "updatedAt": "2026-06-01T12:00:00.000Z"
+    },
+    {
+      "id": "show-026",
+      "slug": "classroom-of-the-elite-4th-season-second-year-first-semester",
+      "title": "Classroom of the Elite 4th Season: Second Year, First Semester",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1176/153626l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "As soon as Kiyotaka Ayanokouji and the rest of Class D officially enter their second year at Tokyo Metropolitan Advanced Nurturing High School, they face their next special test: each second-year student will have to team up with a first-year student to take a written exam. Although the test seems simple enough, every pair must achieve a specific number of points to avoid a harsh penalty, raising the demand for academically proficient individuals.\n\nWithout a break, Class D scouts for potential partners. However, Ayanokouji also faces a serious threat since the secret first-rate institution called White Room has enrolled another prodigy at the school to get him expelled. As Ayanokouji begins his masterful schemes once more, he must stay vigilant for new and old enemies alike.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        },
+        {
+          "id": "gen-009",
+          "name": "Suspense",
+          "slug": "suspense"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-026-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-01"
+        },
+        {
+          "id": "show-026-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-08"
+        },
+        {
+          "id": "show-026-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-15"
+        },
+        {
+          "id": "show-026-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-22"
+        },
+        {
+          "id": "show-026-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-29"
+        },
+        {
+          "id": "show-026-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-06"
+        },
+        {
+          "id": "show-026-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-13"
+        },
+        {
+          "id": "show-026-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-20"
+        },
+        {
+          "id": "show-026-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-27"
+        },
+        {
+          "id": "show-026-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-03"
+        },
+        {
+          "id": "show-026-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-10"
+        }
+      ],
+      "popularityScore": 212418,
+      "updatedAt": "2026-06-14T12:00:00.000Z"
+    },
+    {
+      "id": "show-027",
+      "slug": "that-time-i-got-reincarnated-as-a-slime-season-4",
+      "title": "That Time I Got Reincarnated as a Slime Season 4",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1695/156389l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "Demon Lord Rimuru's dream of creating an alliance between humans and monsters takes a step closer to being realized. As Tempest continues to prosper, Granville Rozzo and his granddaughter, Maribel Rozzo, clash with Demon Lord Rimuru over their plan to protect mankind by ruling over them. Meanwhile, in El Dorado, Demon Lord Leon works toward goals of his own. The awakening of a new Hero draws near!\n\n(Source: Crunchyroll)",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-027-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-03"
+        },
+        {
+          "id": "show-027-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-10"
+        },
+        {
+          "id": "show-027-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-17"
+        },
+        {
+          "id": "show-027-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-24"
+        },
+        {
+          "id": "show-027-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-01"
+        },
+        {
+          "id": "show-027-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-08"
+        },
+        {
+          "id": "show-027-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-15"
+        },
+        {
+          "id": "show-027-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-22"
+        },
+        {
+          "id": "show-027-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-29"
+        },
+        {
+          "id": "show-027-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-05"
+        },
+        {
+          "id": "show-027-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-12"
+        }
+      ],
+      "popularityScore": 207193,
+      "updatedAt": "2026-06-12T12:00:00.000Z"
+    },
+    {
+      "id": "show-028",
+      "slug": "daemons-of-the-shadow-realm",
+      "title": "Daemons of the Shadow Realm",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1171/156397l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "In an isolated village, two twins were born, separated by day and night. It is years later, and while the older brother Yuru has become a hunter of animals, his sister Asa has been locked away in a cage, ordered to perform a special duty that prohibits her from meeting more than a few select individuals.\n\nOn an otherwise inconspicuous day, a group of armed men riding in helicopters, referred to as \"dragons\" by the citizens, assaults the village in search of Yuru, killing every adult on sight. When Yuru attempts to meet up with Asa and flee, he finds a dead body instead—on top of that, the person who killed her claims to be Yuru's true twin sister.\n\nBefore the woman can capture him, Yuru is rescued by a man named Ryuu \"Dera\" Tadera, an outsider who frequently visits the village. However, it is not long before the two are cornered. In a last-ditch effort, Dera makes Yuru give a gift to the deity of the village, summoning a pair of daemons whose existence is bound to reveal the truth behind these chaotic events.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-007",
+          "name": "Supernatural",
+          "slug": "supernatural"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-028-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-04"
+        },
+        {
+          "id": "show-028-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-11"
+        },
+        {
+          "id": "show-028-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-18"
+        },
+        {
+          "id": "show-028-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-25"
+        },
+        {
+          "id": "show-028-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-02"
+        },
+        {
+          "id": "show-028-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-09"
+        },
+        {
+          "id": "show-028-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-16"
+        },
+        {
+          "id": "show-028-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-23"
+        },
+        {
+          "id": "show-028-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-30"
+        },
+        {
+          "id": "show-028-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-06"
+        },
+        {
+          "id": "show-028-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-13"
+        }
+      ],
+      "popularityScore": 193117,
+      "updatedAt": "2026-06-10T12:00:00.000Z"
+    },
+    {
+      "id": "show-029",
+      "slug": "wistoria-wand-and-sword-season-2",
+      "title": "Wistoria: Wand and Sword Season 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1190/155788l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 10,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "As the year nears its end, the time for final exams arrives at Rigarden Magical Academy. Despite being the only student without any magic aptitude, Will Serfort aims to score perfect grades in every subject, which would allow him to ascend to the Wizard's Tower and reunite with his childhood friend, Elfaria Albis Serfort. However, Will's hard work comes tumbling down when he fails the very last, biased exam, disqualifying him from entering the Wizard's Tower.\n\nMeanwhile, Elfaria and the other Magia Vander—the five most powerful mages—perform the annual ritual that protects their world from the dangerous Celestial Hosts. As the ritual temporarily leaves the Magia Vander drained of magic, a large army of monsters suddenly appears and begins attacking mages and civilians alike. To make matters worse, the mages are unable to hold off the invasion due to the monsters' special weaponry that nullifies their magic. Refusing to let the world end in despair, Will and his masterful swordsmanship quickly become a cornerstone in stopping the attack.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-005",
+          "name": "Action",
+          "slug": "action"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-029-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-12"
+        },
+        {
+          "id": "show-029-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-19"
+        },
+        {
+          "id": "show-029-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-26"
+        },
+        {
+          "id": "show-029-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-03"
+        },
+        {
+          "id": "show-029-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-10"
+        },
+        {
+          "id": "show-029-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-17"
+        },
+        {
+          "id": "show-029-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-24"
+        },
+        {
+          "id": "show-029-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-31"
+        },
+        {
+          "id": "show-029-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-07"
+        },
+        {
+          "id": "show-029-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-14"
+        }
+      ],
+      "popularityScore": 162450,
+      "updatedAt": "2026-06-08T12:00:00.000Z"
+    },
+    {
+      "id": "show-030",
+      "slug": "dr-stone-science-future-part-3",
+      "title": "Dr. Stone: Science Future Part 3",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1773/155779l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "After reconciling with Dr. Xeno, Senkuu Ishigami is close to realizing his long-held dream: the space mission to the Moon is finally underway. While Dr. Xeno begins the development of their rocket's engine, Senkuu's team continues navigating through continents and seas in search of essential resources and people to assemble the necessary infrastructure for the mission as well as revive the entire human population.\n\nMeanwhile, the enigmatic Whyman continues to cast its shadow over Earth from the Moon. But with the combined might of humanity finally coming together, it is only a matter of time before Senkuu and the others confront Whyman and get the answers that have eluded humanity for centuries.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-001",
+          "name": "Adventure",
+          "slug": "adventure"
+        },
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-030-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-02"
+        },
+        {
+          "id": "show-030-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-09"
+        },
+        {
+          "id": "show-030-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-16"
+        },
+        {
+          "id": "show-030-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-23"
+        },
+        {
+          "id": "show-030-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-30"
+        },
+        {
+          "id": "show-030-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-07"
+        },
+        {
+          "id": "show-030-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-14"
+        },
+        {
+          "id": "show-030-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-21"
+        },
+        {
+          "id": "show-030-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-28"
+        },
+        {
+          "id": "show-030-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-04"
+        },
+        {
+          "id": "show-030-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-11"
+        }
+      ],
+      "popularityScore": 151633,
+      "updatedAt": "2026-06-06T12:00:00.000Z"
+    },
+    {
+      "id": "show-031",
+      "slug": "the-angel-next-door-spoils-me-rotten-2",
+      "title": "The Angel Next Door Spoils Me Rotten 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1989/154843l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "Second season of Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken.",
+      "genres": [
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-031-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-03"
+        },
+        {
+          "id": "show-031-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-10"
+        },
+        {
+          "id": "show-031-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-17"
+        },
+        {
+          "id": "show-031-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-24"
+        },
+        {
+          "id": "show-031-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-01"
+        },
+        {
+          "id": "show-031-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-08"
+        },
+        {
+          "id": "show-031-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-15"
+        },
+        {
+          "id": "show-031-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-22"
+        },
+        {
+          "id": "show-031-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-29"
+        },
+        {
+          "id": "show-031-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-05"
+        },
+        {
+          "id": "show-031-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-12"
+        }
+      ],
+      "popularityScore": 144235,
+      "updatedAt": "2026-06-04T12:00:00.000Z"
+    },
+    {
+      "id": "show-032",
+      "slug": "i-made-friends-with-the-second-prettiest-girl-in-my-class",
+      "title": "I Made Friends with the Second Prettiest Girl in My Class",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1423/155713l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 10,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "I, Maehara Maki, struggled to connect with anyone during my high school years, finding it hard to make friends. Then, a turning point arrived. A girl named Asanagi entered my life. Despite being clandestinely referred to as the \"second cutest girl in class\" by the boys, she chose to spend her Fridays with me instead of her best friend Amami, who held the \"cutest girl in class\" title. In the comfort of my home, we delved into the realm of games, watched movies, immersed ourselves in manga, indulged in junk food—pizza, hamburgers—and guzzled cola, carefree and content. To the outside world, we might have seemed a bit messy, but to both Asanagi and me, it was a cherished, hidden time together.\n\n(Source: MAL News)",
+      "genres": [
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-032-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-07"
+        },
+        {
+          "id": "show-032-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-14"
+        },
+        {
+          "id": "show-032-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-21"
+        },
+        {
+          "id": "show-032-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-28"
+        },
+        {
+          "id": "show-032-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-05"
+        },
+        {
+          "id": "show-032-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-12"
+        },
+        {
+          "id": "show-032-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-19"
+        },
+        {
+          "id": "show-032-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-26"
+        },
+        {
+          "id": "show-032-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-02"
+        },
+        {
+          "id": "show-032-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-09"
+        }
+      ],
+      "popularityScore": 121520,
+      "updatedAt": "2026-06-02T12:00:00.000Z"
+    },
+    {
+      "id": "show-033",
+      "slug": "gals-can-t-be-kind-to-otaku",
+      "title": "Gals Can't Be Kind to Otaku!?",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1956/155456l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 10,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "Meet Takuya Seo, an otaku who sits behind the popular gals in class, Ijichi and Amane. Since they're people from different \"castes,\" you wouldn't expect them to have much in common. But when their worlds collide over a borrowed eraser, Takuya slips up about his favorite anime, and Amane...is rather quick to correct him. She says she's not a fan, but her familiarity with the series suggests otherwise. Could she be...a fellow geek?!\n\n(Source: Yen Press)",
+      "genres": [
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-033-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-08"
+        },
+        {
+          "id": "show-033-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-15"
+        },
+        {
+          "id": "show-033-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-22"
+        },
+        {
+          "id": "show-033-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-29"
+        },
+        {
+          "id": "show-033-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-06"
+        },
+        {
+          "id": "show-033-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-13"
+        },
+        {
+          "id": "show-033-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-20"
+        },
+        {
+          "id": "show-033-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-27"
+        },
+        {
+          "id": "show-033-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-03"
+        },
+        {
+          "id": "show-033-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-10"
+        }
+      ],
+      "popularityScore": 94439,
+      "updatedAt": "2026-06-15T12:00:00.000Z"
+    },
+    {
+      "id": "show-034",
+      "slug": "the-warrior-princess-and-the-barbaric-king",
+      "title": "The Warrior Princess and the Barbaric King",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1229/155022l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 10,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "\"Just kill me!\" These are the words of Serafina de Lavillant, the strongest female knight in the West. After being defeated in a war with the East, she has become a prisoner of the barbarians! What awaits the captive Serafina is a life of revenge, torture, and humiliation... or so she thought! What she is offered instead is a marriage to the barbarian king?! An intriguing tale of otherworldly marriage is about to begin!\n\n(Source: Kodansha)",
+      "genres": [
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        },
+        {
+          "id": "gen-011",
+          "name": "Romance",
+          "slug": "romance"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-034-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-09"
+        },
+        {
+          "id": "show-034-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-16"
+        },
+        {
+          "id": "show-034-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-23"
+        },
+        {
+          "id": "show-034-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-30"
+        },
+        {
+          "id": "show-034-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-07"
+        },
+        {
+          "id": "show-034-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-14"
+        },
+        {
+          "id": "show-034-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-21"
+        },
+        {
+          "id": "show-034-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-28"
+        },
+        {
+          "id": "show-034-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-04"
+        },
+        {
+          "id": "show-034-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-11"
+        }
+      ],
+      "popularityScore": 83569,
+      "updatedAt": "2026-06-13T12:00:00.000Z"
+    },
+    {
+      "id": "show-035",
+      "slug": "welcome-to-demon-school-iruma-kun-season-4",
+      "title": "Welcome to Demon School! Iruma-kun Season 4",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1434/154048l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "Fourth season of Mairimashita! Iruma-kun.",
+      "genres": [
+        {
+          "id": "gen-010",
+          "name": "Comedy",
+          "slug": "comedy"
+        },
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-035-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-04"
+        },
+        {
+          "id": "show-035-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-11"
+        },
+        {
+          "id": "show-035-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-18"
+        },
+        {
+          "id": "show-035-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-25"
+        },
+        {
+          "id": "show-035-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-02"
+        },
+        {
+          "id": "show-035-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-09"
+        },
+        {
+          "id": "show-035-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-16"
+        },
+        {
+          "id": "show-035-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-23"
+        },
+        {
+          "id": "show-035-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-30"
+        },
+        {
+          "id": "show-035-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-06"
+        },
+        {
+          "id": "show-035-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-13"
+        }
+      ],
+      "popularityScore": 78489,
+      "updatedAt": "2026-06-11T12:00:00.000Z"
+    },
+    {
+      "id": "show-036",
+      "slug": "farming-life-in-another-world-season-2",
+      "title": "Farming Life in Another World Season 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1656/156369l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "Second season of Isekai Nonbiri Nouka.",
+      "genres": [
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        },
+        {
+          "id": "gen-012",
+          "name": "Slice of Life",
+          "slug": "slice-of-life"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-036-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-06"
+        },
+        {
+          "id": "show-036-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-13"
+        },
+        {
+          "id": "show-036-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-20"
+        },
+        {
+          "id": "show-036-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-27"
+        },
+        {
+          "id": "show-036-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-04"
+        },
+        {
+          "id": "show-036-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-11"
+        },
+        {
+          "id": "show-036-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-18"
+        },
+        {
+          "id": "show-036-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-25"
+        },
+        {
+          "id": "show-036-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-01"
+        },
+        {
+          "id": "show-036-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-08"
+        },
+        {
+          "id": "show-036-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-15"
+        }
+      ],
+      "popularityScore": 75483,
+      "updatedAt": "2026-06-09T12:00:00.000Z"
+    },
+    {
+      "id": "show-037",
+      "slug": "the-beginning-after-the-end-season-2",
+      "title": "The Beginning After the End Season 2",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1738/156028l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "After being granted a second life, now-teenage Arthur Leywin—an unparalleled, ruthless king in his previous life—has finally become an adventurer with the help of his mentor, Jasmine Flamesworth. Although he is still far from his ultimate goal of becoming more powerful than in his past life, Arthur demonstrates remarkable skill in adventuring, exceeding everyone's expectations.\n\nMeanwhile, Arthur's elven friend and Elenoir Kingdom's princess, Tessia Eralith, has also started adventuring. Due to the prolonged hostility between humans and elves, her duty is to spread goodwill and create friendly relations with human kingdoms. However, as a mysterious group threatens to harm the races' fragile relationship, both Arthur and Tessia soon find themselves becoming pivotal parts of a larger change for the better.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-037-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-01"
+        },
+        {
+          "id": "show-037-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-08"
+        },
+        {
+          "id": "show-037-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-15"
+        },
+        {
+          "id": "show-037-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-22"
+        },
+        {
+          "id": "show-037-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-29"
+        },
+        {
+          "id": "show-037-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-06"
+        },
+        {
+          "id": "show-037-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-13"
+        },
+        {
+          "id": "show-037-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-20"
+        },
+        {
+          "id": "show-037-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-27"
+        },
+        {
+          "id": "show-037-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-03"
+        },
+        {
+          "id": "show-037-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-10"
+        }
+      ],
+      "popularityScore": 66738,
+      "updatedAt": "2026-06-07T12:00:00.000Z"
+    },
+    {
+      "id": "show-038",
+      "slug": "akane-banashi",
+      "title": "Akane-banashi",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1162/155669l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "From a young age, Akane Ousaki has always loved to watch her father, Tooru, practice and perform rakugo, a form of traditional Japanese comedic storytelling. Rakugo performers are split into three ranks, with the highest, shinuchi, only granted to the very best performers after they pass a difficult promotion test. When Tooru takes the exam, Akane experiences her father putting on a stellar performance in front of a big crowd and judges, but the strict main judge, Isshou Arakawa, still fails him, forcing him to quit rakugo.\n\nEver since, Akane has been diligently practicing rakugo herself. Now a senior in high school, she coincidentally lands a spot to perform in front of a crowd with the help of Shiguma Arakawa, Tooru's former teacher. Her splendid performance surprises everyone and is just the beginning: Shiguma appoints her as his new apprentice, and with his help, Akane sets out to become a shinuchi in her father's place.\n\n[Written by MAL Rewrite]",
+      "genres": [
+        {
+          "id": "gen-003",
+          "name": "Drama",
+          "slug": "drama"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-038-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-04"
+        },
+        {
+          "id": "show-038-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-11"
+        },
+        {
+          "id": "show-038-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-18"
+        },
+        {
+          "id": "show-038-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-25"
+        },
+        {
+          "id": "show-038-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-02"
+        },
+        {
+          "id": "show-038-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-09"
+        },
+        {
+          "id": "show-038-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-16"
+        },
+        {
+          "id": "show-038-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-23"
+        },
+        {
+          "id": "show-038-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-30"
+        },
+        {
+          "id": "show-038-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-06"
+        },
+        {
+          "id": "show-038-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-13"
+        }
+      ],
+      "popularityScore": 61775,
+      "updatedAt": "2026-06-05T12:00:00.000Z"
+    },
+    {
+      "id": "show-039",
+      "slug": "ascendance-of-a-bookworm-adopted-daughter-of-an-archduke",
+      "title": "Ascendance of a Bookworm: Adopted Daughter of an Archduke",
+      "coverImage": "https://cdn.myanimelist.net/images/anime/1371/155054l.jpg",
+      "bannerImage": null,
+      "subEpisodes": 11,
+      "dubEpisodes": 0,
+      "status": "airing",
+      "year": 2026,
+      "synopsis": "Anime adaptation of part three of the Honzuki no Gekokujou light novel.",
+      "genres": [
+        {
+          "id": "gen-004",
+          "name": "Fantasy",
+          "slug": "fantasy"
+        }
+      ],
+      "episodes": [
+        {
+          "id": "show-039-ep-001",
+          "number": 1,
+          "title": "Episode 1",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-04"
+        },
+        {
+          "id": "show-039-ep-002",
+          "number": 2,
+          "title": "Episode 2",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-11"
+        },
+        {
+          "id": "show-039-ep-003",
+          "number": 3,
+          "title": "Episode 3",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-18"
+        },
+        {
+          "id": "show-039-ep-004",
+          "number": 4,
+          "title": "Episode 4",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-04-25"
+        },
+        {
+          "id": "show-039-ep-005",
+          "number": 5,
+          "title": "Episode 5",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-02"
+        },
+        {
+          "id": "show-039-ep-006",
+          "number": 6,
+          "title": "Episode 6",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-09"
+        },
+        {
+          "id": "show-039-ep-007",
+          "number": 7,
+          "title": "Episode 7",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-16"
+        },
+        {
+          "id": "show-039-ep-008",
+          "number": 8,
+          "title": "Episode 8",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-23"
+        },
+        {
+          "id": "show-039-ep-009",
+          "number": 9,
+          "title": "Episode 9",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-05-30"
+        },
+        {
+          "id": "show-039-ep-010",
+          "number": 10,
+          "title": "Episode 10",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-06"
+        },
+        {
+          "id": "show-039-ep-011",
+          "number": 11,
+          "title": "Episode 11",
+          "isSubbed": true,
+          "isDubbed": false,
+          "airDate": "2026-06-13"
+        }
+      ],
+      "popularityScore": 79008,
+      "updatedAt": "2026-06-03T12:00:00.000Z"
+    }
+  ]
+}
