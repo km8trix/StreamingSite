@@ -48,6 +48,21 @@ export type ShowDetail = ShowSummary & {
 // "Top Anime" ranking window — rolling Day / Week / Month engagement.
 export type TopAnimeWindow = 'day' | 'week' | 'month'
 
+// ---------------------------------------------------------------------------
+// Watchlist ("My List") — shows a user has explicitly SAVED to watch. Distinct
+// from Continue Watching (resume progress): a watchlist entry carries no
+// playback state and persists until removed. Signed-in users via the DB
+// (watchlist table), guests via localStorage. Rail is ordered newest-first.
+// ---------------------------------------------------------------------------
+export type WatchlistItem = {
+  showId: string
+  slug: string
+  title: string
+  coverImage: string // absolute URL
+  year: number | null
+  addedAt: string // ISO timestamp
+}
+
 export type ContinueWatchingItem = {
   showId: string
   slug: string

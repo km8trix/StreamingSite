@@ -521,6 +521,37 @@ export type Database = {
           },
         ]
       }
+      watchlist: {
+        Row: {
+          user_id: string
+          show_id: string
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          show_id: string
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          show_id?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'watchlist_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'watchlist_show_id_fkey'
+            columns: ['show_id']
+            referencedRelation: 'shows'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: Record<never, never>
     Functions: {
@@ -539,6 +570,10 @@ export type Database = {
           p_position_seconds: number
           p_duration_seconds: number
         }
+        Returns: undefined
+      }
+      add_to_watchlist: {
+        Args: { p_show_id: string }
         Returns: undefined
       }
       record_show_view: {

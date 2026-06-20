@@ -139,6 +139,94 @@ export async function dismissContinueWatching(
   }
 }
 
+// --- Watchlist ("My List") -------------------------------------------------
+// Saves go through the SECURITY DEFINER add_to_watchlist() RPC (0012), which
+// pins user_id = auth.uid() and validates the show; removes are a plain DELETE
+// scoped by RLS to the caller's own row. Both no-op (ok:false) when signed out
+// or unconfigured and never throw at the caller.
+
+/**
+ * Save a show to the signed-in user's watchlist (idempotent). No-op (ok:false)
+ * when signed out or unconfigured.
+ */
+export async function addToWatchlist(showId: string): Promise<WatchWriteResult> {
+  if (!isSupabaseConfigured() || !isNonEmptyString(showId)) return { ok: false }
+
+  try {
+    const user = await getCurrentUser()
+    if (!user) return { ok: false }
+
+    const supabase = await getServerClient()
+    const { error } = await supabase.rpc('add_to_watchlist', { p_show_id: showId })
+    if (error) throw error
+
+    revalidatePath('/', 'layout')
+    return { ok: true }
+  } catch (err) {
+    console.warn('[watch] addToWatchlist failed:', err)
+    return { ok: false }
+  }
+}
+
+/**
+ * Remove a show from the signed-in user's watchlist. RLS scopes the delete to
+ * the caller's own row, so the show_id filter is sufficient.
+ */
+export async function removeFromWatchlist(
+  showId: string,
+): Promise<WatchWriteResult> {
+  if (!isSupabaseConfigured() || !isNonEmptyString(showId)) return { ok: false }
+
+  try {
+    const user = await getCurrentUser()
+    if (!user) return { ok: false }
+
+    const supabase = await getServerClient()
+    const { error } = await supabase
+      .from('watchlist')
+      .delete()
+      .eq('show_id', showId)
+    if (error) throw error
+
+    revalidatePath('/', 'layout')
+    return { ok: true }
+  } catch (err) {
+    console.warn('[watch] removeFromWatchlist failed:', err)
+    return { ok: false }
+  }
+}
+
+/**
+ * Flush a guest's localStorage watchlist into the DB after they sign in. Each id
+ * is replayed through the same idempotent RPC. Best-effort: a bad id is skipped,
+ * never fatal. Revalidates the home rail.
+ */
+export async function mergeGuestWatchlist(
+  showIds: string[],
+): Promise<{ merged: number }> {
+  if (!isSupabaseConfigured() || !Array.isArray(showIds) || showIds.length === 0) {
+    return { merged: 0 }
+  }
+
+  let merged = 0
+  try {
+    const user = await getCurrentUser()
+    if (!user) return { merged: 0 }
+
+    const supabase = await getServerClient()
+    for (const showId of showIds.slice(0, MAX_MERGE_ENTRIES)) {
+      if (!isNonEmptyString(showId)) continue
+      const { error } = await supabase.rpc('add_to_watchlist', { p_show_id: showId })
+      if (!error) merged += 1
+    }
+  } catch (err) {
+    console.warn('[watch] mergeGuestWatchlist failed:', err)
+  }
+
+  if (merged > 0) revalidatePath('/', 'layout')
+  return { merged }
+}
+
 /**
  * Record a show-view engagement event for the "Top Anime" rankings. Works for
  * guests (auth.uid() is null) and signed-in users alike — the RPC dedups
