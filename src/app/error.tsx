@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { Home, RotateCcw } from 'lucide-react'
+import * as Sentry from '@sentry/nextjs'
 
 /**
  * Root error boundary — catches uncaught errors thrown while rendering a route
@@ -19,8 +20,9 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    // Surface to the console/server logs; `digest` is how a production error
-    // correlates to the server-side stack.
+    // Report to Sentry (a no-op until a DSN is set) and surface to console /
+    // server logs; `digest` correlates a production error to its server stack.
+    Sentry.captureException(error)
     console.error(error)
   }, [error])
 

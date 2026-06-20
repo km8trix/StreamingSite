@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 // Content-Security-Policy. Tightly scopes where the app may load/connect, which
 // matters now that the show page embeds an official YouTube player (iframe) and
@@ -75,4 +76,17 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Source-map upload + release tracking run at BUILD time, and only when these
+  // are set (org/project + a SENTRY_AUTH_TOKEN). Unset => those steps are skipped
+  // and the build still succeeds; the runtime SDK works regardless.
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  // Route browser->Sentry traffic through a same-origin path so it isn't blocked
+  // by the CSP or ad-blockers — connect-src 'self' already covers it, so no CSP
+  // change is needed. The middleware matcher excludes this route.
+  tunnelRoute: "/monitoring",
+});
