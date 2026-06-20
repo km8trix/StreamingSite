@@ -19,7 +19,7 @@ const MAX_IDS = 200
  * history). Signed-in users are served server-side and never hit this route.
  */
 export async function POST(request: NextRequest) {
-  const limited = enforceRateLimit(request, {
+  const limited = await enforceRateLimit(request, {
     name: 'recommendations',
     limit: 30,
     windowMs: 60_000,

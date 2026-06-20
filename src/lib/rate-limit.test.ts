@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { NextRequest } from 'next/server'
 import {
   __resetRateLimitStore,
@@ -7,13 +7,30 @@ import {
   enforceRateLimit,
 } from './rate-limit'
 
+// Stub the Upstash SDK so the Redis branch is exercised without a live DB.
+// `limitMock` stands in for Ratelimit.limit(); tests drive its resolution.
+const { limitMock } = vi.hoisted(() => ({ limitMock: vi.fn() }))
+vi.mock('@upstash/redis', () => ({
+  Redis: class {},
+}))
+vi.mock('@upstash/ratelimit', () => ({
+  Ratelimit: class {
+    static fixedWindow = (limit: number, window: string) => ({ limit, window })
+    limit = (key: string) => limitMock(key)
+  },
+}))
+
 // Build a minimal NextRequest-like object — enforceRateLimit/clientIp only read
 // request.headers.get().
 function req(headers: Record<string, string> = {}): NextRequest {
   return { headers: new Headers(headers) } as unknown as NextRequest
 }
 
-beforeEach(() => __resetRateLimitStore())
+beforeEach(() => {
+  __resetRateLimitStore()
+  limitMock.mockReset()
+})
+afterEach(() => vi.unstubAllEnvs())
 
 describe('checkRateLimit', () => {
   it('allows requests under the limit and decrements remaining', () => {
@@ -59,17 +76,17 @@ describe('clientIp', () => {
 })
 
 describe('enforceRateLimit', () => {
-  it('exempts loopback / unknown IPs (returns null to proceed)', () => {
-    expect(enforceRateLimit(req(), { name: 'x', limit: 1, windowMs: 1000 })).toBeNull()
+  it('exempts loopback / unknown IPs (returns null to proceed)', async () => {
+    expect(await enforceRateLimit(req(), { name: 'x', limit: 1, windowMs: 1000 })).toBeNull()
     expect(
-      enforceRateLimit(req({ 'x-forwarded-for': '127.0.0.1' }), {
+      await enforceRateLimit(req({ 'x-forwarded-for': '127.0.0.1' }), {
         name: 'x',
         limit: 1,
         windowMs: 1000,
       }),
     ).toBeNull()
     expect(
-      enforceRateLimit(req({ 'x-forwarded-for': '::1' }), {
+      await enforceRateLimit(req({ 'x-forwarded-for': '::1' }), {
         name: 'x',
         limit: 1,
         windowMs: 1000,
@@ -80,9 +97,9 @@ describe('enforceRateLimit', () => {
   it('allows a real IP under the limit, then 429s with Retry-After over it', async () => {
     const r = req({ 'x-forwarded-for': '203.0.113.7' })
     const rule = { name: 'api', limit: 2, windowMs: 60_000 }
-    expect(enforceRateLimit(r, rule)).toBeNull()
-    expect(enforceRateLimit(r, rule)).toBeNull()
-    const blocked = enforceRateLimit(r, rule)
+    expect(await enforceRateLimit(r, rule)).toBeNull()
+    expect(await enforceRateLimit(r, rule)).toBeNull()
+    const blocked = await enforceRateLimit(r, rule)
     expect(blocked).not.toBeNull()
     expect(blocked!.status).toBe(429)
     expect(Number(blocked!.headers.get('Retry-After'))).toBeGreaterThan(0)
@@ -91,11 +108,55 @@ describe('enforceRateLimit', () => {
     expect(body.error).toMatch(/too many requests/i)
   })
 
-  it('scopes the limit per IP', () => {
+  it('scopes the limit per IP', async () => {
     const rule = { name: 'api', limit: 1, windowMs: 60_000 }
-    expect(enforceRateLimit(req({ 'x-forwarded-for': '1.1.1.1' }), rule)).toBeNull()
-    expect(enforceRateLimit(req({ 'x-forwarded-for': '1.1.1.1' }), rule)).not.toBeNull()
+    expect(await enforceRateLimit(req({ 'x-forwarded-for': '1.1.1.1' }), rule)).toBeNull()
+    expect(await enforceRateLimit(req({ 'x-forwarded-for': '1.1.1.1' }), rule)).not.toBeNull()
     // A different IP is unaffected.
-    expect(enforceRateLimit(req({ 'x-forwarded-for': '2.2.2.2' }), rule)).toBeNull()
+    expect(await enforceRateLimit(req({ 'x-forwarded-for': '2.2.2.2' }), rule)).toBeNull()
+  })
+})
+
+describe('enforceRateLimit with Upstash configured', () => {
+  const rule = { name: 'api', limit: 5, windowMs: 60_000 }
+  const r = () => req({ 'x-forwarded-for': '203.0.113.7' })
+
+  function configureRedis() {
+    vi.stubEnv('UPSTASH_REDIS_REST_URL', 'https://example.upstash.io')
+    vi.stubEnv('UPSTASH_REDIS_REST_TOKEN', 'test-token')
+  }
+
+  it('uses the Redis limiter and 429s when it reports failure', async () => {
+    configureRedis()
+    limitMock.mockResolvedValue({
+      success: false,
+      limit: 5,
+      remaining: 0,
+      reset: Date.now() + 30_000,
+    })
+    const blocked = await enforceRateLimit(r(), rule)
+    expect(limitMock).toHaveBeenCalledWith('api:203.0.113.7')
+    expect(blocked!.status).toBe(429)
+    expect(blocked!.headers.get('RateLimit-Limit')).toBe('5')
+  })
+
+  it('proceeds when the Redis limiter reports success', async () => {
+    configureRedis()
+    limitMock.mockResolvedValue({
+      success: true,
+      limit: 5,
+      remaining: 4,
+      reset: Date.now() + 30_000,
+    })
+    expect(await enforceRateLimit(r(), rule)).toBeNull()
+  })
+
+  it('fails soft to the in-memory limiter when Redis throws', async () => {
+    configureRedis()
+    limitMock.mockRejectedValue(new Error('redis unreachable'))
+    const onceRule = { name: 'api', limit: 1, windowMs: 60_000 }
+    // First call falls back to in-memory and is allowed; second is blocked.
+    expect(await enforceRateLimit(r(), onceRule)).toBeNull()
+    expect(await enforceRateLimit(r(), onceRule)).not.toBeNull()
   })
 })
