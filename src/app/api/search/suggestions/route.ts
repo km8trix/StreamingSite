@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import { getSearchSuggestions } from '@/lib/data'
+import { enforceRateLimit } from '@/lib/rate-limit'
 
 // getSearchSuggestions reads the catalog (live Supabase when configured, seed
 // otherwise) and depends on the per-request `q` param, so this route must never
@@ -22,6 +23,13 @@ const MIN_Q_LEN = 2
  * A blank or <2-char query returns { suggestions: [] } without touching the DB.
  */
 export async function GET(request: NextRequest) {
+  const limited = enforceRateLimit(request, {
+    name: 'search-suggestions',
+    limit: 60,
+    windowMs: 60_000,
+  })
+  if (limited) return limited
+
   const raw = request.nextUrl.searchParams.get('q') ?? ''
   const q = raw.trim().slice(0, MAX_Q_LEN)
 

@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import { getRecommendedForYou } from '@/lib/data'
+import { enforceRateLimit } from '@/lib/rate-limit'
 
 // Personalized recommendations depend on the per-request watched-id list, so
 // this must never be statically cached.
@@ -18,6 +19,13 @@ const MAX_IDS = 200
  * history). Signed-in users are served server-side and never hit this route.
  */
 export async function POST(request: NextRequest) {
+  const limited = enforceRateLimit(request, {
+    name: 'recommendations',
+    limit: 30,
+    windowMs: 60_000,
+  })
+  if (limited) return limited
+
   let watched: string[] = []
   try {
     const body: unknown = await request.json()
