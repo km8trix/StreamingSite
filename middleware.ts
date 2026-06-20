@@ -18,8 +18,9 @@ export const config = {
      *  - _next/static (build assets)
      *  - _next/image (image optimization)
      *  - favicon.ico, sitemap.xml, robots.txt
+     *  - monitoring (the Sentry tunnel route — must not run auth-session logic)
      *  - any file with an extension (images, fonts, etc.)
      */
-    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.[^/]*$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|monitoring|.*\\.[^/]*$).*)',
   ],
 }
