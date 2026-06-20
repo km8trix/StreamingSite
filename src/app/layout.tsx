@@ -33,6 +33,12 @@ export const metadata: Metadata = {
       'Browse a curated anime catalog with sub and dub episode counts.',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Senpai — Anime Streaming',
+    description:
+      'Browse a curated anime catalog with sub and dub episode counts.',
+  },
 }
 
 export default function RootLayout({
