@@ -23,7 +23,7 @@ const MIN_Q_LEN = 2
  * A blank or <2-char query returns { suggestions: [] } without touching the DB.
  */
 export async function GET(request: NextRequest) {
-  const limited = enforceRateLimit(request, {
+  const limited = await enforceRateLimit(request, {
     name: 'search-suggestions',
     limit: 60,
     windowMs: 60_000,

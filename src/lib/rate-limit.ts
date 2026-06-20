@@ -1,13 +1,18 @@
 import type { NextRequest } from 'next/server'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
 
 // Rate limiting for public API routes — a coarse abuse guard.
 //
-// SCOPE / HONESTY: the store is an in-process Map, so on Vercel's serverless
-// functions each instance keeps its OWN counters — this is per-instance,
-// best-effort protection that blunts bursts to a warm instance, NOT a global
-// quota. A shared store (Upstash Redis) is the production upgrade: swap the
-// `store` get/set for Redis INCR + EXPIRE behind the same checkRateLimit() shape
-// and set UPSTASH_REDIS_REST_URL/TOKEN. The call sites and tests stay unchanged.
+// TWO STORES, chosen at runtime:
+//   - Upstash Redis (PRODUCTION): a shared, atomic fixed-window counter that
+//     enforces ONE global quota across every serverless instance. Active when
+//     UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN are set.
+//   - In-process Map (FALLBACK): used when those env vars are absent (local dev,
+//     tests) or if Redis is momentarily unreachable. Each Vercel instance keeps
+//     its OWN counters, so this is per-instance best-effort — it blunts bursts to
+//     a warm instance but is NOT a global quota.
+// Both produce the same RateLimitResult shape, so call sites are store-agnostic.
 //
 // Loopback / unknown client IPs are EXEMPT: on Vercel the trusted edge always
 // sets a real public x-forwarded-for, so loopback only appears locally / in
@@ -23,9 +28,11 @@ export type RateLimitResult = {
 type Bucket = { count: number; resetAt: number }
 const store = new Map<string, Bucket>()
 
-/** Test seam: clear all in-memory buckets. */
+/** Test seam: clear all in-memory buckets + drop any cached Redis limiters. */
 export function __resetRateLimitStore(): void {
   store.clear()
+  limiters.clear()
+  redis = undefined
 }
 
 /**
@@ -63,6 +70,67 @@ export function checkRateLimit(
   }
 }
 
+// --- Upstash Redis store (production) ------------------------------------
+//
+// A Ratelimit binds its limit + window at construction, so we cache one instance
+// per distinct (limit, windowMs) rule. `redis` is memoized as null when the env
+// vars are absent so we don't probe process.env on every request.
+
+let redis: Redis | null | undefined
+const limiters = new Map<string, Ratelimit>()
+
+function getRedis(): Redis | null {
+  if (redis !== undefined) return redis
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+  redis = url && token ? new Redis({ url, token }) : null
+  return redis
+}
+
+function getLimiter(rule: RateLimitRule): Ratelimit | null {
+  const r = getRedis()
+  if (!r) return null
+  const key = `${rule.limit}:${rule.windowMs}`
+  let limiter = limiters.get(key)
+  if (!limiter) {
+    limiter = new Ratelimit({
+      redis: r,
+      // Match the in-memory limiter's fixed-window semantics exactly.
+      limiter: Ratelimit.fixedWindow(rule.limit, `${rule.windowMs} ms`),
+      prefix: 'rl',
+    })
+    limiters.set(key, limiter)
+  }
+  return limiter
+}
+
+/**
+ * Apply `rule` to `key` using Redis when configured, else the in-memory store.
+ * If a configured Redis call throws (network blip, quota), we fail soft to the
+ * in-memory limiter — keeping per-instance protection rather than 500-ing or
+ * leaving the route unguarded.
+ */
+async function applyLimit(
+  key: string,
+  rule: RateLimitRule,
+): Promise<RateLimitResult> {
+  const limiter = getLimiter(rule)
+  if (limiter) {
+    try {
+      const r = await limiter.limit(key)
+      return {
+        allowed: r.success,
+        limit: r.limit,
+        remaining: r.remaining,
+        resetAt: r.reset, // unix ms — same meaning as the in-memory resetAt
+      }
+    } catch {
+      // fall through to the in-memory limiter
+    }
+  }
+  return checkRateLimit(key, rule.limit, rule.windowMs)
+}
+
 /** The client IP from the trusted edge headers, or 'unknown'. */
 export function clientIp(request: NextRequest): string {
   const xff = request.headers.get('x-forwarded-for')
@@ -87,20 +155,17 @@ export type RateLimitRule = { name: string; limit: number; windowMs: number }
 /**
  * Enforce a rule for the request's client IP. Returns a 429 Response when over
  * the limit (with Retry-After + RateLimit-* headers), or null to proceed.
- * Loopback / unknown IPs are exempt (proceed).
+ * Loopback / unknown IPs are exempt (proceed). Async because the Redis store is
+ * awaited; the in-memory fallback resolves synchronously.
  */
-export function enforceRateLimit(
+export async function enforceRateLimit(
   request: NextRequest,
   rule: RateLimitRule,
-): Response | null {
+): Promise<Response | null> {
   const ip = clientIp(request)
   if (isExempt(ip)) return null
 
-  const result = checkRateLimit(
-    `${rule.name}:${ip}`,
-    rule.limit,
-    rule.windowMs,
-  )
+  const result = await applyLimit(`${rule.name}:${ip}`, rule)
   if (result.allowed) return null
 
   const retryAfter = Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000))
