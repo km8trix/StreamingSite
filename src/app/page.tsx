@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import {
   getContinueWatching,
   getCurrentUser,
@@ -19,6 +20,11 @@ import { AdSlot } from '@/components/AdSlot'
 
 // The home-banner AdSlot calls getAdForPlacement (weighted-random, non-deterministic),
 // so the page must render dynamically rather than be statically prerendered.
+// Home is the canonical root URL.
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
+
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
