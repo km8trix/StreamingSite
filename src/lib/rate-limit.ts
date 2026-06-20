@@ -131,14 +131,18 @@ async function applyLimit(
   return checkRateLimit(key, rule.limit, rule.windowMs)
 }
 
+/** Minimal headers shape — satisfied by both `NextRequest.headers` (a `Headers`)
+ *  and the `ReadonlyHeaders` returned by `await headers()` in a Server Action. */
+export type HeaderReader = { get(name: string): string | null }
+
 /** The client IP from the trusted edge headers, or 'unknown'. */
-export function clientIp(request: NextRequest): string {
-  const xff = request.headers.get('x-forwarded-for')
+export function clientIp(headers: HeaderReader): string {
+  const xff = headers.get('x-forwarded-for')
   if (xff) {
     const first = xff.split(',')[0]?.trim()
     if (first) return first
   }
-  return request.headers.get('x-real-ip')?.trim() || 'unknown'
+  return headers.get('x-real-ip')?.trim() || 'unknown'
 }
 
 function isExempt(ip: string): boolean {
@@ -152,32 +156,52 @@ function isExempt(ip: string): boolean {
 
 export type RateLimitRule = { name: string; limit: number; windowMs: number }
 
+/** A blocked verdict: the rule was exceeded for this IP. */
+export type RateLimitBlock = { retryAfterSeconds: number; result: RateLimitResult }
+
 /**
- * Enforce a rule for the request's client IP. Returns a 429 Response when over
- * the limit (with Retry-After + RateLimit-* headers), or null to proceed.
- * Loopback / unknown IPs are exempt (proceed). Async because the Redis store is
- * awaited; the in-memory fallback resolves synchronously.
+ * Headers-based core shared by route handlers (enforceRateLimit) and Server
+ * Actions (rate-limit-action.ts). Returns `null` to PROCEED — either because the
+ * IP is exempt (loopback/unknown: local dev + e2e) or it is under the limit — or
+ * a RateLimitBlock when over the limit. Async because the Redis store is awaited;
+ * the in-memory fallback resolves synchronously.
  */
-export async function enforceRateLimit(
-  request: NextRequest,
+export async function rateLimitByHeaders(
+  headers: HeaderReader,
   rule: RateLimitRule,
-): Promise<Response | null> {
-  const ip = clientIp(request)
+): Promise<RateLimitBlock | null> {
+  const ip = clientIp(headers)
   if (isExempt(ip)) return null
 
   const result = await applyLimit(`${rule.name}:${ip}`, rule)
   if (result.allowed) return null
 
-  const retryAfter = Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000))
+  const retryAfterSeconds = Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000))
+  return { retryAfterSeconds, result }
+}
+
+/**
+ * Enforce a rule for a Route Handler's request. Returns a 429 Response when over
+ * the limit (with Retry-After + RateLimit-* headers), or null to proceed.
+ * Loopback / unknown IPs are exempt (proceed).
+ */
+export async function enforceRateLimit(
+  request: NextRequest,
+  rule: RateLimitRule,
+): Promise<Response | null> {
+  const blocked = await rateLimitByHeaders(request.headers, rule)
+  if (!blocked) return null
+
+  const { retryAfterSeconds, result } = blocked
   return Response.json(
     { error: 'Too many requests. Please slow down.' },
     {
       status: 429,
       headers: {
-        'Retry-After': String(retryAfter),
+        'Retry-After': String(retryAfterSeconds),
         'RateLimit-Limit': String(result.limit),
         'RateLimit-Remaining': String(result.remaining),
-        'RateLimit-Reset': String(retryAfter),
+        'RateLimit-Reset': String(retryAfterSeconds),
       },
     },
   )

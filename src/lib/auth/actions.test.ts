@@ -73,7 +73,7 @@ vi.mock('next/navigation', () => ({
 
 // Fake Supabase auth client. Each test installs the responses it wants.
 type AuthResponses = {
-  signUp?: { error: { message: string } | null }
+  signUp?: { error: { message: string; code?: string } | null }
   signInWithPassword?: { error: { message: string } | null }
   signOut?: { error: { message: string } | null }
   update?: { error: { message: string; code?: string } | null }
@@ -152,6 +152,8 @@ import {
   signUp,
   updateProfile,
 } from '@/lib/auth/actions'
+import { __resetRateLimitStore } from '@/lib/rate-limit'
+import { RATE_LIMITS } from '@/lib/rate-limit-rules'
 
 // Helper: invoke an action and capture either its returned value OR the redirect
 // target if it redirected (threw RedirectError). Re-throws anything else.
@@ -188,6 +190,11 @@ beforeEach(() => {
     { name: 'theme', value: 'dark' },
   ]
   cookieDeletes.length = 0
+  // Rate-limit isolation: clear counters and the injected IP between tests. The
+  // default headerJar has no x-forwarded-for, so every other test runs as the
+  // exempt "unknown" IP and the guards are transparent.
+  delete headerJar['x-forwarded-for']
+  __resetRateLimitStore()
 })
 
 // ---------------------------------------------------------------------------
@@ -231,12 +238,42 @@ describe('signUp', () => {
     expect(getServerClientMock).not.toHaveBeenCalled()
   })
 
-  it('maps a Supabase signUp error onto { error } (no redirect)', async () => {
+  it('neutralizes the "already registered" oracle (message fallback) — no enumeration', async () => {
+    // Supabase surfaces "User already registered" for an existing email. Echoing
+    // that verbatim is a positive account-existence oracle (CWE-204), so signUp
+    // collapses it to a neutral message that does not confirm the email exists.
     responses.signUp = { error: { message: 'User already registered' } }
     const { result, redirectedTo } = await runAction(() =>
       signUp({ email: 'taken@b.com', password: 'secret123' }),
     )
-    expect(result).toEqual({ error: 'User already registered' })
+    expect(result).toEqual({ error: 'Could not create that account.' })
+    expect(result?.error).not.toMatch(/registered|exists/i)
+    expect(redirectedTo).toBeUndefined()
+    expect(revalidatePath).not.toHaveBeenCalled()
+  })
+
+  it('neutralizes the already-exists error by code (user_already_exists)', async () => {
+    // Even if GoTrue changes the human message, the machine-readable code path
+    // must still be caught and neutralized.
+    responses.signUp = {
+      error: { message: 'whatever', code: 'user_already_exists' },
+    }
+    const { result, redirectedTo } = await runAction(() =>
+      signUp({ email: 'taken@b.com', password: 'secret123' }),
+    )
+    expect(result).toEqual({ error: 'Could not create that account.' })
+    expect(redirectedTo).toBeUndefined()
+  })
+
+  it('passes a non-enumerating signUp error through verbatim (e.g. weak password)', async () => {
+    // Failures that do NOT reveal account existence stay informative for the user.
+    responses.signUp = {
+      error: { message: 'Password is too weak', code: 'weak_password' },
+    }
+    const { result, redirectedTo } = await runAction(() =>
+      signUp({ email: 'new@b.com', password: 'secret123' }),
+    )
+    expect(result).toEqual({ error: 'Password is too weak' })
     expect(redirectedTo).toBeUndefined()
     expect(revalidatePath).not.toHaveBeenCalled()
   })
@@ -614,5 +651,61 @@ describe('updateProfile', () => {
     authCalls.updates = []
     await updateProfile({ avatarUrl: '   ' })
     expect(authCalls.updates[0]).toEqual({ avatar_url: null })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Rate limiting — the guard runs FIRST in each action, keyed by client IP. The
+// other tests above run as the exempt "unknown" IP (no x-forwarded-for), so the
+// guard is transparent; here we inject a public IP to exercise it.
+// ---------------------------------------------------------------------------
+
+describe('rate limiting (per client IP)', () => {
+  beforeEach(() => {
+    headerJar['x-forwarded-for'] = '198.51.100.7'
+    __resetRateLimitStore()
+  })
+
+  it('throttles signIn after the per-IP limit, with a friendly message', async () => {
+    for (let i = 0; i < RATE_LIMITS.signIn.limit; i++) {
+      // Empty input → "Email is required", but the guard (which runs first) lets
+      // it through — proving the request was counted, not rejected by the guard.
+      expect(await signIn({ email: '', password: '' })).toEqual({ error: 'Email is required.' })
+    }
+    expect((await signIn({ email: '', password: '' })).error).toMatch(/too many/i)
+  })
+
+  it('throttles signUp after the per-IP limit', async () => {
+    for (let i = 0; i < RATE_LIMITS.signUp.limit; i++) {
+      expect(await signUp({ email: '', password: '' })).toEqual({ error: 'Email is required.' })
+    }
+    expect((await signUp({ email: '', password: '' })).error).toMatch(/too many/i)
+  })
+
+  it('throttles signInWithGoogle (oauthStart) — guard runs before the redirect', async () => {
+    for (let i = 0; i < RATE_LIMITS.oauthStart.limit; i++) {
+      // Under the limit it proceeds and redirects to Google (throws RedirectError).
+      const { redirectedTo } = await runAction(() => signInWithGoogle())
+      expect(redirectedTo).toBeDefined()
+    }
+    const blocked = await signInWithGoogle()
+    expect(blocked.error).toMatch(/too many/i)
+  })
+
+  it('throttles updateProfile (profileUpdate) — guard runs before the session check', async () => {
+    getCurrentUserMock.mockResolvedValue({ userId: 'u1', profile: null })
+    for (let i = 0; i < RATE_LIMITS.profileUpdate.limit; i++) {
+      // Empty patch → {} once past the guard + session check (no fields to write).
+      expect(await updateProfile({})).toEqual({})
+    }
+    expect((await updateProfile({})).error).toMatch(/too many/i)
+  })
+
+  it('never throttles an exempt (loopback/unknown) IP', async () => {
+    delete headerJar['x-forwarded-for'] // back to "unknown" → exempt
+    __resetRateLimitStore()
+    for (let i = 0; i < RATE_LIMITS.signIn.limit + 5; i++) {
+      expect(await signIn({ email: '', password: '' })).toEqual({ error: 'Email is required.' })
+    }
   })
 })

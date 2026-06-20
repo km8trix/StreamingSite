@@ -65,13 +65,13 @@ describe('checkRateLimit', () => {
 
 describe('clientIp', () => {
   it('takes the first x-forwarded-for entry', () => {
-    expect(clientIp(req({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8' }))).toBe('1.2.3.4')
+    expect(clientIp(new Headers({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8' }))).toBe('1.2.3.4')
   })
   it('falls back to x-real-ip', () => {
-    expect(clientIp(req({ 'x-real-ip': '9.9.9.9' }))).toBe('9.9.9.9')
+    expect(clientIp(new Headers({ 'x-real-ip': '9.9.9.9' }))).toBe('9.9.9.9')
   })
   it('returns "unknown" with no IP headers', () => {
-    expect(clientIp(req())).toBe('unknown')
+    expect(clientIp(new Headers())).toBe('unknown')
   })
 })
 
