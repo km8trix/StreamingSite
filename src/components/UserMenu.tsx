@@ -69,6 +69,11 @@ export function UserMenu({
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
+        // The visible username span is `hidden sm:inline`, so below the sm
+        // breakpoint the button's only content is the decorative (alt="") avatar
+        // — leaving it with no accessible name. Pin a stable name for every
+        // viewport (contains the visible label, satisfying WCAG 2.5.3).
+        aria-label={`${label} account menu`}
         className={cn(
           'flex items-center gap-2 rounded-full border border-border bg-card/60 py-1 pl-1 pr-2.5 text-sm font-medium text-foreground transition-colors',
           'hover:border-border-strong hover:bg-card',
