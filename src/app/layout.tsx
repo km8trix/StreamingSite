@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { getMetadataBaseUrl } from '@/lib/metadata'
 import { Analytics } from '@vercel/analytics/next'
 
 const geistSans = Geist({
@@ -16,7 +17,9 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://senpai.example'),
+  // The stable production origin for absolute OG / canonical URLs (no longer the
+  // `senpai.example` placeholder). See src/lib/metadata.ts.
+  metadataBase: getMetadataBaseUrl(),
   title: {
     default: 'Senpai — Anime Streaming',
     template: '%s · Senpai',
