@@ -24,12 +24,16 @@ import {
   editComment as editCommentImpl,
 } from '@/lib/data/comments'
 import type { CommentActionResult } from '@/lib/data/comments'
+import { rateLimitAction } from '@/lib/rate-limit-action'
+import { RATE_LIMITS } from '@/lib/rate-limit-rules'
 
 export async function addComment(
   showId: string,
   body: string,
   parentId?: string | null,
 ): Promise<CommentActionResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.commentCreate)
+  if (limited) return limited
   return addCommentImpl(showId, body, parentId)
 }
 
@@ -37,11 +41,15 @@ export async function editComment(
   id: string,
   body: string,
 ): Promise<CommentActionResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.commentMutate)
+  if (limited) return limited
   return editCommentImpl(id, body)
 }
 
 export async function deleteComment(
   id: string,
 ): Promise<CommentActionResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.commentMutate)
+  if (limited) return limited
   return deleteCommentImpl(id)
 }

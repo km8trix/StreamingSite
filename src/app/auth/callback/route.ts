@@ -29,6 +29,8 @@ import {
   isSupabaseConfigured,
 } from '@/lib/supabase/config'
 import { safeRedirectPath } from '@/lib/auth/safe-redirect'
+import { rateLimitByHeaders } from '@/lib/rate-limit'
+import { RATE_LIMITS } from '@/lib/rate-limit-rules'
 
 // Per-request code exchange — never cache.
 export const dynamic = 'force-dynamic'
@@ -54,6 +56,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const params = request.nextUrl.searchParams
   const base = resolveBaseUrl(request)
   const next = safeRedirectPath(params.get('next'))
+
+  // Throttle by client IP — each hit drives a Supabase code exchange, so cap how
+  // fast one source can pound this endpoint. Loopback/unknown is exempt (e2e).
+  if (await rateLimitByHeaders(request.headers, RATE_LIMITS.oauthCallback)) {
+    return redirectToSignin(base, 'Too many sign-in attempts. Please wait a moment and try again.')
+  }
 
   // The provider can redirect back with an error (e.g. the user clicked Cancel).
   const providerError = params.get('error_description') ?? params.get('error')

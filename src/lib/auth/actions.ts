@@ -22,6 +22,8 @@ import { getServerClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/database.types'
 import { getCurrentUser } from '@/lib/data/profiles'
 import { getSiteOrigin } from '@/lib/site-url'
+import { rateLimitAction } from '@/lib/rate-limit-action'
+import { RATE_LIMITS } from '@/lib/rate-limit-rules'
 import { safeRedirectPath } from './safe-redirect'
 
 type ProfileUpdate = Database['public']['Tables']['profiles']['Update']
@@ -102,6 +104,9 @@ function readNext(input: FormData | unknown): string {
  * Returns `{ error }` on validation/auth failure; otherwise redirects to `/`.
  */
 export async function signUp(input: FormData | SignUpInput): Promise<AuthResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.signUp)
+  if (limited) return limited
+
   const { email, password, username } = coerceSignUp(input)
 
   if (!email) return { error: 'Email is required.' }
@@ -130,6 +135,9 @@ export async function signUp(input: FormData | SignUpInput): Promise<AuthResult>
  * redirects to `/`.
  */
 export async function signIn(input: FormData | SignInInput): Promise<AuthResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.signIn)
+  if (limited) return limited
+
   const { email, password } = coerceSignIn(input)
 
   if (!email) return { error: 'Email is required.' }
@@ -166,6 +174,9 @@ export async function signIn(input: FormData | SignInInput): Promise<AuthResult>
 export async function signInWithGoogle(
   input?: FormData,
 ): Promise<AuthResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.oauthStart)
+  if (limited) return limited
+
   const next =
     input instanceof FormData
       ? safeRedirectPath(readString(input.get('next')))
@@ -257,6 +268,9 @@ function coerceUpdateProfile(
 export async function updateProfile(
   input: FormData | UpdateProfileInput,
 ): Promise<AuthResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.profileUpdate)
+  if (limited) return limited
+
   const current = await getCurrentUser()
   if (!current) return { error: 'You must be signed in to update your profile.' }
 

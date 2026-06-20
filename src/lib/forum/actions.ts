@@ -30,12 +30,16 @@ import type {
   CreateThreadResult,
   ForumActionResult,
 } from '@/lib/data/forum'
+import { rateLimitAction } from '@/lib/rate-limit-action'
+import { RATE_LIMITS } from '@/lib/rate-limit-rules'
 
 export async function createThread(
   categoryId: string,
   title: string,
   body: string,
 ): Promise<CreateThreadResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.threadCreate)
+  if (limited) return limited
   return createThreadImpl(categoryId, title, body)
 }
 
@@ -43,6 +47,8 @@ export async function replyToThread(
   threadId: string,
   body: string,
 ): Promise<ForumActionResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.postReply)
+  if (limited) return limited
   return replyToThreadImpl(threadId, body)
 }
 
@@ -50,10 +56,14 @@ export async function editPost(
   id: string,
   body: string,
 ): Promise<ForumActionResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.postMutate)
+  if (limited) return limited
   return editPostImpl(id, body)
 }
 
 export async function deletePost(id: string): Promise<ForumActionResult> {
+  const limited = await rateLimitAction(RATE_LIMITS.postMutate)
+  if (limited) return limited
   return deletePostImpl(id)
 }
 

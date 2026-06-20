@@ -152,6 +152,8 @@ import {
   signUp,
   updateProfile,
 } from '@/lib/auth/actions'
+import { __resetRateLimitStore } from '@/lib/rate-limit'
+import { RATE_LIMITS } from '@/lib/rate-limit-rules'
 
 // Helper: invoke an action and capture either its returned value OR the redirect
 // target if it redirected (threw RedirectError). Re-throws anything else.
@@ -188,6 +190,11 @@ beforeEach(() => {
     { name: 'theme', value: 'dark' },
   ]
   cookieDeletes.length = 0
+  // Rate-limit isolation: clear counters and the injected IP between tests. The
+  // default headerJar has no x-forwarded-for, so every other test runs as the
+  // exempt "unknown" IP and the guards are transparent.
+  delete headerJar['x-forwarded-for']
+  __resetRateLimitStore()
 })
 
 // ---------------------------------------------------------------------------
@@ -614,5 +621,61 @@ describe('updateProfile', () => {
     authCalls.updates = []
     await updateProfile({ avatarUrl: '   ' })
     expect(authCalls.updates[0]).toEqual({ avatar_url: null })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Rate limiting — the guard runs FIRST in each action, keyed by client IP. The
+// other tests above run as the exempt "unknown" IP (no x-forwarded-for), so the
+// guard is transparent; here we inject a public IP to exercise it.
+// ---------------------------------------------------------------------------
+
+describe('rate limiting (per client IP)', () => {
+  beforeEach(() => {
+    headerJar['x-forwarded-for'] = '198.51.100.7'
+    __resetRateLimitStore()
+  })
+
+  it('throttles signIn after the per-IP limit, with a friendly message', async () => {
+    for (let i = 0; i < RATE_LIMITS.signIn.limit; i++) {
+      // Empty input → "Email is required", but the guard (which runs first) lets
+      // it through — proving the request was counted, not rejected by the guard.
+      expect(await signIn({ email: '', password: '' })).toEqual({ error: 'Email is required.' })
+    }
+    expect((await signIn({ email: '', password: '' })).error).toMatch(/too many/i)
+  })
+
+  it('throttles signUp after the per-IP limit', async () => {
+    for (let i = 0; i < RATE_LIMITS.signUp.limit; i++) {
+      expect(await signUp({ email: '', password: '' })).toEqual({ error: 'Email is required.' })
+    }
+    expect((await signUp({ email: '', password: '' })).error).toMatch(/too many/i)
+  })
+
+  it('throttles signInWithGoogle (oauthStart) — guard runs before the redirect', async () => {
+    for (let i = 0; i < RATE_LIMITS.oauthStart.limit; i++) {
+      // Under the limit it proceeds and redirects to Google (throws RedirectError).
+      const { redirectedTo } = await runAction(() => signInWithGoogle())
+      expect(redirectedTo).toBeDefined()
+    }
+    const blocked = await signInWithGoogle()
+    expect(blocked.error).toMatch(/too many/i)
+  })
+
+  it('throttles updateProfile (profileUpdate) — guard runs before the session check', async () => {
+    getCurrentUserMock.mockResolvedValue({ userId: 'u1', profile: null })
+    for (let i = 0; i < RATE_LIMITS.profileUpdate.limit; i++) {
+      // Empty patch → {} once past the guard + session check (no fields to write).
+      expect(await updateProfile({})).toEqual({})
+    }
+    expect((await updateProfile({})).error).toMatch(/too many/i)
+  })
+
+  it('never throttles an exempt (loopback/unknown) IP', async () => {
+    delete headerJar['x-forwarded-for'] // back to "unknown" → exempt
+    __resetRateLimitStore()
+    for (let i = 0; i < RATE_LIMITS.signIn.limit + 5; i++) {
+      expect(await signIn({ email: '', password: '' })).toEqual({ error: 'Email is required.' })
+    }
   })
 })
