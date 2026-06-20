@@ -73,7 +73,7 @@ vi.mock('next/navigation', () => ({
 
 // Fake Supabase auth client. Each test installs the responses it wants.
 type AuthResponses = {
-  signUp?: { error: { message: string } | null }
+  signUp?: { error: { message: string; code?: string } | null }
   signInWithPassword?: { error: { message: string } | null }
   signOut?: { error: { message: string } | null }
   update?: { error: { message: string; code?: string } | null }
@@ -238,12 +238,42 @@ describe('signUp', () => {
     expect(getServerClientMock).not.toHaveBeenCalled()
   })
 
-  it('maps a Supabase signUp error onto { error } (no redirect)', async () => {
+  it('neutralizes the "already registered" oracle (message fallback) — no enumeration', async () => {
+    // Supabase surfaces "User already registered" for an existing email. Echoing
+    // that verbatim is a positive account-existence oracle (CWE-204), so signUp
+    // collapses it to a neutral message that does not confirm the email exists.
     responses.signUp = { error: { message: 'User already registered' } }
     const { result, redirectedTo } = await runAction(() =>
       signUp({ email: 'taken@b.com', password: 'secret123' }),
     )
-    expect(result).toEqual({ error: 'User already registered' })
+    expect(result).toEqual({ error: 'Could not create that account.' })
+    expect(result?.error).not.toMatch(/registered|exists/i)
+    expect(redirectedTo).toBeUndefined()
+    expect(revalidatePath).not.toHaveBeenCalled()
+  })
+
+  it('neutralizes the already-exists error by code (user_already_exists)', async () => {
+    // Even if GoTrue changes the human message, the machine-readable code path
+    // must still be caught and neutralized.
+    responses.signUp = {
+      error: { message: 'whatever', code: 'user_already_exists' },
+    }
+    const { result, redirectedTo } = await runAction(() =>
+      signUp({ email: 'taken@b.com', password: 'secret123' }),
+    )
+    expect(result).toEqual({ error: 'Could not create that account.' })
+    expect(redirectedTo).toBeUndefined()
+  })
+
+  it('passes a non-enumerating signUp error through verbatim (e.g. weak password)', async () => {
+    // Failures that do NOT reveal account existence stay informative for the user.
+    responses.signUp = {
+      error: { message: 'Password is too weak', code: 'weak_password' },
+    }
+    const { result, redirectedTo } = await runAction(() =>
+      signUp({ email: 'new@b.com', password: 'secret123' }),
+    )
+    expect(result).toEqual({ error: 'Password is too weak' })
     expect(redirectedTo).toBeUndefined()
     expect(revalidatePath).not.toHaveBeenCalled()
   })

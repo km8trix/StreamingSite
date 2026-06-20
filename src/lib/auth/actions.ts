@@ -95,6 +95,36 @@ function readNext(input: FormData | unknown): string {
 // Actions
 // ---------------------------------------------------------------------------
 
+// Neutral, non-committal message for a failed account creation. We deliberately
+// do NOT echo Supabase's "User already registered" for an existing email: that
+// verbatim string is a positive account-existence oracle (CWE-204 / account
+// enumeration) — an unauthenticated attacker could probe the signup form to
+// learn which addresses already have accounts. (signIn needs no such handling:
+// signInWithPassword already returns a uniform "Invalid login credentials" for
+// both wrong-password and unknown-email.)
+//
+// Residual limitation: with `enable_confirmations = false` a *successful* signup
+// signs the user in and redirects, so an existing email (neutral error) is still
+// distinguishable from a new one (redirect). Fully closing the oracle requires
+// turning email confirmations ON so both paths return the same "check your
+// email" response; this neutral message is the consistent fix for the current
+// config and removes the explicit confirmation of existence.
+const NEUTRAL_SIGNUP_ERROR = 'Could not create that account.'
+
+// True when Supabase is telling us the email already has an account. Prefer the
+// machine-readable code (`user_already_exists` on the signup path,
+// `email_exists` from the admin path) and fall back to the message for older
+// GoTrue responses that predate codes.
+function isAccountExistsError(error: {
+  code?: string
+  message?: string
+}): boolean {
+  if (error.code === 'user_already_exists' || error.code === 'email_exists') {
+    return true
+  }
+  return /already\s+(registered|exists)/i.test(error.message ?? '')
+}
+
 /**
  * Create an account with email + password. `username` (when provided) is passed
  * in options.data so the handle_new_user() trigger uses it for the profile;
@@ -124,7 +154,13 @@ export async function signUp(input: FormData | SignUpInput): Promise<AuthResult>
     },
   })
 
-  if (error) return { error: error.message }
+  if (error) {
+    // Collapse the account-exists oracle to a neutral message; surface any
+    // other signup failure (weak password, signups disabled, captcha, …)
+    // verbatim since those don't reveal whether the email is registered.
+    if (isAccountExistsError(error)) return { error: NEUTRAL_SIGNUP_ERROR }
+    return { error: error.message }
+  }
 
   revalidatePath('/', 'layout')
   redirect(readNext(input))
