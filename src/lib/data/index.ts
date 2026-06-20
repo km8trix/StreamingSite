@@ -30,6 +30,7 @@ export type {
   StreamingLink,
   TopAnimeWindow,
   UserRole,
+  WatchlistItem,
 } from './types'
 
 export {
@@ -60,6 +61,8 @@ export {
 export { getCurrentUser, getProfile, getProfileByUsername } from './profiles'
 
 export { getContinueWatching } from './watch-progress'
+
+export { getWatchlist, isInWatchlist } from './watchlist'
 
 export {
   addComment,

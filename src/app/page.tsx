@@ -6,10 +6,12 @@ import {
   getRecommendedForYou,
   getRecommendedShows,
   getTopAnime,
+  getWatchlist,
 } from '@/lib/data'
 import { FeaturedHero } from '@/components/FeaturedHero'
 import { ShowCarousel } from '@/components/ShowCarousel'
 import { ContinueWatchingRail } from '@/components/ContinueWatchingRail'
+import { MyListRail } from '@/components/MyListRail'
 import { RecommendedForYouRail } from '@/components/RecommendedForYouRail'
 import { TopAnimeSection } from '@/components/TopAnimeSection'
 import { GuestProgressSync } from '@/components/GuestProgressSync'
@@ -25,6 +27,7 @@ export default async function HomePage() {
     popular,
     recommended,
     continueWatching,
+    watchlist,
     user,
     topDay,
     topWeek,
@@ -34,6 +37,7 @@ export default async function HomePage() {
     getPopularShows(),
     getRecommendedShows(),
     getContinueWatching(),
+    getWatchlist(),
     getCurrentUser(),
     getTopAnime('day'),
     getTopAnime('week'),
@@ -76,6 +80,10 @@ export default async function HomePage() {
       {/* Continue Watching — for returning viewers; renders nothing when there's
           no progress (guests resolve it client-side). */}
       <ContinueWatchingRail items={continueWatching} isSignedIn={isSignedIn} />
+
+      {/* My List — the user's saved watchlist; renders nothing when empty
+          (guests resolve it client-side from localStorage). */}
+      <MyListRail items={watchlist} isSignedIn={isSignedIn} />
 
       {/* Personalized Recommended For You, directly under Continue Watching
           (replaces the old generic rail; falls back to generic with no history). */}

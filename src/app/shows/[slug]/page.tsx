@@ -3,13 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Layers } from 'lucide-react'
-import { getShowBySlug, getWhereToWatch } from '@/lib/data'
+import { getCurrentUser, getShowBySlug, getWhereToWatch, isInWatchlist } from '@/lib/data'
 import seed from '@/lib/data/seed.json'
 import { CommentsSection } from '@/components/CommentsSection'
 import { EpisodeList } from '@/components/EpisodeList'
 import { StatusBadge } from '@/components/StatusBadge'
 import { SubDubBadges } from '@/components/SubDubBadges'
 import { WatchSection } from '@/components/WatchSection'
+import { WatchlistButton } from '@/components/WatchlistButton'
 import { ShowViewTracker } from '@/components/ShowViewTracker'
 
 type Params = { slug: string }
@@ -69,9 +70,13 @@ export default async function ShowDetailPage({
   const show = await getShowBySlug(slug)
   if (!show) notFound()
 
-  // Legal "where to watch" providers (AniList). Drives both the optional official
-  // embed and the out-link panel inside WatchSection.
-  const whereToWatch = await getWhereToWatch(show.title)
+  // Legal "where to watch" providers (AniList) for WatchSection, plus the
+  // viewer's session + whether they've saved this show (seeds the Save button).
+  const [whereToWatch, user, savedInList] = await Promise.all([
+    getWhereToWatch(show.title),
+    getCurrentUser(),
+    isInWatchlist(show.id),
+  ])
 
   return (
     <article className="pb-8">
@@ -152,6 +157,21 @@ export default async function ShowDetailPage({
               dubEpisodes={show.dubEpisodes}
               size="md"
             />
+
+            {/* Save to "My List" (works for guests via localStorage). */}
+            <div>
+              <WatchlistButton
+                show={{
+                  id: show.id,
+                  slug: show.slug,
+                  title: show.title,
+                  coverImage: show.coverImage,
+                  year: show.year,
+                }}
+                isSignedIn={Boolean(user)}
+                initialSaved={savedInList}
+              />
+            </div>
 
             {show.genres.length > 0 && (
               <ul className="flex flex-wrap gap-2" aria-label="Genres">
