@@ -17,12 +17,33 @@ import { RecommendedForYouRail } from '@/components/RecommendedForYouRail'
 import { TopAnimeSection } from '@/components/TopAnimeSection'
 import { GuestProgressSync } from '@/components/GuestProgressSync'
 import { AdSlot } from '@/components/AdSlot'
+import { JsonLd } from '@/components/JsonLd'
+import { getMetadataBaseUrl } from '@/lib/metadata'
 
 // The home-banner AdSlot calls getAdForPlacement (weighted-random, non-deterministic),
 // so the page must render dynamically rather than be statically prerendered.
 // Home is the canonical root URL.
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
+}
+
+// WebSite structured data with a SearchAction → enables Google's sitelinks
+// search box. The search box submits to the catalog (/shows?q=…), which is where
+// /search already redirects.
+const siteOrigin = getMetadataBaseUrl().origin
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Senpai',
+  url: siteOrigin,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteOrigin}/shows?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export const dynamic = 'force-dynamic'
@@ -73,6 +94,7 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <JsonLd data={websiteJsonLd} />
       {/* Flush guest localStorage progress into the DB once after sign-in. */}
       <GuestProgressSync isSignedIn={isSignedIn} />
 

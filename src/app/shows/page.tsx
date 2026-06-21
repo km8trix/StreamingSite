@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   title: 'Browse',
   description:
     'Browse and search the full anime catalog by title, genre, audio, status, and year.',
+  // Consolidate all filter/search/pagination variants (?q=, ?genre=, ?page=…)
+  // onto the clean catalog URL so crawlers index one canonical page, not dozens
+  // of thin filtered duplicates.
+  alternates: { canonical: '/shows' },
 }
 
 interface BrowsePageProps {

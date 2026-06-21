@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Release Schedule',
   description:
     'Weekly air schedule for currently-airing anime. Times shown in your local timezone.',
+  alternates: { canonical: '/schedule' },
 }
 
 // The schedule reflects the current week / live data; don't statically cache it.

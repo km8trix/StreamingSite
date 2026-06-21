@@ -54,6 +54,9 @@ export async function generateMetadata({
   return {
     title: `${genre.name} anime`,
     description: `Browse ${genre.name} anime — filter by audio, status, and year.`,
+    // Canonical drops the filter/pagination query string so every variant of a
+    // genre page consolidates onto the clean /genre/<slug> URL.
+    alternates: { canonical: `/genre/${slug}` },
   }
 }
 

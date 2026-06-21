@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'News',
   description:
     'The latest anime news and headlines from around the web — new series, industry updates, manga, and more. Each story links to its original source.',
+  alternates: { canonical: '/news' },
 }
 
 // News is shared content (not per-user), so render it statically and refresh via
