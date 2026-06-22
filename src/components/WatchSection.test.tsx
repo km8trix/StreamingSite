@@ -8,7 +8,7 @@
 // Both children render for real (pure, server-safe), so these tests assert the
 // branching from the `links` prop end-to-end.
 
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { StreamingLink } from '@/lib/data'
 import { WatchSection } from './WatchSection'
@@ -40,10 +40,11 @@ describe('WatchSection — official embed', () => {
     expect(screen.getByTestId('watch-section')).toBeInTheDocument()
     const embed = screen.getByTestId('official-embed')
     expect(embed).toBeInTheDocument()
-    const iframe = embed.querySelector('iframe')!
-    expect(iframe).toHaveAttribute(
+    // Facade: the iframe is injected only after the visitor clicks play.
+    fireEvent.click(screen.getByRole('button', { name: /watch frieren on youtube/i }))
+    expect(embed.querySelector('iframe')).toHaveAttribute(
       'src',
-      'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ',
+      'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1',
     )
     // The provider out-links still render below the embed.
     expect(screen.getByTestId('where-to-watch')).toBeInTheDocument()
@@ -69,10 +70,12 @@ describe('WatchSection — official embed', () => {
         links={[crunchyroll, youtubeVideo, second]}
       />,
     )
-    const iframe = screen.getByTestId('official-embed').querySelector('iframe')!
-    expect(iframe).toHaveAttribute(
+    fireEvent.click(screen.getByRole('button', { name: /watch frieren on youtube/i }))
+    expect(
+      screen.getByTestId('official-embed').querySelector('iframe'),
+    ).toHaveAttribute(
       'src',
-      'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ',
+      'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1',
     )
   })
 })
