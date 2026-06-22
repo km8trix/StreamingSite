@@ -12,6 +12,8 @@ import { SubDubBadges } from '@/components/SubDubBadges'
 import { WatchSection } from '@/components/WatchSection'
 import { WatchlistButton } from '@/components/WatchlistButton'
 import { ShowViewTracker } from '@/components/ShowViewTracker'
+import { JsonLd } from '@/components/JsonLd'
+import { getMetadataBaseUrl } from '@/lib/metadata'
 
 type Params = { slug: string }
 
@@ -80,8 +82,27 @@ export default async function ShowDetailPage({
     isInWatchlist(show.id),
   ])
 
+  // Breadcrumb structured data: Home › Browse › <title> for breadcrumb rich
+  // results. Absolute URLs off the canonical production origin.
+  const origin = getMetadataBaseUrl().origin
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: origin },
+      { '@type': 'ListItem', position: 2, name: 'Browse', item: `${origin}/shows` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: show.title,
+        item: `${origin}/shows/${slug}`,
+      },
+    ],
+  }
+
   return (
     <article className="pb-8">
+      <JsonLd data={breadcrumbJsonLd} />
       {/* Records a view event (guests + signed-in) for the Top Anime rankings. */}
       <ShowViewTracker showId={show.id} />
       {/* ---- HERO (tolerates null bannerImage) ---------------------------- */}
