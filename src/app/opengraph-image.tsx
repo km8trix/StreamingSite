@@ -30,13 +30,14 @@ export default function OpengraphImage() {
       >
         <div
           style={{
+            display: 'flex',
             fontSize: 132,
             fontWeight: 800,
             letterSpacing: '-0.04em',
-            color: '#f4f4f8',
           }}
         >
-          Senpai
+          <span style={{ color: '#f4f4f8' }}>Senp</span>
+          <span style={{ color: '#a78bfa' }}>ai</span>
         </div>
         <div
           style={{
