@@ -27,6 +27,15 @@ export function SiteFooter() {
           <Link href="/random" className="text-muted hover:text-foreground">
             Surprise me
           </Link>
+          <Link href="/terms" className="text-muted hover:text-foreground">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-muted hover:text-foreground">
+            Privacy
+          </Link>
+          <Link href="/dmca" className="text-muted hover:text-foreground">
+            DMCA
+          </Link>
         </nav>
       </div>
 

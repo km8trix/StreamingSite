@@ -24,6 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/schedule`, lastModified: now, changeFrequency: 'daily', priority: 0.7 },
     { url: `${base}/news`, lastModified: now, changeFrequency: 'hourly', priority: 0.6 },
     { url: `${base}/forum`, lastModified: now, changeFrequency: 'daily', priority: 0.5 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${base}/dmca`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
   ]
 
   const showRoutes: MetadataRoute.Sitemap = shows.map((s) => ({

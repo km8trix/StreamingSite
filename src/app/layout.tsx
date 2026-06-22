@@ -4,7 +4,7 @@ import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { getMetadataBaseUrl } from '@/lib/metadata'
-import { Analytics } from '@vercel/analytics/next'
+import { CookieConsent } from '@/components/CookieConsent'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -63,7 +63,8 @@ export default function RootLayout({
           {children}
         </main>
         <SiteFooter />
-        <Analytics />
+        {/* Mounts Vercel Analytics only after cookie consent is accepted. */}
+        <CookieConsent />
       </body>
     </html>
   )
