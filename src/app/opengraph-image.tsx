@@ -33,7 +33,7 @@ export default function OpengraphImage() {
             fontSize: 132,
             fontWeight: 800,
             letterSpacing: '-0.04em',
-            color: '#a78bfa',
+            color: '#f4f4f8',
           }}
         >
           Senpai
