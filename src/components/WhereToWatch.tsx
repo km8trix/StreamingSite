@@ -1,5 +1,6 @@
 import { ExternalLink, Play } from 'lucide-react'
 import type { StreamingLink } from '@/lib/data'
+import { tagAffiliateUrl } from '@/lib/affiliate'
 
 /**
  * WhereToWatch — official, legal places to stream a title (from AniList).
@@ -37,12 +38,20 @@ export function WhereToWatch({
         </p>
       ) : (
         <ul className="mt-3 flex flex-wrap gap-2">
-          {links.map((link) => (
+          {links.map((link) => {
+            // Affiliate-tag the out-link where we have a program (no-op + verbatim
+            // otherwise). Mark genuinely-tagged links rel="sponsored" per Google.
+            const href = tagAffiliateUrl(link.url)
+            const rel =
+              href === link.url
+                ? 'noopener noreferrer'
+                : 'noopener noreferrer sponsored'
+            return (
             <li key={link.site}>
               <a
-                href={link.url}
+                href={href}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel={rel}
                 data-testid="where-to-watch-link"
                 className="group inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-2 text-sm font-semibold text-foreground transition-colors hover:border-accent/50 hover:bg-card-hover hover:text-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
@@ -57,7 +66,8 @@ export function WhereToWatch({
                 </span>
               </a>
             </li>
-          ))}
+            )
+          })}
         </ul>
       )}
 
