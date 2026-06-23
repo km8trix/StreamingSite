@@ -13,14 +13,32 @@ import { withSentryConfig } from "@sentry/nextjs";
 //  - img-src: next/image optimizes via same-origin, but allow the source CDNs
 //    (MyAnimeList covers, placehold.co fallback) for any direct loads.
 //  - frame-ancestors 'none' + X-Frame-Options block clickjacking of our pages.
+// Google AdSense (Auto Ads) ad-serving domains. Only widened into the CSP when
+// AdSense is configured (NEXT_PUBLIC_ADSENSE_CLIENT set at build), so the policy
+// stays tight when ads are off. AdSense is CSP-finicky — if a creative is blocked,
+// check the console and add the reported googlesyndication/doubleclick subdomain.
+const adsenseOn = !!process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim();
+const adScript = adsenseOn
+  ? " https://*.googlesyndication.com https://*.googleadservices.com https://*.google.com https://*.gstatic.com"
+  : "";
+const adFrame = adsenseOn
+  ? " https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com"
+  : "";
+const adImg = adsenseOn
+  ? " https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.gstatic.com"
+  : "";
+const adConnect = adsenseOn
+  ? " https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com"
+  : "";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'" + adScript,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://cdn.myanimelist.net https://placehold.co",
+  "img-src 'self' data: blob: https://cdn.myanimelist.net https://placehold.co" + adImg,
   "font-src 'self' data:",
-  "frame-src https://www.youtube-nocookie.com https://www.youtube.com",
-  "connect-src 'self' https://graphql.anilist.co https://*.supabase.co wss://*.supabase.co",
+  "frame-src https://www.youtube-nocookie.com https://www.youtube.com" + adFrame,
+  "connect-src 'self' https://graphql.anilist.co https://*.supabase.co wss://*.supabase.co" + adConnect,
   "media-src 'self'",
   "worker-src 'self' blob:",
   "object-src 'none'",

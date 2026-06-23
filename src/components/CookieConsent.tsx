@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/next'
+import { AdSenseScript } from './AdSenseScript'
 import {
   getConsentSnapshot,
   getConsentServerSnapshot,
@@ -23,7 +24,12 @@ export function CookieConsent() {
 
   return (
     <>
-      {consent === 'accepted' && <Analytics />}
+      {consent === 'accepted' && (
+        <>
+          <Analytics />
+          <AdSenseScript />
+        </>
+      )}
       {consent === 'unset' && (
         <section
           aria-label="Cookie consent"
