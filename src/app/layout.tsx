@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { getMetadataBaseUrl } from '@/lib/metadata'
 import { CookieConsent } from '@/components/CookieConsent'
+import { AdSenseScript } from '@/components/AdSenseScript'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -65,6 +66,9 @@ export default function RootLayout({
         <SiteFooter />
         {/* Mounts Vercel Analytics only after cookie consent is accepted. */}
         <CookieConsent />
+        {/* AdSense loader — present on every page (required for AdSense
+            verification + serving); no-op until NEXT_PUBLIC_ADSENSE_CLIENT is set. */}
+        <AdSenseScript />
       </body>
     </html>
   )
