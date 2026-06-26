@@ -1,93 +1,98 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Info, Play } from 'lucide-react'
+import { Info, Play, Sparkles } from 'lucide-react'
 import type { ShowSummary } from '@/lib/data'
 import { RandomizeButton } from './RandomizeButton'
 import { StatusBadge } from './StatusBadge'
 import { SubDubBadges } from './SubDubBadges'
 
 /**
- * FeaturedHero — home spotlight built from the top popular show. The seed has
- * no wide banner, so we use the portrait cover as a blurred, gradient-masked
- * backdrop plus a sharp cover thumbnail — no dependence on bannerImage.
+ * FeaturedHero — the home billboard. The seed has only portrait cover art (no
+ * wide banner), so we build a cinematic key-art hero from it: a blurred full-
+ * bleed backdrop, the sharp cover bled in from the right and faded into the
+ * page, and the title + actions anchored bottom-left over a legibility scrim.
  */
 export function FeaturedHero({ show }: { show: ShowSummary }) {
   return (
     <section
-      className="relative isolate overflow-hidden rounded-card border border-border bg-surface"
+      className="relative isolate flex min-h-[24rem] flex-col justify-end overflow-hidden rounded-card border border-border bg-surface sm:min-h-[28rem] lg:min-h-[32rem]"
       aria-labelledby="featured-title"
       data-testid="featured-hero"
     >
-      {/* blurred backdrop from the portrait cover */}
+      {/* ---- backdrop ---------------------------------------------------- */}
       <div className="absolute inset-0 -z-10">
+        {/* blurred full-bleed fill */}
         <Image
           src={show.coverImage}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="scale-110 object-cover object-top opacity-40 blur-2xl"
+          className="scale-110 object-cover object-top opacity-30 blur-2xl"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-      </div>
 
-      <div className="flex flex-col items-start gap-6 p-6 sm:p-8 md:flex-row md:items-center md:gap-8 md:p-10">
-        {/* sharp cover */}
-        <Link
-          href={`/shows/${show.slug}`}
-          className="group relative hidden aspect-[2/3] w-40 shrink-0 overflow-hidden rounded-xl border border-border shadow-2xl sm:block lg:w-48"
-        >
+        {/* sharp key-art bled in from the right, faded into the page */}
+        <div className="absolute inset-y-0 right-0 w-[72%] sm:w-[58%] lg:w-1/2">
           <Image
             src={show.coverImage}
-            alt={`${show.title} cover art`}
+            alt=""
             fill
-            sizes="(min-width: 1024px) 192px, 160px"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(min-width: 1024px) 50vw, (min-width: 640px) 58vw, 72vw"
+            className="object-cover object-top"
           />
-        </Link>
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/15 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+        </div>
 
-        <div className="flex max-w-2xl flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent-strong">
-              Featured
-            </span>
-            <StatusBadge status={show.status} />
-            {show.year && (
-              <span className="text-xs text-muted">{show.year}</span>
-            )}
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/40 to-transparent" />
+        <div className="absolute -left-24 bottom-[-4rem] size-72 rounded-full bg-accent/15 blur-3xl" />
+      </div>
 
-          <h1
-            id="featured-title"
-            className="text-balance text-3xl font-extrabold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
-          >
-            {show.title}
-          </h1>
+      {/* ---- content ----------------------------------------------------- */}
+      <div className="relative max-w-xl p-6 sm:p-8 lg:p-12">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent-strong ring-1 ring-inset ring-accent/30">
+            <Sparkles className="size-3.5" aria-hidden />
+            Featured
+          </span>
+          <StatusBadge status={show.status} />
+          {show.year && (
+            <span className="text-xs font-medium text-muted">{show.year}</span>
+          )}
+        </div>
 
+        <h1
+          id="featured-title"
+          className="text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground [text-shadow:0_2px_24px_rgba(0,0,0,0.5)] sm:text-5xl lg:text-6xl"
+        >
+          {show.title}
+        </h1>
+
+        <div className="mt-5">
           <SubDubBadges
             subEpisodes={show.subEpisodes}
             dubEpisodes={show.dubEpisodes}
             size="md"
           />
+        </div>
 
-          <div className="mt-1 flex flex-wrap items-center gap-3">
-            <Link
-              href={`/shows/${show.slug}`}
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-all hover:bg-accent-strong hover:shadow-[0_8px_24px_-8px_rgba(139,92,246,0.7)]"
-            >
-              <Play className="size-4 fill-current" aria-hidden />
-              Watch now
-            </Link>
-            <Link
-              href={`/shows/${show.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent/60 hover:text-accent-strong"
-            >
-              <Info className="size-4" aria-hidden />
-              Details
-            </Link>
-            <RandomizeButton variant="outline" label="Surprise me" />
-          </div>
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link
+            href={`/shows/${show.slug}`}
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-all hover:bg-accent-strong hover:shadow-[0_10px_30px_-8px_rgba(139,92,246,0.8)]"
+          >
+            <Play className="size-4 fill-current" aria-hidden />
+            Watch now
+          </Link>
+          <Link
+            href={`/shows/${show.slug}`}
+            className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface/60 px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-sm transition-colors hover:border-accent/60 hover:text-accent-strong"
+          >
+            <Info className="size-4" aria-hidden />
+            Details
+          </Link>
+          <RandomizeButton variant="outline" label="Surprise me" />
         </div>
       </div>
     </section>

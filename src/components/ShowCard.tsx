@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Play } from 'lucide-react'
 import type { ShowSummary } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { SubDubBadges } from './SubDubBadges'
@@ -43,6 +44,14 @@ export function ShowCard({
           priority={priority}
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
+        {/* hover/focus: dim the art and reveal a play affordance (decorative —
+            the whole card is the link) */}
+        <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-200 group-hover:bg-black/30 group-focus-visible:bg-black/30" />
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+          <span className="grid size-12 place-items-center rounded-full bg-accent/90 text-accent-foreground shadow-[0_8px_24px_-6px_rgba(139,92,246,0.8)] ring-1 ring-inset ring-white/25">
+            <Play className="size-5 fill-current" aria-hidden />
+          </span>
+        </div>
         {/* bottom gradient so badges stay legible over busy art */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         <div className="absolute inset-x-2 bottom-2">
