@@ -108,7 +108,9 @@ export default async function ShowDetailPage({
       {/* ---- HERO (tolerates null bannerImage) ---------------------------- */}
       <header className="relative isolate overflow-hidden border-b border-border">
         <div className="absolute inset-0 -z-10">
-          {/* No wide banner in the seed: fall back to the cover, blurred. */}
+          {/* No wide banner in the seed: fall back to the cover. Blurred full-
+              bleed fill, plus the sharp art bled in from the right on wide
+              screens — mirrors the home billboard for a consistent feel. */}
           <Image
             src={show.bannerImage ?? show.coverImage}
             alt=""
@@ -117,7 +119,20 @@ export default async function ShowDetailPage({
             sizes="100vw"
             className="scale-110 object-cover object-top opacity-30 blur-2xl"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
+          <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+            <Image
+              src={show.bannerImage ?? show.coverImage}
+              alt=""
+              fill
+              sizes="50vw"
+              className="object-cover object-top"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/15 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/40 to-transparent" />
+          <div className="absolute -left-24 bottom-[-4rem] size-72 rounded-full bg-accent/15 blur-3xl" />
         </div>
 
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 md:flex-row md:gap-8 lg:px-8">
@@ -157,7 +172,7 @@ export default async function ShowDetailPage({
               </span>
             </nav>
 
-            <h1 className="text-balance text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h1 className="text-balance text-3xl font-extrabold tracking-tight text-foreground [text-shadow:0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl lg:text-5xl">
               {show.title}
             </h1>
 
